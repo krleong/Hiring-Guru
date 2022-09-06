@@ -15,8 +15,8 @@
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
 | member1      |               |                 |
-| member2      |               |                 |
 | Kenny Leong      | kleong2@mail.sfsu.edu              | krleong                |
+| member3      |               |                 |
 | member4      |               |                 |
 | member5      |               |                 |
 | member6      |               |                 |
