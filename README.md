@@ -14,7 +14,7 @@
 
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
-| member1      |               |                 |
+| Farhan Haider | shaider1@sfsu.edu | 922951650 |
 | member2      |               |                 |
 | member3      |               |                 |
 | member4      |               |                 |
