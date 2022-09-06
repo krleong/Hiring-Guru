@@ -16,7 +16,7 @@
 |    :---:     |     :---:     |     :---:       |
 | member1      |               |                 |
 | member2      |               |                 |
-| member3      |               |                 |
+| Kenny Leong      | kleong2@mail.sfsu.edu              | krleong                |
 | member4      |               |                 |
 | member5      |               |                 |
 | member6      |               |                 |
