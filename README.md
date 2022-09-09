@@ -14,7 +14,7 @@
 
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
-| Farhan Haider | shaider1@sfsu.edu | 922951650 |
+| Farhan Haider | shaider1@sfsu.edu | shaider1@sfsu.edu |
 | Kenny Leong      | kleong2@mail.sfsu.edu              | krleong                |
 | member3      |               |                 |
 | member4      |               |                 |
