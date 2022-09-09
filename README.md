@@ -18,10 +18,8 @@
 | Kenny Leong      | kleong2@mail.sfsu.edu              | krleong                |
 | Mamadou Bah      |mbah1@mail.sfsu.edu   |     Mamadou27            |
 | Khushi Khanna     | kkhanna@sfsu.edu  | khushikhanna09 |
-| member3      |mbah1@mail.sfsu.edu   |     Mamadou27            |
 | Eric Leow     |   eleow@mailsfsu.edu         |     ericeow            |
-| member5      |               |                 |
-| member6      |               |                 |
+
 
 4. Please when ready add your teams application's name and URL or IP to the following table. This will help with grading. Teams are expected to keep this value up to date.
 
