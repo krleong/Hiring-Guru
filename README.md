@@ -16,7 +16,7 @@
 |    :---:     |     :---:     |     :---:       |
 | Farhan Haider | shaider1@sfsu.edu | 922951650 |
 | Kenny Leong      | kleong2@mail.sfsu.edu              | krleong                |
-| member3      |               |                 |
+| Khushi Khanna     |  kkhanna@sfsu.edu    | kkhanna@sfsu.edu                |
 | member4      |               |                 |
 | member5      |               |                 |
 | member6      |               |                 |
