@@ -16,6 +16,7 @@
 |    :---:     |     :---:     |     :---:       |
 | Farhan Haider | shaider1@sfsu.edu | broadsword007 |
 | Kenny Leong      | kleong2@mail.sfsu.edu              | krleong                |
+| Khushi Khanna     | kkhanna@sfsu.edu  | khushikhanna09 |
 | member3      |mbah1@mail.sfsu.edu   |     Mamadou27            |
 | member4      |               |                 |
 | member5      |               |                 |
