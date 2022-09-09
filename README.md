@@ -19,7 +19,7 @@
 | Mamadou Bah      |mbah1@mail.sfsu.edu   |     Mamadou27            |
 | Khushi Khanna     | kkhanna@sfsu.edu  | khushikhanna09 |
 | member3      |mbah1@mail.sfsu.edu   |     Mamadou27            |
-| member4      |               |                 |
+| Eric Leow     |   eleow@mailsfsu.edu         |     ericeow            |
 | member5      |               |                 |
 | member6      |               |                 |
 
