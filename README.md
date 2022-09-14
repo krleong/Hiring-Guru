@@ -12,13 +12,13 @@
 3. Fill out the table below
 
 
-| Student Name | Student Email | GitHub Username |
-|    :---:     |     :---:     |     :---:       |
-| Farhan Haider | shaider1@sfsu.edu | broadsword007 |
-| Kenny Leong      | kleong2@mail.sfsu.edu              | krleong                |
-| Mamadou Bah      |mbah1@mail.sfsu.edu   |     Mamadou27            |
-| Khushi Khanna     | kkhanna@sfsu.edu  | khushikhanna09 |
-| Eric Leow     |   eleow@mailsfsu.edu         |     ericeow            |
+| Student Name | Student Email | GitHub Username | Role |
+|    :---:     |     :---:     |     :---:       | :---: |
+| Farhan Haider | shaider1@sfsu.edu | broadsword007 | Team Lead + Architect |
+| Kenny Leong      | kleong2@mail.sfsu.edu              | krleong                | Frontend engineer |
+| Mamadou Bah      |mbah1@mail.sfsu.edu   |     Mamadou27            | Frontend engineer |
+| Khushi Khanna     | kkhanna@sfsu.edu  | khushikhanna09 | Backend engineer |
+| Eric Leow     |   eleow@mailsfsu.edu         |     ericeow            | Frontend engineer |
 
 
 4. Please when ready add your teams application's name and URL or IP to the following table. This will help with grading. Teams are expected to keep this value up to date.
