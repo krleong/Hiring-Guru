@@ -26,7 +26,7 @@ jobs:
           context: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/
           file: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/Dockerfile.prod
           push: true
-          tags: hiring_guru/hiring_guru_frontend:latest
+          tags: broadsword007/hiring_guru:latest
       
       - name: Get Timestamp
         uses: gerred/actions/current-time@master
