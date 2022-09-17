@@ -42,7 +42,7 @@ jobs:
           flags: 'g'
 
       - name: Generate Deployment Package
-        run: zip -r deploy.zip ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/ * -x "**node_modules**"
+        run: cd ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe && zip -r deploy.zip * -x "**node_modules**" && cd -
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v16
@@ -53,4 +53,4 @@ jobs:
           environment_name: "Hiringguru-prod"
           version_label: "docker-app-${{ steps.format-time.outputs.replaced }}"
           region: us-west-1
-          deployment_package: deploy.zip
+          deployment_package: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/deploy.zip
