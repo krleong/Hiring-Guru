@@ -25,7 +25,7 @@
 
 |             Name of the Project               |                            URL of the Project                          | 
 |                    :---:                      |                                 :---:                                  |
-|   Hiring Guru  |              https://b5d7-130-212-93-254.ngrok.io       |                                                        
+|   Hiring Guru  |              http://hiring-guru.us-west-1.elasticbeanstalk.com/       |                                                        
  
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
