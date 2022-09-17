@@ -23,8 +23,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./application/frontend/hiring_guru_fe
-          file: Dockerfile.prod
+          file: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/Dockerfile.prod
           push: true
           tags: hiring_guru/hiring_guru_frontend:latest
       
