@@ -8,16 +8,7 @@ const MEMBERS = [
         working in the software industry for the last 4 years. I am really 
         excited to resume academic learning. Since I just moved to SF, I am 
         still trying to adjust to the new culture and dynamics.`
-    ),
-    new Member(
-        "Kenny Leong",
-        "kleong2@mail.sfsu.edu",
-        `Hi, I'm Kenny, and I'm an incoming senior in Computer Science with a
-        minor in Math. I'm originally from SoCal and am attending SF State because
-        I love the area, and the abundance of opportunities in tech here is a huge
-        plus. In my free time, I enjoy taking care of my pets, which include 3 dogs
-        and 4 chickens.`
     )
 ]
 
-export { MEMBERS }
+export {MEMBERS}

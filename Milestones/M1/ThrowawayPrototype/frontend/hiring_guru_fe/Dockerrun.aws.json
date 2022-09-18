@@ -1,7 +1,7 @@
 {
     "AWSEBDockerrunVersion": "1",
     "Image": {
-        "Name": "hiring_guru/hiring_guru_frontend:latest",
+        "Name": "broadsword007/hiring_guru:latest",
         "Update": "true"
     },
     "Ports": [
