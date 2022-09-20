@@ -20,13 +20,21 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push
+      - name: Build Frontend and push
         uses: docker/build-push-action@v2
         with:
           context: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/
           file: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/Dockerfile.prod
           push: true
           tags: broadsword007/hiring_guru:latest
+      
+      - name: Build Backend and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./Milestones/M1/ThrowawayPrototype/backend/hiring_guru_be/
+          file: ./Milestones/M1/ThrowawayPrototype/backend/hiring_guru_be/Dockerfile.prod
+          push: true
+          tags: broadsword007/hiring_guru_backend:latest
       
       - name: Get Timestamp
         uses: gerred/actions/current-time@master
@@ -41,10 +49,13 @@ jobs:
           replace-with: '-'
           flags: 'g'
 
-      - name: Generate Deployment Package
+      - name: Generate Frontend Deployment Package
         run: cd ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe && zip -r deploy.zip * -x "**node_modules**" && cd -
+      
+      - name: Generate Backend Deployment Package
+        run: cd ./Milestones/M1/ThrowawayPrototype/backend/hiring_guru_be && zip -r deploy.zip * && cd -
 
-      - name: Deploy to EB
+      - name: Deploy Frontend to EB
         uses: einaregilsson/beanstalk-deploy@v16
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -54,3 +65,14 @@ jobs:
           version_label: "docker-app-${{ steps.format-time.outputs.replaced }}"
           region: us-west-1
           deployment_package: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/deploy.zip
+      
+      - name: Deploy Backend to EB
+        uses: einaregilsson/beanstalk-deploy@v16
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: "Hiring Guru Backend"
+          environment_name: "Hiringgurubackend-prod"
+          version_label: "docker-app-${{ steps.format-time.outputs.replaced }}"
+          region: us-west-1
+          deployment_package: ./Milestones/M1/ThrowawayPrototype/backend/hiring_guru_be/deploy.zip
