@@ -17,7 +17,14 @@ const MEMBERS = [
         I love the area, and the abundance of opportunities in tech here is a huge
         plus. In my free time, I enjoy taking care of my pets, which include 3 dogs
         and 4 chickens.`
-    )
+    ),
+    new Member(
+        "Khushi Khanna"
+        "kkhanna@sfsu.edu"
+        `Hi, I'm Khushi! I'm originally from the Bay Area, and I am a senior majoring
+         in computer science. I am excited to gain more experience working in the
+         backend, since I have minimal experience with software engineering`
+   ),
 ]
 
 export { MEMBERS }
