@@ -25,6 +25,14 @@ const MEMBERS = [
          in computer science. I am excited to gain more experience working in the
          backend, since I have minimal experience with software engineering`
    ),
+    new Member(
+        "Mamadou Bah"
+        "mbah1@mail.sfsu.edu"
+        `Hey! My name is Mamadou and I am a fourth year student at San Fransisco State
+        University studying Computer Science. I am originally from the Bay Area and 
+        am very excited to wrap up my final semesters with this school and gain as
+        much experience as I can with software engineering!`
+   ),
 ]
 
 export { MEMBERS }
