@@ -19,15 +19,15 @@ const MEMBERS = [
         and 4 chickens.`
     ),
     new Member(
-        "Khushi Khanna"
-        "kkhanna@sfsu.edu"
+        "Khushi Khanna",
+        "kkhanna@sfsu.edu",
         `Hi, I'm Khushi! I'm originally from the Bay Area, and I am a senior majoring
          in computer science. I am excited to gain more experience working in the
-         backend, since I have minimal experience with software engineering`
+         backend, since I have minimal experience with software engineering.`
    ),
     new Member(
-        "Mamadou Bah"
-        "mbah1@mail.sfsu.edu"
+        "Mamadou Bah",
+        "mbah1@mail.sfsu.edu",
         `Hey! My name is Mamadou and I am a fourth year student at San Fransisco State
         University studying Computer Science. I am originally from the Bay Area and 
         am very excited to wrap up my final semesters with this school and gain as
