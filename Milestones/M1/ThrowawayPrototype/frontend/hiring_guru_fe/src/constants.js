@@ -19,8 +19,8 @@ const MEMBERS = [
         and 4 chickens.`
     ),
     new Member(
-        "Khushi Khanna"
-        "kkhanna@sfsu.edu"
+        "Khushi Khanna",
+        "kkhanna@sfsu.edu",
         `Hi, I'm Khushi! I'm originally from the Bay Area, and I am a senior majoring
          in computer science. I am excited to gain more experience working in the
          backend, since I have minimal experience with software engineering`
