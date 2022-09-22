@@ -33,6 +33,11 @@ const MEMBERS = [
         am very excited to wrap up my final semesters with this school and gain as
         much experience as I can with software engineering!`
    ),
+        new Member(
+        "Eric Leow",
+        "eleow@mail.sfsu.edu",
+        `Hi my name is Eric and I started college with a focus on game development and then quickly switched to compter science when I started going to SF state`
+   ),
 ]
 
 export { MEMBERS }
