@@ -7,18 +7,11 @@
 
 # Below is a list of items required. Missing items will causes points to be deducted from multiple milestone submissions.
 
-1. Server URL or IP
-2. SSH username
-3. SSH password or key.
-    <br> If a ssh key is used please upload the key to the credentials folder.
-4. Database URL or IP and port used.
-    <br><strong> NOTE THIS DOES NOT MEAN YOUR DATABASE NEEDS A PUBLIC FACING PORT.</strong> But knowing the IP and port number will help with SSH tunneling into the database. The default port is more than sufficient for this class.
-5. Database username
-6. Database password
-7. Database name (basically the name that contains all your tables)
-8. Clear instructions with examples on how to use all the above information.
-
-# Most important things to Remember
-## These values need to kept update to date throughout the semester. <br>
-## <strong>Failure to do so will result it points be deducted from milestone submissions.</strong><br>
-## You may store the most of the above in this README.md file. DO NOT Store the SSH key or any keys in this README.md file.
+1. Server URL: http://hiring-guru.us-west-1.elasticbeanstalk.com
+2. AWS Account URL: https://849896207077.signin.aws.amazon.com/console
+3. AWS Username: evaluator
+4. AWS Password: hiring-guru-evaluator-2022
+5. Database URL: hiring-guru-db-prod.cjtks83by8ry.us-west-1.rds.amazonaws.com
+6. Database Port: 5432
+7. Database username: postgres
+8. Database password: hiring-guru-evaluator-2022
