@@ -18,7 +18,7 @@
 | Kenny Leong      | kleong2@mail.sfsu.edu              | krleong                | Frontend engineer |
 | Mamadou Bah      |mbah1@mail.sfsu.edu   |     Mamadou27            | Frontend engineer |
 | Khushi Khanna     | kkhanna@sfsu.edu  | khushikhanna09 | Backend engineer |
-| Eric Leow     |   eleow@mailsfsu.edu         |     ericeow            | Frontend engineer |
+| Eric Leow     |   eleow@mailsfsu.edu         |     ericeow            | Backend engineer |
 
 
 4. Please when ready add your teams application's name and URL or IP to the following table. This will help with grading. Teams are expected to keep this value up to date.
