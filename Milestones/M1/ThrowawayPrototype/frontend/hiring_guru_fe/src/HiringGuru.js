@@ -3,12 +3,15 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import About from './pages/About/About'
 import Landing from './pages/Landing/Landing'
 import './HiringGuru.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Member from './components/Member/Member';
+import Button from 'react-bootstrap/Button';
 
 function HiringGuru() {
   return (
     <Router>
         <div>
+          <Button variant="primary">Primary</Button>{' '}
           <h2>Hiring Guru</h2>
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <ul className="navbar-nav mr-auto">
