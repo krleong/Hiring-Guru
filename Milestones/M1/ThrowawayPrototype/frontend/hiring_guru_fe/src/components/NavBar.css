@@ -1,0 +1,38 @@
+/* .accountBtns {
+    margin-left: 10em;
+} */
+
+#loginBtn {
+    /* font-size: 200px; */
+    /* margin-left: 1em; */
+}
+
+#signupBtn {
+    /* font-size: 200px; */
+    margin-left: 1em;
+}
+
+#account-buttons {
+    float: right;
+    /* margin-left: 20em; */
+    right: 0;
+}
+
+/* #nav-container {
+    background-color: green;
+} */
+
+@media only screen and (min-width: 60em) {  /* for non-mobile screens */
+    /* body {
+      background-color: lightblue;
+    } */
+    .navbar {
+        padding: 0 10% 0 10%;
+    
+    }
+    
+    li {
+        margin: 0 1.5em 0 1.5em;
+    }
+    
+  }
