@@ -1,0 +1,110 @@
+#title{
+    color:rgb(24, 6, 88);
+}
+.img1 {
+    width: 35%;
+   position:absolute; left: 250px; top: 350px
+}
+#header1{
+    color: chocolate;
+    font-size: 18px;
+    align-items: center;
+    position:absolute; left: 1030px; top: 450px;
+    font-weight: bold;
+}
+#chapter1{
+    font-size: 35px;
+    color: rgb(3, 3, 46);
+    position:absolute; left: 1030px; top: 500px;
+    margin-right: 14%;
+    font-weight: bold;
+}
+#text1{
+    font-size: 17px;
+    color: grey;
+    position:absolute; left: 1030px; top: 600px;
+    margin-right: 14%;
+    line-height: 170%;
+
+}
+
+.img2 {
+    width: 35%;
+   position:absolute; left: 1030px; top: 950px
+}
+#header2{
+    color: chocolate;
+    font-size: 18px;
+    align-items: center;
+    position:absolute; left: 250px; top: 1050px;
+    font-weight: bold;
+}
+#chapter2{
+    font-size: 35px;
+    color: rgb(3, 3, 46);
+    position:absolute; left: 250px; top: 1100px;
+    margin-right: 55%;
+    font-weight: bold;
+}
+#text2{
+    font-size: 17px;
+    color: grey;
+    position:absolute; left: 250px; top: 1200px;
+    margin-right: 55%;
+    line-height: 170%;
+
+}
+
+.img3 {
+    width: 35%;
+   position:absolute; left: 250px; top: 1550px
+}
+#header3{
+    color: chocolate;
+    font-size: 18px;
+    align-items: center;
+    position:absolute; left: 1030px; top: 1650px;
+    font-weight: bold;
+}
+#chapter3{
+    font-size: 35px;
+    color: rgb(3, 3, 46);
+    position:absolute; left: 1030px; top: 1700px;
+    margin-right: 14%;
+    font-weight: bold;
+}
+#text3{
+    font-size: 17px;
+    color: grey;
+    position:absolute; left: 1030px; top: 1800px;
+    margin-right: 14%;
+    line-height: 170%;
+
+}
+
+.img4 {
+    width: 35%;
+   position:absolute; left: 1030px; top: 2150px
+}
+#header4{
+    color: chocolate;
+    font-size: 18px;
+    align-items: center;
+    position:absolute; left: 250px; top: 2250px;
+    font-weight: bold;
+}
+#chapter4{
+    font-size: 35px;
+    color: rgb(3, 3, 46);
+    position:absolute; left: 250px; top: 2300px;
+    margin-right: 55%;
+    font-weight: bold;
+}
+#text4{
+    font-size: 17px;
+    color: grey;
+    position:absolute; left: 250px; top: 2400px;
+    margin-right: 55%;
+    line-height: 170%;
+
+}
