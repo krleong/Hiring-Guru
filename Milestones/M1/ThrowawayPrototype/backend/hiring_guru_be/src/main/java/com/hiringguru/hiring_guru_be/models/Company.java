@@ -22,10 +22,6 @@ public class Company {
 
     private String description;
 
-}
-
-    public Company() {
-    }
 
     public Company(int id, String title, String description) {
         this.id = id;
@@ -91,10 +87,11 @@ public class Company {
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
-            ", title='" + getTitle() + "'" +
-            ", description='" + getDescription() + "'" +
-            "}";
+                " id='" + getId() + "'" +
+                ", title='" + getTitle() + "'" +
+                ", description='" + getDescription() + "'" +
+                "}";
     }
+}
 
 
