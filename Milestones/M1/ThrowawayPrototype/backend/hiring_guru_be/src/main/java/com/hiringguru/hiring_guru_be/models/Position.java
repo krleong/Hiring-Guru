@@ -24,7 +24,6 @@ public class Position {
 
     private String location;
 
-}
 
     public Position() {
     }
@@ -107,11 +106,14 @@ public class Position {
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
-            ", title='" + getTitle() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", location='" + getLocation() + "'" +
-            "}";
+                " id='" + getId() + "'" +
+                ", title='" + getTitle() + "'" +
+                ", description='" + getDescription() + "'" +
+                ", location='" + getLocation() + "'" +
+                "}";
     }
+}
+
+
 
 
