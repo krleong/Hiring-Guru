@@ -26,7 +26,6 @@ public class Role {
 
     private String[] benefits;
 
-}
 
     public Role() {
     }
@@ -123,12 +122,13 @@ public class Role {
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
-            ", title='" + getTitle() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", expectations='" + getExpectations() + "'" +
-            ", benefits='" + getBenefits() + "'" +
-            "}";
+                " id='" + getId() + "'" +
+                ", title='" + getTitle() + "'" +
+                ", description='" + getDescription() + "'" +
+                ", expectations='" + getExpectations() + "'" +
+                ", benefits='" + getBenefits() + "'" +
+                "}";
     }
+}
 
 
