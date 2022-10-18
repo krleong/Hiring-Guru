@@ -1,38 +1,31 @@
-/* .accountBtns {
-    margin-left: 10em;
-} */
-
-#loginBtn {
-    /* font-size: 200px; */
-    /* margin-left: 1em; */
+#login-btn {
+    font-size: 1.1em;
 }
 
-#signupBtn {
-    /* font-size: 200px; */
-    margin-left: 1em;
+#signup-btn {
+    margin-left: 1.5em;
+    font-size: 1.1em;
 }
 
-#account-buttons {
-    float: right;
-    /* margin-left: 20em; */
-    right: 0;
+.navbar-brand {
+    font-size: 1.75em;
+    font-weight: 600;
 }
 
-/* #nav-container {
-    background-color: green;
-} */
+.nav-link {
+    font-size: 1.1em;
+    margin-left: 1.1em;
+}
 
-@media only screen and (min-width: 60em) {  /* for non-mobile screens */
-    /* body {
-      background-color: lightblue;
-    } */
-    .navbar {
-        padding: 0 10% 0 10%;
-    
+.button {
+    font-size: 5em;
+}
+
+@media only screen and (max-width: 65em) {
+
+    /* for non-mobile screens */
+    #signup-btn {
+        margin-top: 1em;
+        margin-left: 0em;
     }
-    
-    li {
-        margin: 0 1.5em 0 1.5em;
-    }
-    
-  }
+}

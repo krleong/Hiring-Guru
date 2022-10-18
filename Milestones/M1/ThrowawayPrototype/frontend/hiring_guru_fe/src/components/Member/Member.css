@@ -1,0 +1,10 @@
+.members-root-container
+{
+    padding: 10em;
+    width: 80%;
+    margin: auto;
+}
+
+#email {
+    color: grey;
+}

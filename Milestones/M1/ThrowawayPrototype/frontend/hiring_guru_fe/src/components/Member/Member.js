@@ -8,9 +8,9 @@ function Member() {
     return (
         <div className='members-root'>
             <div className='members-root-container'>
-                <h3>{member.name}</h3>
-                <p>{member.email}</p>
-                <p>{member.description.toString()}</p>
+                <h3 id="name">{member.name}</h3>
+                <p id="email">{member.email}</p>
+                <p id="desc">{member.description.toString()}</p>
             </div>
         </div>
     );

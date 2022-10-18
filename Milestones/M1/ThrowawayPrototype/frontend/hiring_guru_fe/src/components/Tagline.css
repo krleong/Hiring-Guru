@@ -1,15 +1,14 @@
 #tagline-div {
     width: 100%;
-    margin: 0.8em 0 0.1em 0;
-    padding-bottom: 0.1em;
+    height: 2.8em;
+    font-size: 1.1em;
+    padding-top: 0.6em; 
+    margin: auto;
     text-align: center;
-    box-shadow: 0 2px 2px -2px gray;
-    /* position:fixed;
-    top:0; */
-    /* display: none; */
+    background-color: white;
 }
 
-@media only screen and (min-width: 60em) {  /* for non-mobile screens */
+@media only screen and (min-width: 65em) {  /* for non-mobile screens */
     /* #tagline-div {
         display: block;
     } */

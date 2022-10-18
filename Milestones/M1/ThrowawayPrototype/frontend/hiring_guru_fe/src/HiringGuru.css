@@ -1,3 +1,22 @@
 .mamadou-img {
     width: 50%;
 }
+
+.sticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+#divider {
+    height: 0.08em;
+    background-color: #dee2e6;
+    /* box-shadow: 0 2px 2px -2px gray; */
+}
+
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
