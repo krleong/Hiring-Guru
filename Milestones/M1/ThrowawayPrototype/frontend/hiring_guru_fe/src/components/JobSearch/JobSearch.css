@@ -1,0 +1,32 @@
+.search-results-title {
+    margin-top: 25px;
+}
+
+div.search-result {
+    margin-top: 15px;
+}
+
+.job-controls > div, button {
+    display: inline;
+}
+
+.job-controls > div:not(:first-child) {
+    margin-left: 5px;
+}
+
+.job-controls {
+    margin-top: 12px;
+}
+
+.row.job-detail-container {
+    margin-top: 15px;
+}
+
+div.job-border-bottom {
+    margin-top: 10px;
+    border-bottom: 2px dotted rgb(165, 159, 159);
+}
+
+button .button-icon-right {
+    margin-left: 10px
+}
