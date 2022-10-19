@@ -13,7 +13,7 @@ function HiringGuru() {
   return (
     <Router>
       <div>
-        <div class="sticky">
+        <div className="sticky">
           <Tagline></Tagline>
           <div id="divider"></div>
           <NavBar></NavBar>

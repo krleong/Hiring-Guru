@@ -3,6 +3,8 @@ import {useState} from "react";
 import {BoxArrowUpRight, HeartFill} from 'react-bootstrap-icons';
 import axios from "axios";
 import {BASE_URL} from "../configuration";
+import Dropdown from 'react-bootstrap/Dropdown';
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 const JobSearchStatus = {
     NotStarted: "NotStarted",
@@ -11,13 +13,29 @@ const JobSearchStatus = {
     Success: "Success",
 }
 
+const JobType = {
+    All: {
+        ui: 'All',
+        server: 'ALL'
+    },
+    FullTime: {
+        ui: 'Full Time',
+        server: 'FULL_TIME'
+    },
+    PartTime: {
+        ui: 'Part Time',
+        server: 'PART_TIME'
+    },
+}
+
 
 function JobSearch() {
     const [searchState, setSearchState] = useState({
         listOfJobs: [],
         searchString: '',
         searchStatus: JobSearchStatus.NotStarted,
-        searchFetchError: ''
+        searchFetchError: '',
+        selectedJobType: JobType.All
     })
     const initiateSearch = () => {
         setSearchState({
@@ -29,7 +47,11 @@ function JobSearch() {
         axios({
             url: `${BASE_URL}/jobs`,
             method: 'get',
-            timeout: 10000
+            timeout: 10000,
+            params: {
+                query: searchState.searchString,
+                type: searchState.selectedJobType.server
+            }
         }).then((resp) => {
             if(resp.status === 200) {
                 setSearchState({
@@ -61,31 +83,77 @@ function JobSearch() {
                 <div></div>
                 <div className={'search-field fluid-container'}>
                     <div className="input-group input-group-lg">
-                    <span className="input-group-text" id="basic-addon1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         className="bi bi-search" viewBox="0 0 16 16">
-                      <path
-                          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
-                    </svg>
-                    </span>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search for jobs"
-                        aria-label="Search for jobs"
-                        aria-describedby="basic-addon1"
-                        onChange={(e) => {
-                            setSearchState({
-                                ...searchState,
-                                searchString: e.target.value
-                            })
-                        }}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                initiateSearch()
+                        <Dropdown className={"input-group-text"}>
+                            <OverlayTrigger
+                                placement="bottom"
+                                overlay={
+                                    <Tooltip>Select a job-type to filter by</Tooltip>
+                                }
+                            >
+                                <Dropdown.Toggle id="dropdown-basic">
+                                    Select Job Type
+                                </Dropdown.Toggle>
+                            </OverlayTrigger>
+                            <Dropdown.Menu>
+                                {
+                                    Object.keys(JobType).map((jobType) => {
+                                        const jobTypeValue = JobType[jobType]
+                                        return (
+                                            <Dropdown.Item key={jobTypeValue.ui} onClick={(e) => {
+                                                setSearchState({
+                                                    ...searchState,
+                                                    selectedJobType: jobTypeValue
+                                                })
+                                            }} active={searchState.selectedJobType===jobTypeValue? true: false}>
+                                                {jobTypeValue.ui}
+                                            </Dropdown.Item>
+                                        )
+                                    })
+                                }
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <OverlayTrigger
+                            placement="bottom"
+                            overlay={
+                                <Tooltip>Enter a keyword to search for jobs</Tooltip>
                             }
-                        }}
-                    />
+                        >
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Search for jobs"
+                                aria-label="Search for jobs"
+                                aria-describedby="basic-addon1"
+                                onChange={(e) => {
+                                    setSearchState({
+                                        ...searchState,
+                                        searchString: e.target.value
+                                    })
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        initiateSearch()
+                                    }
+                                }}
+                            />
+                        </OverlayTrigger>
+
+                        <OverlayTrigger
+                            placement="bottom"
+                            overlay={
+                                <Tooltip>Search</Tooltip>
+                            }
+                        >
+                            <button className="input-group-text" id="basic-addon1" onClick={() => {
+                                initiateSearch()
+                            }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     className="bi bi-search" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+                                </svg>
+                            </button>
+                        </OverlayTrigger>
                     </div>
                 </div>
             </div>
@@ -112,9 +180,9 @@ function JobSearch() {
                 </div>
                 <div className={'search-results container'}>
                     <div className={'search-results-data row'}>
-                        { searchState.listOfJobs.map((job) => {
+                        { searchState.listOfJobs.map((job, index) => {
                             return (
-                                <div className={'search-result col-12'}>
+                                <div key={`${job.title}-${job.location}-${job.company}-${index}`} className={'search-result col-12'}>
                                     <div className={'job'}>
                                         <div className={'job-header row'}>
                                             <div className={'company-title col-12'}>
@@ -131,12 +199,12 @@ function JobSearch() {
                                         </div>
                                         <div className={'job-controls inline-buttons'}>
                                             <div className={'learn-more-button'}>
-                                                <button type="button" className="btn btn-outline-primary btn-sm">
+                                                <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => {alert("Not implemented yet")}}>
                                                     Learn More
                                                     <span className={'button-icon-right'}><BoxArrowUpRight /></span>
                                                 </button>
                                             </div>
-                                            <div className={'like-button'}>
+                                            <div className={'like-button'} onClick={() => {alert("Not implemented yet")}}>
                                                 <button type="button" className="btn btn-outline-primary btn-sm">
                                                     Like
                                                     <span className={'button-icon-right'}><HeartFill /></span>
