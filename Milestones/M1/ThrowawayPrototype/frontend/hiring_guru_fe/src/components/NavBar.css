@@ -1,10 +1,10 @@
 #login-btn {
-    font-size: 1.1em;
+    font-size: 1em;
 }
 
 #signup-btn {
-    margin-left: 1.5em;
-    font-size: 1.1em;
+    margin-left: 1em;
+    font-size: 1em;
 }
 
 .navbar-brand {
@@ -13,17 +13,17 @@
 }
 
 .nav-link {
-    font-size: 1.1em;
-    margin-left: 1.1em;
+    font-size: 1em;
+    margin-left: 1em;
 }
 
 .button {
     font-size: 5em;
 }
 
+/* FOR LARGE (NON-MOBILE) SCREENS */
 @media only screen and (max-width: 65em) {
 
-    /* for non-mobile screens */
     #signup-btn {
         margin-top: 1em;
         margin-left: 0em;
