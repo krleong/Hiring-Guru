@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import ProductFeatures from '../../components/ProductFeatures';
-import JobSearch from "../../components/JobSearch/JobSearch";
+import ProductFeatures from '../../components/ProductFeatures/ProductFeatures';
+import HeroBanner from "../../components/HeroBanner/HeroBanner";
 
 class Landing extends Component {
   render() {
     return (
       <div>
         <div className={'landing-page'}>
-          <h2>This is the landing page</h2>
           <div className={'landing-page-body'} >
             <div className={'container'}>
-              <JobSearch></JobSearch>
+              <HeroBanner></HeroBanner>
               <ProductFeatures></ProductFeatures>
             </div>
           </div>

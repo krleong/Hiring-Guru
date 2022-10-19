@@ -1,18 +1,12 @@
-import React, { useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProductFeatures.css';
-import ReviewCards from './ReviewCards';
+import ReviewCards from '../ReviewCards/ReviewCards';
  
 
 function ProductFeatures() {
     return (
         <div>
             <div class="container">
-                <div id="heading">
-                    <h1 id="colorful">HIRING GURU IS THE #1 HIRING SOFTWARE IN THE NATION!</h1>
-                    <h3 id="quoted">—CEO, Hiring Guru</h3>
-                </div>
-                    <hr/>
                     <div id="grid-layout-1" class="grid-layout-1-1 spacer-small"></div>
                 <div class="grid-container">
                     <div id="grid-layout-1" class="grid-layout-1-1 row 1">
@@ -69,7 +63,7 @@ function ProductFeatures() {
                     <div id="grid-layout-1" class="grid-layout-1-1 spacer-small"></div>
                     <hr/>
                     <div id="grid-layout-1" class="grid-layout-1-1 spacer-small"></div>
-                    <div><h5 id="review-header" class="chapter">See what our customers have to say:</h5></div>
+                    <div><h5 id="review-header" class="chapter">See what our customers have to say</h5></div>
                     <ReviewCards></ReviewCards>
                 </div>
             </div>

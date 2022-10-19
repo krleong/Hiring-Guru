@@ -4,10 +4,10 @@ import './HiringGuru.css';
 import About from './pages/About/About'
 import Landing from './pages/Landing/Landing'
 import Member from './components/Member/Member';
-import NavBar from './components/NavBar.js';
-import Footer from './components/Footer.js';
+import NavBar from './components/NavBar/NavBar.js';
+import Footer from './components/Footer/Footer.js';
 
-import Tagline from './components/Tagline.js';
+import Tagline from './components/Tagline/Tagline.js';
 
 function HiringGuru() {
   return (
