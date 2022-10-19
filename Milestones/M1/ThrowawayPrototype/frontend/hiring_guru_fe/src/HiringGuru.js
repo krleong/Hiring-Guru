@@ -27,7 +27,6 @@ function HiringGuru() {
       {/* <div>TEST<img class="mamadou-img" src="assets/20221010_151346.jpg" alt="test-img" />
       </div> */}
       <Footer></Footer>
-
     </Router>
   );
 }
