@@ -1,24 +1,24 @@
-package main.java.com.hiringguru.hiring_guru_be.entities;
-import org.springframework.data.repository.CrudRepository;
+package main.java.com.hiringguru.hiring_guru_be.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Set;
-
-@Entity
 public class Job {
-    @Id
-    private int id;
+    private Long id;
 
-    private String title;
+    public Job(Long id) {
+        this.id = id;
+    }
 
-    private String description;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "id=" + id +
+                '}';
+    }
 }
