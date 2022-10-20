@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './HiringGuru.css';
 import About from './pages/About/About'
@@ -10,6 +10,9 @@ import Footer from './components/Footer/Footer.js';
 import Tagline from './components/Tagline/Tagline.js';
 
 function HiringGuru() {
+  useEffect(() => {
+    document.title = "Hiring Guru";
+}, []);
   return (
     <Router>
       <div>
