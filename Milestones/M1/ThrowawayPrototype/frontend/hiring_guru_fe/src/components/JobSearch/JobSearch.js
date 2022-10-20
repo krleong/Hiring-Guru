@@ -28,6 +28,33 @@ const JobType = {
     },
 }
 
+const filterJobs = (jobs, keyword, type) => {
+    keyword = keyword.toUpperCase()
+    let filteredOnType = []
+    let finalFiltered = []
+    debugger
+    if(type == JobType.All.server) {
+        filteredOnType = jobs
+    } else {
+        jobs.forEach((job) => {
+            if(job.type == type) {
+                filteredOnType.push(job)
+            }
+        })
+    }
+    filteredOnType.forEach((job) => {
+        if(
+            job.title.toUpperCase().includes(keyword) ||
+            job.description.toUpperCase().includes(keyword) ||
+            job.location.toUpperCase().includes(keyword) ||
+            job.company.title.toUpperCase().includes(keyword)
+        ) {
+            finalFiltered.push(job)
+        }
+    })
+    return finalFiltered
+}
+
 
 function JobSearch() {
     const [searchState, setSearchState] = useState({
@@ -56,7 +83,7 @@ function JobSearch() {
             if (resp.status === 200) {
                 setSearchState({
                     ...searchState,
-                    listOfJobs: resp.data,
+                    listOfJobs: filterJobs(resp.data, searchState.searchString, searchState.selectedJobType.server),
                     searchStatus: JobSearchStatus.Success,
                 })
             }
