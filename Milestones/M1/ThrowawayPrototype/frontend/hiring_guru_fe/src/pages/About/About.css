@@ -1,18 +1,14 @@
-.members-root-container
+.about-us-container
 {
     padding: 5em;
     width: 60%;
     margin: auto;
 }
 
-.card {
-    margin-top: 5em;
-}
-
 /* FOR MOBILE SCREENS */
 @media only screen and (max-width: 65em) {
 
-    .members-root-container
+    .about-us-container
     {
         width: 90%;
     }

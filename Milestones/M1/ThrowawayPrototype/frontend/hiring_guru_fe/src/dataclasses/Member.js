@@ -1,5 +1,6 @@
 class Member {
-    constructor(name, email, description) {
+    constructor(role, name, email, description) {
+        this.role = role
         this.name = name
         this.email = email
         this.description = description

@@ -3,7 +3,8 @@
 }
 
 div.search-result {
-    margin-top: 15px;
+    margin-top: 25px;
+    margin-bottom: 15px;
 }
 
 .job-controls > div, button {
@@ -29,4 +30,8 @@ div.job-border-bottom {
 
 button .button-icon-right {
     margin-left: 10px
+}
+
+.large-drop-down-button {
+    line-height: 2.5;
 }
