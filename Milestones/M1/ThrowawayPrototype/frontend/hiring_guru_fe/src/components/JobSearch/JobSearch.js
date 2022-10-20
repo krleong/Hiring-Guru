@@ -1,10 +1,10 @@
 import './JobSearch.css';
-import {useState} from "react";
-import {BoxArrowUpRight, HeartFill} from 'react-bootstrap-icons';
+import { useState } from "react";
+import { BoxArrowUpRight, HeartFill } from 'react-bootstrap-icons';
 import axios from "axios";
-import {BASE_URL} from "../configuration";
+import { BASE_URL } from "../configuration";
 import Dropdown from 'react-bootstrap/Dropdown';
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const JobSearchStatus = {
     NotStarted: "NotStarted",
@@ -53,7 +53,7 @@ function JobSearch() {
                 type: searchState.selectedJobType.server
             }
         }).then((resp) => {
-            if(resp.status === 200) {
+            if (resp.status === 200) {
                 setSearchState({
                     ...searchState,
                     listOfJobs: resp.data,
@@ -104,7 +104,7 @@ function JobSearch() {
                                                     ...searchState,
                                                     selectedJobType: jobTypeValue
                                                 })
-                                            }} active={searchState.selectedJobType===jobTypeValue? true: false}>
+                                            }} active={searchState.selectedJobType === jobTypeValue ? true : false}>
                                                 {jobTypeValue.ui}
                                             </Dropdown.Item>
                                         )
@@ -148,7 +148,7 @@ function JobSearch() {
                                 initiateSearch()
                             }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                     className="bi bi-search" viewBox="0 0 16 16">
+                                    className="bi bi-search" viewBox="0 0 16 16">
                                     <path
                                         d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
                                 </svg>
@@ -180,7 +180,7 @@ function JobSearch() {
                 </div>
                 <div className={'search-results container'}>
                     <div className={'search-results-data row'}>
-                        { searchState.listOfJobs.map((job, index) => {
+                        {searchState.listOfJobs.map((job, index) => {
                             return (
                                 <div key={`${job.title}-${job.location}-${job.company}-${index}`} className={'search-result col-12'}>
                                     <div className={'job'}>
@@ -199,12 +199,12 @@ function JobSearch() {
                                         </div>
                                         <div className={'job-controls inline-buttons'}>
                                             <div className={'learn-more-button'}>
-                                                <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => {alert("Not implemented yet")}}>
+                                                <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => { alert("Not implemented yet") }}>
                                                     Learn More
                                                     <span className={'button-icon-right'}><BoxArrowUpRight /></span>
                                                 </button>
                                             </div>
-                                            <div className={'like-button'} onClick={() => {alert("Not implemented yet")}}>
+                                            <div className={'like-button'} onClick={() => { alert("Not implemented yet") }}>
                                                 <button type="button" className="btn btn-outline-primary btn-sm">
                                                     Like
                                                     <span className={'button-icon-right'}><HeartFill /></span>
