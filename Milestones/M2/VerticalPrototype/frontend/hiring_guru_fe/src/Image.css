@@ -1,0 +1,16 @@
+
+#header1{
+    position: relative; top: 135px;
+    position: relative; left: 1050px;
+    color: chocolate;
+    font-size: 18px;
+}
+#text1{
+    position: relative; top: 145px;
+    position: relative; left: 50px;
+    font-size: 15px
+}
+
+#title{
+    color:rgb(50, 7, 204);
+}
