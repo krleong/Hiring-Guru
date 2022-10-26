@@ -1,24 +1,36 @@
-package main.java.com.hiringguru.hiring_guru_be.entities;
-import org.springframework.data.repository.CrudRepository;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Set;
+package com.hiringguru.hiring_guru_be.models;
+import javax.persistence.*;
 
 @Entity
 public class Job {
     @Id
+    @GeneratedValue
     private int id;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
+    private String location;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private JobType type;
+
+    @Column(nullable = false)
     private String description;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    private Role role;
+
+    public Job(String title, String location, JobType type, String description, Role role) {
+        this.title = title;
+        this.location = location;
+        this.type = type;
+        this.description = description;
+        this.role = role;
+    }
+
+    public Job() {
+    }
 }
