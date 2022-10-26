@@ -118,7 +118,7 @@ function JobSearch() {
                                 }
                             >
                                 <Dropdown.Toggle id="dropdown-basic">
-                                    <Filter />
+                                    <Filter /> Filter
                                 </Dropdown.Toggle>
                             </OverlayTrigger>
                             <Dropdown.Menu>
