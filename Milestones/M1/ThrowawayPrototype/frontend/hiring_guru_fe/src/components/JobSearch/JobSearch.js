@@ -1,6 +1,6 @@
 import './JobSearch.css';
 import { useState } from "react";
-import { BoxArrowUpRight, HeartFill } from 'react-bootstrap-icons';
+import { Filter, BoxArrowUpRight, HeartFill } from 'react-bootstrap-icons';
 import axios from "axios";
 import { BASE_URL } from "../configuration";
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -33,17 +33,17 @@ const filterJobs = (jobs, keyword, type) => {
     let filteredOnType = []
     let finalFiltered = []
     debugger
-    if(type == JobType.All.server) {
+    if (type == JobType.All.server) {
         filteredOnType = jobs
     } else {
         jobs.forEach((job) => {
-            if(job.type == type) {
+            if (job.type == type) {
                 filteredOnType.push(job)
             }
         })
     }
     filteredOnType.forEach((job) => {
-        if(
+        if (
             job.title.toUpperCase().includes(keyword) ||
             job.description.toUpperCase().includes(keyword) ||
             job.location.toUpperCase().includes(keyword) ||
@@ -114,11 +114,11 @@ function JobSearch() {
                             <OverlayTrigger
                                 placement="bottom"
                                 overlay={
-                                    <Tooltip>Select a job-type to filter by</Tooltip>
+                                    <Tooltip>Select a job type to filter by</Tooltip>
                                 }
                             >
                                 <Dropdown.Toggle id="dropdown-basic">
-                                    Select Job Type
+                                    <Filter />
                                 </Dropdown.Toggle>
                             </OverlayTrigger>
                             <Dropdown.Menu>
@@ -162,7 +162,7 @@ function JobSearch() {
                                         initiateSearch()
                                     }
                                 }}
-                            />
+                                required />
                         </OverlayTrigger>
 
                         <OverlayTrigger

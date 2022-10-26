@@ -6,7 +6,7 @@ function HeroBanner() {
     return (
         <div>
             <div id="heading">
-                <h1 id="colorful">HIRING GURU IS THE #1 HIRING SOFTWARE IN THE NATION!</h1>
+                <h1 id="colorful">WE ARE THE #1 HIRING SOLUTIONS PLATFORM IN THE NATION</h1>
                 <h3 id="quoted">—CEO, Hiring Guru</h3>
             </div> 
             <JobSearch></JobSearch>
