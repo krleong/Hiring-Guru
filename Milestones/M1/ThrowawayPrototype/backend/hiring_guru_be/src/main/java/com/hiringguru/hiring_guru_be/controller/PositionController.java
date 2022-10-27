@@ -22,7 +22,7 @@ public class PositionController {
     }
     //Get position by id
     @GetMapping("/positions/{id}")
-    public ResponseEntity<Position> getPostionById(@PathVariable(value="id") Integer positionId)
+    public ResponseEntity<Position> getPositionById(@PathVariable(value="id") Integer positionId)
         throws ResourceNotFoundException {
         Position position = positionRepository.findById(positionId)
                 .orElseThrow(()->new ResourceNotFoundException("Position not found for this id :: " + positionId));
