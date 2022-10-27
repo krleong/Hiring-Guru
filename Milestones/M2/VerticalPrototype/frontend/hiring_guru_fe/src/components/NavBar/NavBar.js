@@ -29,8 +29,8 @@ export default function NavBar(props) {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href={'/'}>Home</Nav.Link>
-                            <Nav.Link href={'/'}>Job Posts</Nav.Link>
-                            <Nav.Link href={'/'}>Pricing</Nav.Link>
+                            <Nav.Link href={'/jobs'}>Job Posts</Nav.Link>
+                            <Nav.Link href={'/pricing'}>Pricing</Nav.Link>
                             <Nav.Link href={'/about'}>About Us</Nav.Link>
                             {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -45,8 +45,8 @@ export default function NavBar(props) {
             </NavDropdown> */}
                         </Nav>
                         <Nav>
-                            <Button id="login-btn" variant="outline-primary">Log In</Button>
-                            <Button id="signup-btn" variant="primary">Get Started</Button>
+                            <Button href={'/login'} id="login-btn" variant="outline-primary">Log In</Button>
+                            <Button href={'/signup'} id="signup-btn" variant="primary">Get Started</Button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
