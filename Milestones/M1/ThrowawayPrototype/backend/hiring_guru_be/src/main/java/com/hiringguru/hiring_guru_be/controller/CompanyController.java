@@ -17,7 +17,7 @@ public class CompanyController {
     private CompanyRepository companyRepository;
     //Get all companies
     @GetMapping("companies")
-    public List<Company> getAllCompanys(){
+    public List<Company> getAllCompanies(){
         return this.companyRepository.findAll();
     }
     //Get company by id
