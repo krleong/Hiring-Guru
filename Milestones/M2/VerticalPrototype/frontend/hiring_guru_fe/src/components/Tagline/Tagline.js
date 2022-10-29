@@ -3,7 +3,7 @@ import './Tagline.css';
 function Tagline() {
     return (
         <div id="tagline-div">
-            <p>The best hiring software this side of the Mississippi.</p>
+            <p>Optimizing the hiring process, so you don't have to.</p>
         </div>
 
     );
