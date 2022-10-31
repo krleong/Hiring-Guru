@@ -16,26 +16,27 @@ import Tagline from './components/Tagline/Tagline.js';
 function HiringGuru() {
   useEffect(() => {
     document.title = "Hiring Guru";
-}, []);
+  }, []);
   return (
     <Router>
       <div>
-        <div className="sticky">
-          <Tagline></Tagline>
-          <div id="divider"></div>
-          <NavBar></NavBar>
+        <div className="page-wrapper">
+          <div className="sticky-top-follow">
+            <Tagline></Tagline>
+            <NavBar></NavBar>
+          </div>
+          <Routes>
+            <Route path='/' element={<Landing />} />
+            <Route path='/jobs' element={<JobPosts />} />
+            <Route path='/pricing' element={<Pricing />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/login' element={<LogIn />} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/about/members/:index/detail' element={<Member />} />
+          </Routes>
         </div>
-        <Routes>
-          <Route path='/' element={<Landing />} />
-          <Route path='/jobs' element={<JobPosts />} />
-          <Route path='/pricing' element={<Pricing />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/login' element={<LogIn />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/about/members/:index/detail' element={<Member />} />
-        </Routes>
+          <Footer></Footer>
       </div>
-      <Footer></Footer>
     </Router>
   );
 }

@@ -1,22 +1,27 @@
-.mamadou-img {
-    width: 50%;
+* {
+    margin: 0;
 }
 
-.sticky {
+html, body {
+    height: 100%;
+}
+
+.sticky-top-follow {
     position: sticky;
     top: 0;
     width: 100%;
     z-index: 100;
 }
 
-#divider {
-    height: 0.08em;
-    background-color: #dee2e6;
-    /* box-shadow: 0 2px 2px -2px gray; */
+.page-wrapper {
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -140px;
 }
 
-body {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
+.page-wrapper:after {
+    margin-top: 4em;
+    content: "";
+    display: block;
+    height: 140px;
 }

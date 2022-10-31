@@ -2,8 +2,13 @@
     width: 100%;
     height: 2.8em;
     font-size: 1em;
-    padding-top: 0.6em; 
+    padding-top: 0.6em;
     margin: auto;
     text-align: center;
     background-color: white;
+}
+
+#divider {
+    height: 0.08em;
+    background-color: #dee2e6;
 }

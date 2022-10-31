@@ -1,6 +1,12 @@
+#product-features-container {
+    margin-top: 6em;
+    margin-bottom: 10em;
+}
+
 .product-img {
     width: 100%;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    margin-bottom: 4em;
 }
 
 .header {
@@ -20,10 +26,11 @@
     font-size: 17px;
     color: grey;
     line-height: 170%;
+    margin-bottom: -6em;
 }
 
 .grid-container {
-    width: 90%;
+    width: 100%;
     margin: auto;
 }
 
@@ -40,10 +47,6 @@
     height: 10em;
 }
 
-.spacer-small {
-    height: 5em;
-}
-
 #review-header {
     margin: auto;
     text-align: center;
@@ -57,5 +60,13 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 2.5% 5.5%;
+    }
+
+    .product-img {
+        margin-bottom: 0em;
+    }
+
+    #product-features-container {
+        margin-bottom: 6em;
     }
 }
