@@ -33,11 +33,11 @@ const filterJobs = (jobs, keyword, type) => {
     let filteredOnType = []
     let finalFiltered = []
     debugger
-    if (type == JobType.All.server) {
+    if (type === JobType.All.server) {
         filteredOnType = jobs
     } else {
         jobs.forEach((job) => {
-            if (job.type == type) {
+            if (job.type === type) {
                 filteredOnType.push(job)
             }
         })
