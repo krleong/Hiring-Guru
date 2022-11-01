@@ -32,8 +32,8 @@ export default function NavBar(props) {
                             <Nav.Link href={'/jobs'}>Job Posts</Nav.Link>
                             <Nav.Link href={'/pricing'}>Pricing</Nav.Link>
                             <Nav.Link href={'/about'}>About Us</Nav.Link>
-                            {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                            <NavDropdown title="DEV" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href={'/CompanyCreation'}>Company Creation</NavDropdown.Item> 
               <NavDropdown.Item href="#action/3.2">
                 Another action
               </NavDropdown.Item>
@@ -42,7 +42,7 @@ export default function NavBar(props) {
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
-            </NavDropdown> */}
+            </NavDropdown>
                         </Nav>
                         <Nav>
                             <Button href={'/login'} id="login-btn" variant="outline-primary">Log In</Button>
