@@ -9,6 +9,8 @@ import com.hiringguru.hiring_guru_be.repositories.JobRepository;
 import com.hiringguru.hiring_guru_be.repositories.RoleRepository;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -40,6 +42,7 @@ public class HiringGuruBeApplication {
   }
 
   @PostMapping({"/CreateJob"})
+  @ResponseBody
   public void createJob(@RequestParam("company") String company, @RequestParam("description") String description, @RequestParam("title") String title, @RequestParam("expectations") String expectations, @RequestParam("benefits") String benefits, @RequestParam("title2") String title2, @RequestParam("location") String location, @RequestParam("description2") String description2) {
     Company comp = new Company(company, description);
     Role role = new Role(title, expectations, benefits, comp);
