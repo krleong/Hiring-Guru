@@ -26,7 +26,7 @@ public class Job {
     @Column(
             nullable = false
     )
-    private String location;
+    public String location;
     @Column(
             nullable = false
     )
@@ -35,7 +35,7 @@ public class Job {
     @Column(
             nullable = false
     )
-    private String description;
+    public String description;
     @ManyToOne(
             cascade = {CascadeType.ALL},
             optional = false
