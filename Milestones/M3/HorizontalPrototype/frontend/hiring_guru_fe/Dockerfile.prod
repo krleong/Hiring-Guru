@@ -13,5 +13,6 @@ FROM nginx:stable-alpine
 COPY --from=build /build /usr/share/nginx/html
 # to make react-router work with nginx
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY public/412949A3A738F8CF13BA17FA110D4FAD.txt /usr/share/nginx/html/.well-known/pki-validation/412949A3A738F8CF13BA17FA110D4FAD.txt
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
