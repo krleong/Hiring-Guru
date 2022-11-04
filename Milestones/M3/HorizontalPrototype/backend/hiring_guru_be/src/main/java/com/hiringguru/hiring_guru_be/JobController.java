@@ -37,6 +37,7 @@ public class JobController {
     private CompanyRepository comprepo;
     @Autowired
     private RoleRepository rorepo;
+
     @PostMapping({"/jobs"})//creates a job
     @ResponseBody
     public void createJob(@RequestParam("company") String company, @RequestParam("description") String description, @RequestParam("title") String title, @RequestParam("expectations") String expectations, @RequestParam("benefits") String benefits, @RequestParam("title2") String title2, @RequestParam("location") String location, @RequestParam("description2") String description2) {
@@ -88,6 +89,7 @@ public class JobController {
     public void deleteAllRecords(){
         jobrepo.deleteAll();
     }
+
     @DeleteMapping({"/jobs/:id"})//delete a job that matches a certain ID
     public String deleteJobById(@RequestParam("id") int id) {
         this.jobrepo.deleteById(id);

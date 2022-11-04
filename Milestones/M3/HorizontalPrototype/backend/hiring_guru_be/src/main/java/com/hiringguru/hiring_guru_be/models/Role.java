@@ -52,7 +52,9 @@ public class Role {
         this.benefits = benefits;
         this.company = company;
     }
-
+  public String getTitle(){
+        return this.title;
+  }
 
     public String getExpectations() {
         return this.expectations;
