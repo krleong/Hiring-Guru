@@ -8,6 +8,7 @@ import Pricing from './pages/Pricing/Pricing'
 import LogIn from './pages/LogIn/LogIn'
 import SignUp from './pages/SignUp/SignUp'
 import CreateCompany from './pages/CreateCompany/CreateCompany'
+import Dashboard from './pages/Dashboard/Dashboard'
 import Member from './components/Member/Member';
 import NavBar from './components/NavBar/NavBar.js';
 import Footer from './components/Footer/Footer.js';
@@ -34,6 +35,7 @@ function HiringGuru() {
             <Route path='/login' element={<LogIn />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/create-company' element={<CreateCompany />} />
+            <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/about/members/:index/detail' element={<Member />} />
           </Routes>
         </div>
