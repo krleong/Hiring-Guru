@@ -16,9 +16,7 @@ import Footer from './components/Footer/Footer.js';
 import Tagline from './components/Tagline/Tagline.js';
 
 function HiringGuru() {
-  useEffect(() => {
-    document.title = "Hiring Guru";
-  }, []);
+
   return (
     <Router>
       <div>
