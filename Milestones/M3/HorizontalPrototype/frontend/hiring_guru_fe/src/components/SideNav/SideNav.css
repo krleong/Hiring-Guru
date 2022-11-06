@@ -18,7 +18,10 @@ body {
   }
   
   .p-3 {
-    width: 280px;
+    width: 220px;
+    height: 100%;
+    position: absolute;
+    box-shadow: -3px 0 5px 0 #555;
   }
 
   .b-example-divider {
