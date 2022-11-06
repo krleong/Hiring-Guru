@@ -17,11 +17,11 @@ public class Company {
     @Column(
             nullable = false
     )
-    private String title;
+    public String title;
     @Column(
             nullable = false
     )
-    private String description;
+    public String description;
 
     public Company(String title, String description) {
         this.id = this.id;
@@ -29,7 +29,11 @@ public class Company {
         this.description = description;
     }
 
-   public String getTitle(){
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle(){
         return this.title;
    }
 
