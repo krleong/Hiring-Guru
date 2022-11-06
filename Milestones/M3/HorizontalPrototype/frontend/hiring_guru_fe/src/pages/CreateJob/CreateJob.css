@@ -1,0 +1,124 @@
+.gridJob-container{
+    height: 50%;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.createJob{
+    background: rgb(0, 102, 211);
+    background: linear-gradient(90deg, rgba(0, 102, 211, 1) 0%, rgb(121, 89, 173) 50%, rgba(255, 66, 101, 1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 70px;
+    grid-column: 1 / 13;
+    grid-row: 1 / 2;
+    text-align: center;
+    height: 50%;
+    width: 620%;
+}
+
+.JobTitle-container{
+    color: rgb(11, 97, 255);
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    height: 30%;
+    width: 100%;
+    position: relative;
+    bottom: 100px;
+}
+
+.JobType-container{
+    color: rgb(11, 97, 255);
+    grid-column: 5 / 6;
+    grid-row: 2 / 3;
+    height: 30%;
+    width: 100%;
+    position: relative;
+    bottom: 100px;
+}
+
+.Company-container{
+    color: rgb(11, 97, 255);
+    grid-column: 4 / 5;
+    grid-row: 2 / 3;
+    height: 30%;
+    width: 100%;
+    position: relative;
+    bottom: 100px;
+}
+
+.Salary-container{
+    color: rgb(11, 97, 255);
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+    height: 30%;
+    width: 100%;
+    position: relative;
+    bottom: 200px;
+}
+
+.Location-container{
+    color: rgb(11, 97, 255);
+    grid-column: 4 / 5;
+    grid-row: 3 / 4;
+    height: 30%;
+    width: 100%;
+    position: relative;
+    bottom: 200px;
+}
+
+.Experience-container{
+    color: rgb(11, 97, 255);
+    grid-column: 5 / 6;
+    grid-row: 3 / 4;
+    height: 30%;
+    width: 100%;
+    position: relative;
+    bottom: 200px;
+}
+
+.CompanyDesc-container{
+    color: rgb(11, 97, 255);
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    bottom: 300px;
+    right: 100px;
+}
+
+.Description-container{
+    color: rgb(11, 97, 255);
+    grid-column: 4 / 5;
+    grid-row: 4 / 5;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    bottom: 300px;
+}
+
+.Qualifications-container{
+    color: rgb(11, 97, 255);
+    grid-column: 5 / 6;
+    grid-row: 4 / 5;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    bottom: 300px;
+    left: 100px;
+}
+
+.Submit2-container{
+    width: 100%;
+    height: 60%;
+    grid-column:  4 / 6; 
+    grid-row: 5 / 6 ;
+    color: rgb(0, 66, 247);
+    position: relative;
+    bottom: 160px;
+    left: 50px;
+    display: block;
+}

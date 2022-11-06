@@ -1,0 +1,31 @@
+.Welcome-container{
+    font-size: 60%;
+    color: rgb(19, 99, 173);
+    margin-left: 450px;
+    margin-right: 430px;
+    margin-bottom: 30px;
+
+}
+.Tips-container{
+    font: 10px;
+    margin-bottom: 30px;
+
+    
+}
+.Info-container{
+    font: 10px;
+    margin-left: 350px;
+    margin-right: 350px;
+    color: rgba(0, 0, 0, 0.699);
+    line-height: 70%;
+
+    
+}
+.Submit-container1{
+    width: 40%;
+    height: 70%;
+    color: rgb(0, 66, 247);
+    position: relative;
+    margin-top: 30px;
+}
+
