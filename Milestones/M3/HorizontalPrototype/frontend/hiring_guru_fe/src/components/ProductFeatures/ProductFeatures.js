@@ -1,13 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './ProductFeatures.css';
-import ReviewCards from '../ReviewCards/ReviewCards';
- 
+import './ProductFeatures.css'; 
 
 function ProductFeatures() {
     return (
         <div>
-            <div className="container">
-                    <div id="grid-layout-1" className="grid-layout-1-1 spacer-small"></div>
+            <div id="product-features-container" className="container">
                 <div className="grid-container">
                     <div id="grid-layout-1" className="grid-layout-1-1 row 1">
                         <div className="grid-item-1 grid-item">
@@ -60,11 +57,6 @@ function ProductFeatures() {
                             <div><img className="product-img" src="assets/candidate_profile.webp" alt="Screenshot of candidate profile page" /></div>
                         </div>
                     </div>
-                    <div id="grid-layout-1" className="grid-layout-1-1 spacer-small"></div>
-                    <hr/>
-                    <div id="grid-layout-1" className="grid-layout-1-1 spacer-small"></div>
-                    <div><h5 id="review-header" className="chapter">See what our customers have to say</h5></div>
-                    <ReviewCards></ReviewCards>
                 </div>
             </div>
         </div>

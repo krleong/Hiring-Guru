@@ -1,6 +1,6 @@
 #heading {
     font-size: 0.6em;
-    padding: 4em;
+    padding: 6em 0 6em 0;
     color: white;
     font-weight: bold;
     text-align: center;
@@ -53,6 +53,6 @@
 
     #heading {
         font-size: 1em;
-        padding: 5em;
+        padding: 6em 2em 5em 2em;
     }
 }

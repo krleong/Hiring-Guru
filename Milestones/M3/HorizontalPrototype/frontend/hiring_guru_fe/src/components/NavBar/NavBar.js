@@ -31,6 +31,18 @@ export default function NavBar(props) {
                             <Nav.Link href={'/jobs'}>Job Posts</Nav.Link>
                             <Nav.Link href={'/pricing'}>Pricing</Nav.Link>
                             <Nav.Link href={'/about'}>About Us</Nav.Link>
+                            <NavDropdown title="DEV" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href={'/create-company'}>Company Creation</NavDropdown.Item> 
+                            <NavDropdown.Item href={'/create-job'}>Create Your Job</NavDropdown.Item> 
+              <NavDropdown.Item href="#action/3.2">
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">
+                Separated link
+              </NavDropdown.Item>
+            </NavDropdown>
                         </Nav>
                         <Nav>
                             <Button id="login-btn"
