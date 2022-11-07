@@ -5,14 +5,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import './NavBar.css';
-
-// import Landing from '../pages/Landing/Landing'
-// import NavTabs from '../components/NavTabs';
 import { Link } from "react-router-dom";
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function NavBar(props) {
     const [username] = React.useState(localStorage.getItem('user'));
     const [logged] = React.useState(localStorage.getItem('logged'));
+    const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
 
     const handleLogOut = () => {
         localStorage.removeItem('logged');
@@ -46,7 +45,16 @@ export default function NavBar(props) {
             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Button href={'/login'} id="login-btn" variant="outline-primary">Log In</Button>
+                            <Button id="login-btn"
+                             variant="outline-primary" onClick={() => loginWithRedirect()}>
+                                Log In
+                            </Button>
+                            {
+                                isAuthenticated && <Button id="logout-btn"
+                                variant="outline-primary" onClick={() => logout({ returnTo: window.location.origin })}>
+                                    Log Out
+                                </Button>
+                            }
                             <Button href={'/signup'} id="signup-btn" variant="primary">Get Started</Button>
                         </Nav>
                     </Navbar.Collapse>
