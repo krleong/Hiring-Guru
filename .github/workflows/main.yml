@@ -24,21 +24,21 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build backend code
-        run: cd ./Milestones/M1/ThrowawayPrototype/backend/hiring_guru_be && ./gradlew build && cd -
+        run: cd ./Milestones/M3/HorizontalPrototype/backend/hiring_guru_be && ./gradlew build && cd -
 
       - name: Build Frontend and push
         uses: docker/build-push-action@v2
         with:
-          context: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/
-          file: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/Dockerfile.prod
+          context: ./Milestones/M3/HorizontalPrototype/frontend/hiring_guru_fe/
+          file: ./Milestones/M3/HorizontalPrototype/frontend/hiring_guru_fe/Dockerfile.prod
           push: true
           tags: broadsword007/hiring_guru:latest
       
       - name: Build Backend and push
         uses: docker/build-push-action@v2
         with:
-          context: ./Milestones/M1/ThrowawayPrototype/backend/hiring_guru_be/
-          file: ./Milestones/M1/ThrowawayPrototype/backend/hiring_guru_be/Dockerfile.prod
+          context: ./Milestones/M3/HorizontalPrototype/backend/hiring_guru_be/
+          file: ./Milestones/M3/HorizontalPrototype/backend/hiring_guru_be/Dockerfile.prod
           push: true
           tags: broadsword007/hiring_guru_backend:latest
       
@@ -56,10 +56,10 @@ jobs:
           flags: 'g'
 
       - name: Generate Frontend Deployment Package
-        run: cd ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe && zip -r deploy.zip * -x "**node_modules**" && cd -
+        run: cd ./Milestones/M3/HorizontalPrototype/frontend/hiring_guru_fe && zip -r deploy.zip * -x "**node_modules**" && cd -
       
       - name: Generate Backend Deployment Package
-        run: cd ./Milestones/M1/ThrowawayPrototype/backend/hiring_guru_be && zip -r deploy.zip * && cd -
+        run: cd ./Milestones/M3/HorizontalPrototype/backend/hiring_guru_be && zip -r deploy.zip * && cd -
 
       - name: Deploy Frontend to EB
         uses: einaregilsson/beanstalk-deploy@v16
@@ -70,7 +70,7 @@ jobs:
           environment_name: "Hiringguru-prod"
           version_label: "docker-app-${{ steps.format-time.outputs.replaced }}"
           region: us-west-1
-          deployment_package: ./Milestones/M1/ThrowawayPrototype/frontend/hiring_guru_fe/deploy.zip
+          deployment_package: ./Milestones/M3/HorizontalPrototype/frontend/hiring_guru_fe/deploy.zip
       
       - name: Deploy Backend to EB
         uses: einaregilsson/beanstalk-deploy@v16
@@ -81,4 +81,4 @@ jobs:
           environment_name: "Hiringgurubackend-prod"
           version_label: "docker-app-${{ steps.format-time.outputs.replaced }}"
           region: us-west-1
-          deployment_package: ./Milestones/M1/ThrowawayPrototype/backend/hiring_guru_be/deploy.zip
+          deployment_package: ./Milestones/M3/HorizontalPrototype/backend/hiring_guru_be/deploy.zip
