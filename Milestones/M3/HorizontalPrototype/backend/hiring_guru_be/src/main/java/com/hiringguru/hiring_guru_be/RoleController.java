@@ -61,7 +61,7 @@ public class RoleController {
     }
     @GetMapping({"/companies/{companyid}/roles/search"})//searches to see if a role exists
     public String searchRoles(@PathVariable int companyid){
-        boolean bool= rorepo.existsById(companyid);
+        boolean bool= rorepo.existsById(companyid-1);
         if(bool)
             return "Found a role with a matching id!";
 
@@ -71,7 +71,13 @@ public class RoleController {
 
     @DeleteMapping({"/companies/{companyid}/roles"})//delete a role that matches a certain ID
     public String deleteRoleById(@PathVariable int companyid ) {
-        this.jobrepo.deleteById(companyid-1);
+        Role role = this.rorepo.findById(companyid-1).get();
+        Company company = this.comprepo.findById(companyid).get();
+        comprepo.save(company);
+        rorepo.save(role);
+        this.rorepo.deleteById(companyid-1);
+        this.comprepo.deleteById(companyid);
+
         return "Deleted Succesfully!";
 
     }

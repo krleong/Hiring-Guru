@@ -76,7 +76,12 @@ public class CompanyController {
 
     @DeleteMapping({"/companies/{id}"})//delete a company that matches a certain ID
     public String deleteCompanyById(@PathVariable int id) {
-        this.comprepo.deleteById(id);
+        Company company = this.comprepo.findById(id).get();
+        Role role = this.rorepo.findById(id-1).get();
+        comprepo.save(company);
+        rorepo.save(role);
+        this.rorepo.deleteById(id-1);
+       // this.comprepo.deleteById(id);
         return "Deleted Succesfully!";
     }
 }

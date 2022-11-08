@@ -47,7 +47,7 @@ public class JobController {
         this.jobrepo.save(job);
     }
     @PatchMapping({"/roles/{roleid}/jobs"})// updates an existing job
-    public void updateJob(@RequestParam("id")int roleid, @RequestParam("title") String title, @RequestParam("location") String location,@RequestParam("description")String description ){
+    public void updateJob(@PathVariable int roleid, @RequestParam("title") String title, @RequestParam("location") String location,@RequestParam("description")String description ){
         Role role = this.rorepo.findById(roleid).get();
         Job job = new Job(title, location, JobType.FULL_TIME, description, role);
         this.jobrepo.save(job);
@@ -68,7 +68,7 @@ public class JobController {
     }
     @GetMapping({"/roles/jobs/search"})//searches to see if a job with a certain ID exists
     public String searchJob(int roleid){
-        boolean bool= rorepo.existsById(roleid);
+        boolean bool= rorepo.existsById(roleid-1);
         if(bool)
             return "Found a role with a matching id!";
 
@@ -78,8 +78,8 @@ public class JobController {
 
     @DeleteMapping({"/roles/{roleid}/jobs"})//delete a job that matches a certain ID
     public String deleteJobById(@PathVariable int roleid) {
-        this.comprepo.deleteById(roleid+1);
-        this.rorepo.deleteById(roleid);
+        Job job = this.jobrepo.findById(roleid-1).get();
+        this.jobrepo.save(job);
         this.jobrepo.deleteById(roleid-1);
         return "Deleted Succesfully!";
     }
