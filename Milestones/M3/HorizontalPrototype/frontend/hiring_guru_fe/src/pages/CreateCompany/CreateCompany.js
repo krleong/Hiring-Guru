@@ -3,7 +3,7 @@ import './CreateCompany.css';
 function CreateCompany() {
     return (
         <div>
-            <div class="job-posts-container">
+            <div className="job-posts-container">
                 <h1>Company Creation Posts Coming Soon</h1>
             </div>
         </div>

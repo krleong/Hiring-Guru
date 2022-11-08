@@ -34,7 +34,7 @@ export default function NavBar(props) {
                             <Nav.Link href={'/about'}>About Us</Nav.Link>
                             <NavDropdown title="DEV" id="collasible-nav-dropdown">
                                 <NavDropdown.Item href={'/create-company'}>Company Creation</NavDropdown.Item>
-                                <NavDropdown.Item href={'/dashboard'}>Account Dashboard</NavDropdown.Item>
+                                <NavDropdown.Item href={'/dashboard/home'}>Account Dashboard</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="#action/3.4">
                                     Separated link

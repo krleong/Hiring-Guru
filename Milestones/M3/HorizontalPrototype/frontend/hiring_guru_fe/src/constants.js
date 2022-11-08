@@ -1,4 +1,5 @@
 import Member from "./dataclasses/Member";
+import Employee from "./dataclasses/Employee";
 
 const MEMBERS = [
     new Member(
@@ -45,4 +46,35 @@ const MEMBERS = [
     ),
 ]
 
-export { MEMBERS }
+const EMPLOYEES = [
+    new Employee(
+        "Farhan Haider",
+        "shaider1@sfsu.edu",
+        "123-456-7890",
+        "Team Lead",
+        "Binary Brains"
+    ),
+    new Employee(
+        "Kenny Leong",
+        "kleong2@mail.sfsu.edu",
+        "123-456-7890",
+        "Frontend Lead",
+        "Binary Brains"
+    ),
+    new Employee(
+        "Khushi Khanna",
+        "kkhanna@sfsu.edu",
+        "123-456-7890",
+        "Backend Lead",
+        "Binary Brains"
+    ),
+    new Employee(
+        "Mamadou Bah",
+        "mbah1@mail.sfsu.edu",
+        "123-456-7890",
+        "Frontend Engineer",
+        "Binary Brains"
+    ),
+]
+
+export { MEMBERS, EMPLOYEES }

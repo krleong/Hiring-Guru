@@ -15,6 +15,9 @@ import Footer from './components/Footer/Footer.js';
 
 import Tagline from './components/Tagline/Tagline.js';
 
+
+import Employee from "./components/Employee/Employee";
+
 function HiringGuru() {
 
   return (
@@ -33,11 +36,11 @@ function HiringGuru() {
             <Route path='/login' element={<LogIn />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/create-company' element={<CreateCompany />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/about/members/:index/detail' element={<Member />} />
+            <Route path='/dashboard/*' element={<Dashboard />} />
+            <Route path='/about/members/:index/detail' element={<Member /> } />
           </Routes>
         </div>
-          <Footer></Footer>
+        <Footer></Footer>
       </div>
     </Router>
   );

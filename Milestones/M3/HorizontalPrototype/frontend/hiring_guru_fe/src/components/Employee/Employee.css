@@ -1,0 +1,10 @@
+.narrow-width {
+    max-width: 1px;
+    /* margin: auto; */
+}
+
+.form-check .form-check-input {
+    text-align: center;
+    vertical-align: middle;
+
+}
