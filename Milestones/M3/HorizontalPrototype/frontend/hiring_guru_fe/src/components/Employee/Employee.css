@@ -3,6 +3,7 @@
     /* margin: auto; */
 }
 
+/* TODO: center checkboxes in table col */
 .form-check .form-check-input {
     text-align: center;
     vertical-align: middle;

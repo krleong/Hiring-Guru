@@ -22,6 +22,8 @@ main {
   height: 100%;
   position: absolute;
   box-shadow: -3px 0 5px 0 #555;
+  z-index: 10;
+  text-decoration: none;
 }
 
 .b-example-divider {
@@ -103,6 +105,10 @@ main {
 
 .lh-tight {
   line-height: 1.25;
+}
+
+.dropdown-parent-link {
+  text-decoration: none;
 }
 
 /* FOR MOBILE SCREENS */

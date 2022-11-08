@@ -8,17 +8,17 @@ import './NavBar.css';
 
 // import Landing from '../pages/Landing/Landing'
 // import NavTabs from '../components/NavTabs';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 export default function NavBar(props) {
-    const [username] = React.useState(localStorage.getItem('user'));
-    const [logged] = React.useState(localStorage.getItem('logged'));
+    // const [username] = React.useState(localStorage.getItem('user'));
+    // const [logged] = React.useState(localStorage.getItem('logged'));
 
-    const handleLogOut = () => {
-        localStorage.removeItem('logged');
-        localStorage.removeItem('user');
-        localStorage.removeItem('userid');
-    }
+    // const handleLogOut = () => {
+    //     localStorage.removeItem('logged');
+    //     localStorage.removeItem('user');
+    //     localStorage.removeItem('userid');
+    // }
 
     return (
         <div>

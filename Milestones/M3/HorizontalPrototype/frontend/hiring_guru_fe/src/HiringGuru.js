@@ -1,5 +1,5 @@
-import React, { Component, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import React, { /*Component, useEffect */} from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './HiringGuru.css';
 import About from './pages/About/About'
 import Landing from './pages/Landing/Landing'
@@ -12,11 +12,7 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import Member from './components/Member/Member';
 import NavBar from './components/NavBar/NavBar.js';
 import Footer from './components/Footer/Footer.js';
-
 import Tagline from './components/Tagline/Tagline.js';
-
-
-import Employee from "./components/Employee/Employee";
 
 function HiringGuru() {
 

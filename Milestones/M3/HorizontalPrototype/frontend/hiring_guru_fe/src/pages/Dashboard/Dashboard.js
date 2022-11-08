@@ -1,10 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import { Route, Routes } from 'react-router-dom';
-import Table from 'react-bootstrap/Table';
-import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+// import Table from 'react-bootstrap/Table';
+// import Form from 'react-bootstrap/Form';
+// import Dropdown from 'react-bootstrap/Dropdown';
+// import DropdownButton from 'react-bootstrap/DropdownButton';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import SideNav from "../../components/SideNav/SideNav";
 import Employee from "../../components/Employee/Employee";
@@ -37,7 +37,7 @@ export default function Dashboard() {
                 <Routes>
                     <Route path='/home' element={<div><Breadcrumb>
                         <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                    </Breadcrumb><h1>Dashboard Home</h1><HeroBanner text1="WELCOME!" text2="Click on Sidebar to navigate the Dashboard." /></div>} />
+                    </Breadcrumb><h1>Dashboard Home</h1><HeroBanner text1="WELCOME, {{user}}!" text2="Click on Sidebar to navigate the Dashboard." /></div>} />
                 </Routes>
                 <Routes>
                     <Route path='/employees' element={<Employee />} />

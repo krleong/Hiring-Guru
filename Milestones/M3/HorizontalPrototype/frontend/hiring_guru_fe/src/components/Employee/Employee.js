@@ -1,8 +1,7 @@
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { EMPLOYEES } from '../../constants';
 import './Employee.css';
 import React from 'react';
-import { useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -12,8 +11,8 @@ import Pagination from 'react-bootstrap/Pagination';
 import '../../pages/Dashboard/Dashboard.css';
 
 function Employee() {
-    const params = useParams();
-    const employee = EMPLOYEES[params.index]
+    // const params = useParams();
+    // const employee = EMPLOYEES[params.index]
 
     let active = 1;
     let items = [];
@@ -75,7 +74,17 @@ function Employee() {
                 </tbody>
             </Table>
             <div>
-                <Pagination>{items}</Pagination>
+                {/* For individual pagination elements  */}
+            {/* <Pagination>{items}</Pagination> */}
+                <Pagination>
+                    <Pagination.First />
+                    <Pagination.Prev />
+                    <Pagination.Ellipsis />
+                    <Pagination.Item active>{1}</Pagination.Item>
+                    <Pagination.Ellipsis />
+                    <Pagination.Next />
+                    <Pagination.Last />
+                </Pagination>
             </div>
         </div>
     );
