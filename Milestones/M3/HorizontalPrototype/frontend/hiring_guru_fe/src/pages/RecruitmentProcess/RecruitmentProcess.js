@@ -1,20 +1,20 @@
 import './RecruitmentProcess.css';
 import Dropdown from "react-bootstrap/Dropdown";
-import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {/*Modal,*/ OverlayTrigger, Tooltip } from "react-bootstrap";
 import {
     ArrowBarDown,
     ArrowBarUp,
     ArrowDown,
     Filter,
-    HeartFill,
-    Pencil,
+    // HeartFill,
+    // Pencil,
     PencilFill,
     Trash3Fill
 } from "react-bootstrap-icons";
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, /*useEffect,*/ useState } from "react";
 import Button from "react-bootstrap/Button";
-import {ApplicationContext} from "../../HiringGuru";
-import {Dialog} from "../../components/Dialog/Dialog";
+import { ApplicationContext } from "../../HiringGuru";
+import { Dialog } from "../../components/Dialog/Dialog";
 
 const JobRoles = [
     {
@@ -106,9 +106,9 @@ function RecruitmentStepDialog(props) {
                         Title
                     </label>
                     <input className="form-control" id="recruitmentStageTitleInput"
-                           placeholder="Enter title ..."
-                           value={props.stepTitle}
-                           onChange={props.onTitleChange}
+                        placeholder="Enter title ..."
+                        value={props.stepTitle}
+                        onChange={props.onTitleChange}
                     />
                 </div>
                 <div className="mb-3">
@@ -116,18 +116,18 @@ function RecruitmentStepDialog(props) {
                         Description
                     </label>
                     <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                              rows="5" placeholder="Enter description ..."
-                              value={props.stepDescription}
-                              onChange={props.onDescriptionChange}
+                        rows="5" placeholder="Enter description ..."
+                        value={props.stepDescription}
+                        onChange={props.onDescriptionChange}
                     >
-                        </textarea>
+                    </textarea>
                 </div>
                 <select className="form-select" aria-label="Default select example"
-                        value={
-                            props.selectedStageType ||
-                            "Select the type of this recruitment stage"
-                        }
-                        onChange={props.onStageTypeChange}
+                    value={
+                        props.selectedStageType ||
+                        "Select the type of this recruitment stage"
+                    }
+                    onChange={props.onStageTypeChange}
                 >
                     <option disabled>Select the type of this recruitment stage</option>
                     {
@@ -172,8 +172,8 @@ function RecruitmentProcess() {
     const moveStepUp = (index) => {
         console.log("Moving step up")
         let process = recruitmentProcessState.recruitmentProcess
-        const saveState = process[index-1]
-        process[index-1] = process[index]
+        const saveState = process[index - 1]
+        process[index - 1] = process[index]
         process[index] = saveState
         setRecruitmentProcessState({
             ...recruitmentProcessState,
@@ -183,8 +183,8 @@ function RecruitmentProcess() {
     const moveStepDown = (index) => {
         console.log("Moving step down")
         let process = recruitmentProcessState.recruitmentProcess
-        const saveState = process[index+1]
-        process[index+1] = process[index]
+        const saveState = process[index + 1]
+        process[index + 1] = process[index]
         process[index] = saveState
         setRecruitmentProcessState({
             ...recruitmentProcessState,
@@ -196,7 +196,7 @@ function RecruitmentProcess() {
     const modifyRecruitmentStep = () => {
         let newSteps = []
         for (let i = 0; i < recruitmentProcessState.recruitmentProcess.length; i++) {
-            if(i===modifyRecruitmentStepFormState.index) {
+            if (i === modifyRecruitmentStepFormState.index) {
                 newSteps.push({
                     type: RecruitmentStepType[modifyRecruitmentStepFormState.type],
                     title: modifyRecruitmentStepFormState.title,
@@ -219,16 +219,16 @@ function RecruitmentProcess() {
 
     const createRecruitmentStep = () => {
         let errors = []
-        if(!createRecruitmentStepFormState.title || createRecruitmentStepFormState.title.length === 0) {
+        if (!createRecruitmentStepFormState.title || createRecruitmentStepFormState.title.length === 0) {
             errors.push("Please provide a title for this stage")
         }
-        if(!createRecruitmentStepFormState.description || createRecruitmentStepFormState.description.length === 0) {
+        if (!createRecruitmentStepFormState.description || createRecruitmentStepFormState.description.length === 0) {
             errors.push("Please provide a description for this stage")
         }
-        if(!createRecruitmentStepFormState.type || createRecruitmentStepFormState.type.length === 0) {
+        if (!createRecruitmentStepFormState.type || createRecruitmentStepFormState.type.length === 0) {
             errors.push("Please select the type of this stage")
         }
-        if(errors.length > 0) {
+        if (errors.length > 0) {
             setCreateRecruitmentStepFormState({
                 ...createRecruitmentStepFormState,
                 showCreationDialog: true,
@@ -405,10 +405,10 @@ function RecruitmentProcess() {
                             {
                                 recruitmentProcessState.recruitmentProcess.map((step, index) => {
                                     const lenSteps = recruitmentProcessState.recruitmentProcess.length
-                                    return(
+                                    return (
                                         <div key={`index-${step.title}`} className={"recruitment-pipeline-step row"}>
                                             <div className={"step-number-container container-all-center col-1"}>
-                                                <Button disabled={true} className={"step-number btn btn-circle btn-sm"} variant="primary">{index+1}</Button>
+                                                <Button disabled={true} className={"step-number btn btn-circle btn-sm"} variant="primary">{index + 1}</Button>
                                             </div>
                                             <div className={"step-detail-container col-9"}>
                                                 <div className={"step-detail"}>
@@ -427,22 +427,22 @@ function RecruitmentProcess() {
                                                             }
                                                         >
                                                             <button type="button" className="btn btn-circle btn-sm btn-success"
-                                                                    onClick={() => {
-                                                                        let stepType
-                                                                        Object.keys(RecruitmentStepType).map((k) => {
-                                                                            if(RecruitmentStepType[k].ui === step.type.ui) {
-                                                                                stepType = k
-                                                                            }
-                                                                        })
-                                                                        setModifyRecruitmentStepFormState({
-                                                                            ...modifyRecruitmentStepFormState,
-                                                                            title: step.title,
-                                                                            description: step.detail,
-                                                                            type: stepType,
-                                                                            showModificationDialog: true,
-                                                                            index: index
-                                                                        })
-                                                                    }}
+                                                                onClick={() => {
+                                                                    let stepType
+                                                                    Object.keys(RecruitmentStepType).map((k) => {
+                                                                        if (RecruitmentStepType[k].ui === step.type.ui) {
+                                                                            stepType = k
+                                                                        }
+                                                                    })
+                                                                    setModifyRecruitmentStepFormState({
+                                                                        ...modifyRecruitmentStepFormState,
+                                                                        title: step.title,
+                                                                        description: step.detail,
+                                                                        type: stepType,
+                                                                        showModificationDialog: true,
+                                                                        index: index
+                                                                    })
+                                                                }}
                                                             >
                                                                 <PencilFill></PencilFill>
                                                             </button>
@@ -456,29 +456,29 @@ function RecruitmentProcess() {
                                                             }
                                                         >
                                                             <button type="button" className="btn btn-circle btn-sm btn-danger"
-                                                                    onClick={() => appContext.openDialog(
-                                                                        "Are you sure?",
-                                                                        [
-                                                                            {
-                                                                                title: "Close",
-                                                                                handler: appContext.closeDialog,
-                                                                                variant: "secondary"
-                                                                            },
-                                                                            {
-                                                                                title: "Remove stage",
-                                                                                handler: () => removeRecruitmentStep(index),
-                                                                                variant: "primary"
-                                                                            }
-                                                                        ],
-                                                                        "Once deleted, this can't be undone. Are you sure you want to proceed?"
-                                                                    )}
+                                                                onClick={() => appContext.openDialog(
+                                                                    "Are you sure?",
+                                                                    [
+                                                                        {
+                                                                            title: "Close",
+                                                                            handler: appContext.closeDialog,
+                                                                            variant: "secondary"
+                                                                        },
+                                                                        {
+                                                                            title: "Remove stage",
+                                                                            handler: () => removeRecruitmentStep(index),
+                                                                            variant: "primary"
+                                                                        }
+                                                                    ],
+                                                                    "Once deleted, this can't be undone. Are you sure you want to proceed?"
+                                                                )}
                                                             >
                                                                 <Trash3Fill></Trash3Fill>
                                                             </button>
                                                         </OverlayTrigger>
                                                     </div>
                                                     {
-                                                        index!==0 && <div className={"icon-container"}>
+                                                        index !== 0 && <div className={"icon-container"}>
                                                             <OverlayTrigger
                                                                 placement="bottom"
                                                                 overlay={
@@ -492,14 +492,14 @@ function RecruitmentProcess() {
                                                         </div>
                                                     }
                                                     {
-                                                        index!==lenSteps-1 && <div className={"icon-container"}>
+                                                        index !== lenSteps - 1 && <div className={"icon-container"}>
                                                             <OverlayTrigger
                                                                 placement="bottom"
                                                                 overlay={
                                                                     <Tooltip>Move stage one step down</Tooltip>
                                                                 }
                                                             >
-                                                                <button type="button" onClick={() => moveStepDown(index)}  className="btn btn-circle btn-sm btn-warning">
+                                                                <button type="button" onClick={() => moveStepDown(index)} className="btn btn-circle btn-sm btn-warning">
                                                                     <ArrowBarDown></ArrowBarDown>
                                                                 </button>
                                                             </OverlayTrigger>
@@ -508,7 +508,7 @@ function RecruitmentProcess() {
                                                 </div>
                                             </div>
                                             {
-                                                index!==lenSteps-1 && <div className={"step-detail-footer col-12"}>
+                                                index !== lenSteps - 1 && <div className={"step-detail-footer col-12"}>
                                                     <div className={"connector-arrow-container container-all-center"}>
                                                         <ArrowDown></ArrowDown>
                                                     </div>

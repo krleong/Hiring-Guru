@@ -11,7 +11,7 @@ function SideNav() {
                     </a>
                     <ul className="list-unstyled ps-0">
                         <li className="mb-1">
-                            <a className="dropdown-parent-link" href="/dashboard/teams">
+                            <a className="dropdown-parent-link" href="/dashboard/home">
                                 <button className="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
                                     My Teams
                                 </button>
@@ -19,23 +19,23 @@ function SideNav() {
                             <div className="collapse show" id="home-collapse">
                                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                     <li><a href="/dashboard/employees" className="link-dark rounded" >Employees</a></li>
-                                    <li><a href="/#" className="link-dark rounded">Roles</a></li>
-                                    <li><a href="/#" className="link-dark rounded">Positions</a></li>
-                                    <li><a href="/#" className="link-dark rounded">Hiring Pipeline</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Roles</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Positions</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Hiring Pipeline</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li className="mb-1">
-                            <a className="dropdown-parent-link" href="/#">
+                            <a className="dropdown-parent-link" href="/dashboard/home">
                                 <button className="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
                                     Something Else
                                 </button>
                             </a>
                             <div className="collapse show" id="home-collapse">
                                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="/#" className="link-dark rounded">Item 1</a></li>
-                                    <li><a href="/#" className="link-dark rounded">Item 2</a></li>
-                                    <li><a href="/#" className="link-dark rounded">Item 3</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Item 1</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Item 2</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Item 3</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -46,8 +46,8 @@ function SideNav() {
                             </button>
                             <div className="collapse" id="account-collapse">
                                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="/#" className="link-dark rounded">Overview</a></li>
-                                    <li><a href="/#" className="link-dark rounded">Settings</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Overview</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Settings</a></li>
                                 </ul>
                             </div>
                         </li>
