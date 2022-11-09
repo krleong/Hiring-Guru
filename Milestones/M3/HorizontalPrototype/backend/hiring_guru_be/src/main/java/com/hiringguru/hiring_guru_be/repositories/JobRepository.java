@@ -10,8 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface JobRepository extends CrudRepository<Job, Integer> {
     @Query(
-            value = "select j.*FROM Job j join role r on j.role_id=r.id join company c on r.company_id=c.id",
+            value = "select * from Job",
             nativeQuery = true
     )
     List<Job> queryJob(JobType jobType, String queryString);
+
 }
