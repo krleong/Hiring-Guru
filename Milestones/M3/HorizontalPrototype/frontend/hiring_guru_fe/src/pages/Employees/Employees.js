@@ -30,7 +30,7 @@ function Employees() {
                 <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
                 <Breadcrumb.Item active>Company Management: Employees</Breadcrumb.Item>
             </Breadcrumb>
-            <GeneralSearch/>
+            <GeneralSearch />
 
             <h1>Employees</h1>
             <Table striped bordered hover>
@@ -65,9 +65,10 @@ function Employees() {
                                 <td>{employee.position}</td>
                                 <td>{employee.company}</td>
                                 <td><DropdownButton id="dropdown-basic-button" title="Action">
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Contact</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-2">Edit Details</Dropdown.Item>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item href="#/action-3">Remove</Dropdown.Item>
                                 </DropdownButton></td>
                             </tr>
                         )
@@ -76,7 +77,7 @@ function Employees() {
             </Table>
             <div>
                 {/* For individual pagination elements  */}
-            {/* <Pagination>{items}</Pagination> */}
+                {/* <Pagination>{items}</Pagination> */}
                 <Pagination>
                     <Pagination.First />
                     <Pagination.Prev />

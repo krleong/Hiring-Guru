@@ -67,8 +67,10 @@ function JobApps() {
                                 <td>{employee.company}</td>
                                 <td>11/10/2022 at 9:00 AM</td>
                                 <td><DropdownButton id="dropdown-basic-button" title="Action">
-                                    <Dropdown.Item href="#/action-1">Accept/Decline</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Email</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Contact</Dropdown.Item>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item href="#/action-2">Accept</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Decline</Dropdown.Item>
                                 </DropdownButton></td>
                             </tr>
                         )
