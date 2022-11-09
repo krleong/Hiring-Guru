@@ -94,8 +94,6 @@ function HiringGuru() {
               <Route path='/about/members/:index/detail' element={<Member />} />
             </Routes>
           </div>
-            <Footer></Footer>
-        </div>
       </ApplicationContext.Provider>
     </Router>
   );
