@@ -34,7 +34,11 @@ export default function NavBar(props) {
                             <NavDropdown title="DEV" id="collasible-nav-dropdown">
                             <NavDropdown.Item href={'/create-company'}>Company Creation</NavDropdown.Item> 
                             <NavDropdown.Item href={'/create-job'}>Create Your Job</NavDropdown.Item> 
+<<<<<<< HEAD
                             <NavDropdown.Item href={'/job-referral'}>Job Referral</NavDropdown.Item>
+=======
+                            <NavDropdown.Item href={'/recruitment-process'}>Recruitment Process</NavDropdown.Item>
+>>>>>>> 277924c1bafa4bd130a10de2e333809936805e68
               <NavDropdown.Item href="#action/3.2">
                 Another action
               </NavDropdown.Item>
