@@ -21,14 +21,7 @@ const JobRoles = [
         ui: 'Job Posts',
         server: 'JOB_POSTS'
     },
-    {
-        ui: 'CEO',
-        server: 'CEO'
-    },
-    {
-        ui: 'Job Posts',
-        server: 'Job Posts'
-    }
+
 ]
 
 const RecruitmentStepType = {
@@ -56,29 +49,32 @@ const RecruitmentStepType = {
 
 const RecruitmentPipelineSoftwareEngineer = [
     {
-        title: "First Technical Interview",
+        title: "Software Engineer",
         Location: "San Francisco",
         Employment: "Full-Time",
         Workplace: "On-site",
-        detail: "First interview should be with a Software Engineer. It should cover basic" +
-            " concepts like OOP, DS and Problem Solving."
+        detail: "An IT professional who designs, develops and maintains computer software at a company. They " + 
+       "use their creativity and technical skills and apply the principles of software engineering to help " +
+        "solve new and ongoing problems for an organization."
     },
     {
-        type: RecruitmentStepType.Interview,
-        title: "Second Technical Interview",
-        detail: "First interview should be with a Software Engineer. It should cover advanced" +
-            " aspects like Algorithms, Design and Networks."
+        title: "Product Manager",
+        Location: "New York",
+        Employment: "Part-Time",
+        Workplace: "Remote",
+        detail: "A professional who combines both product planning and marketing to manage" + 
+        "the entire life cycle of one project. They're responsible for gathering customer" +
+        "requirements and defining their vision with engineering as well as overseeing product" +
+        "strategy, pricing and positioning strategies." 
     },
     {
-        type: RecruitmentStepType.ProgrammingTest,
-        title: "HackerRank Test",
-        detail: "First interview should be with a Software Engineer. It should cover all" +
-            " the technical aspects like OOP, DB, DS, Algorithms and Networks."
-    },
-    {
-        type: RecruitmentStepType.Interview,
-        title: "HR Interview",
-        detail: "HR Interview should cover discussion about personality and salary package."
+        title: "Data Analyst",
+        Location: "San Francisco",
+        Employment: "Internship",
+        Workplace: "On-site",
+        detail: "Data analysts are responsible for analyzing data using statistical techniques, " +
+        "implementing and maintaining databases, gathering data from primary and secondary sources, " +
+        "identifying, analyzing and interpreting trends from the data." 
     },
 ]
 
@@ -341,13 +337,7 @@ function RecruitmentProcess() {
                         title: e.target.value
                     })
                 }}
-                 errors={createRecruitmentStepFormState.errors}
-                onLocationChange={(e) => {
-                    setCreateRecruitmentStepFormState({
-                        ...createRecruitmentStepFormState,
-                        Location: e.target.value
-                    })
-                }}
+                
                 errors={createRecruitmentStepFormState.errors}
                 onEmploymentChange={(e) => {
                     setCreateRecruitmentStepFormState({
@@ -433,7 +423,7 @@ function RecruitmentProcess() {
                         <div className="input-group input-group-sm">
                             <Dropdown className={"input-group-text"}>
                                 <Dropdown.Toggle id="dropdown-basic">
-                                    <Filter /> Select Job Role
+                                    <Filter /> Select Job Post
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     {
@@ -469,7 +459,7 @@ function RecruitmentProcess() {
                                     })
                                 }}
                             >
-                                Add a new stage
+                                Post a new Job
                             </Button>
                         </div>
                         <div className={"recruitment-pipeline-detail"}>
@@ -479,7 +469,6 @@ function RecruitmentProcess() {
                                     return (
                                         <div key={`index-${step.title}`} className={"recruitment-pipeline-step row"}>
                                             <div className={"step-number-container container-all-center col-1"}>
-                                                <Button disabled={true} className={"step-number btn btn-circle btn-sm"} variant="primary">{index + 1}</Button>
                                             </div>
                                             <div className={"step-detail-container col-9"}>
                                                 <div className={"step-detail"}>
@@ -555,39 +544,19 @@ function RecruitmentProcess() {
                                                     </div>
                                                     {
                                                         index !== 0 && <div className={"icon-container"}>
-                                                            <OverlayTrigger
-                                                                placement="bottom"
-                                                                overlay={
-                                                                    <Tooltip>Move Job one step up</Tooltip>
-                                                                }
-                                                            >
-                                                                <button type="button" onClick={() => moveStepUp(index)} className="btn btn-circle btn-sm btn-warning">
-                                                                    <ArrowBarUp></ArrowBarUp>
-                                                                </button>
-                                                            </OverlayTrigger>
+                                                            
                                                         </div>
                                                     }
                                                     {
                                                         index !== lenSteps - 1 && <div className={"icon-container"}>
-                                                            <OverlayTrigger
-                                                                placement="bottom"
-                                                                overlay={
-                                                                    <Tooltip>Move Job one step down</Tooltip>
-                                                                }
-                                                            >
-                                                                <button type="button" onClick={() => moveStepDown(index)} className="btn btn-circle btn-sm btn-warning">
-                                                                    <ArrowBarDown></ArrowBarDown>
-                                                                </button>
-                                                            </OverlayTrigger>
+                                                        
                                                         </div>
                                                     }
                                                 </div>
                                             </div>
                                             {
                                                 index !== lenSteps - 1 && <div className={"step-detail-footer col-12"}>
-                                                    <div className={"connector-arrow-container container-all-center"}>
-                                                        <ArrowDown></ArrowDown>
-                                                    </div>
+                                                   
                                                 </div>
                                             }
                                         </div>
