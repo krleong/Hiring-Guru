@@ -8,12 +8,11 @@ import Pricing from './pages/Pricing/Pricing';
 import LogIn from './pages/LogIn/LogIn';
 import SignUp from './pages/SignUp/SignUp';
 import CreateCompany from './pages/CreateCompany/CreateCompany';
-import FreeTrial from './pages/FreeTrial/FreeTrial';
 import CreateJob from './pages/CreateJob/CreateJob';
+import JobReferral from './pages/JobReferral/JobReferral';
 import Member from './components/Member/Member';
 import NavBar from './components/NavBar/NavBar.js';
 import Footer from './components/Footer/Footer.js';
-
 import Tagline from './components/Tagline/Tagline.js';
 
 function HiringGuru() {
@@ -36,8 +35,8 @@ function HiringGuru() {
             <Route path='/login' element={<LogIn />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/create-company' element={<CreateCompany />} />
-            <Route path='/free-trial' element={<FreeTrial/>} />
             <Route path='/create-job' element={<CreateJob/>} />
+            <Route path='/job-referral' element={<JobReferral/>} />
             <Route path='/about/members/:index/detail' element={<Member />} />
           </Routes>
         </div>

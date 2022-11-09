@@ -54,7 +54,7 @@ function CreateJob() {
                 <textarea id="CompanyDesc" name="CompanyDesc" rows="10" cols="40"></textarea>
             </div>
             <div className="Submit2-container">
-            <Button href={'/free-trial'} id="free-trial-btn" variant="primary">Post Job</Button>
+            <Button href={'/'} id="dashboard-btn" variant="primary">Post Job</Button>
             </div>
             </div>
 
