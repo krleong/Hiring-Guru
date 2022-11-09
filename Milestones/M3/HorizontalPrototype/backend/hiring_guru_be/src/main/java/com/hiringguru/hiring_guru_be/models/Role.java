@@ -19,19 +19,19 @@ public class Role {
     @GeneratedValue(
             strategy = GenerationType.AUTO
     )
-    private int id;
+    public int id;
     @Column(
             nullable = false
     )
-    private String title;
+    public String title;
     @Column(
             nullable = false
     )
-    private String expectations;
+    public  String expectations;
     @Column(
             nullable = false
     )
-    private String benefits;
+    public  String benefits;
     @ManyToOne(
             cascade = {CascadeType.ALL},
             optional = false
@@ -40,7 +40,7 @@ public class Role {
             name = "company_id",
             referencedColumnName = "id"
     )
-    private Company company;
+    public Company company;
 
     public Role() {
     }
@@ -51,8 +51,17 @@ public class Role {
         this.expectations = expectations;
         this.benefits = benefits;
         this.company = company;
+
     }
 
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle(){
+        return this.title;
+  }
 
     public String getExpectations() {
         return this.expectations;
@@ -63,6 +72,6 @@ public class Role {
     }
 
     public Company getCompany() {
-        return this.company;
+        return company;
     }
 }

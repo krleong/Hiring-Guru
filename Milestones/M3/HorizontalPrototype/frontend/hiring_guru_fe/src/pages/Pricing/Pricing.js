@@ -3,7 +3,7 @@ import './Pricing.css';
 function Pricing() {
     return (
         <div>
-            <div class="pricing-container">
+            <div className="pricing-container">
                 <h1>Pricing Coming Soon</h1>
             </div>
         </div>
