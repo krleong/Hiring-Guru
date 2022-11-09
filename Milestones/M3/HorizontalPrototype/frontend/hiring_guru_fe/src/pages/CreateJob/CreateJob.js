@@ -56,9 +56,10 @@ const RecruitmentStepType = {
 
 const RecruitmentPipelineSoftwareEngineer = [
     {
-        type: RecruitmentStepType.Interview,
         title: "First Technical Interview",
         Location: "San Francisco",
+        Employment: "Full-Time",
+        Workplace: "On-site",
         detail: "First interview should be with a Software Engineer. It should cover basic" +
             " concepts like OOP, DS and Problem Solving."
     },
@@ -483,7 +484,9 @@ function RecruitmentProcess() {
                                             <div className={"step-detail-container col-9"}>
                                                 <div className={"step-detail"}>
                                                     <div className={'step-title h5'}>{step.title}</div>
-                                                    <div className={'step-type'}>{step.type.ui}</div>
+                                                    <div className={'step-location'}>{step.Location}</div>
+                                                    <div className={'step-employment'}>{step.Employment}</div>
+                                                    <div className={'step-Workplace'}>{step.Workplace}</div>
                                                     <div className={'step-description'}>{step.detail}</div>
                                                 </div>
                                             </div>
@@ -493,7 +496,7 @@ function RecruitmentProcess() {
                                                         <OverlayTrigger
                                                             placement="bottom"
                                                             overlay={
-                                                                <Tooltip>Update stage</Tooltip>
+                                                                <Tooltip>Update Job</Tooltip>
                                                             }
                                                         >
                                                             <button type="button" className="btn btn-circle btn-sm btn-success"
@@ -507,6 +510,9 @@ function RecruitmentProcess() {
                                                                     setModifyRecruitmentStepFormState({
                                                                         ...modifyRecruitmentStepFormState,
                                                                         title: step.title,
+                                                                        employment: step.employment,
+                                                                        location: step.location,
+                                                                        Workplace: step.workplace,
                                                                         description: step.detail,
                                                                         type: stepType,
                                                                         showModificationDialog: true,
@@ -522,7 +528,7 @@ function RecruitmentProcess() {
                                                         <OverlayTrigger
                                                             placement="bottom"
                                                             overlay={
-                                                                <Tooltip>Delete stage</Tooltip>
+                                                                <Tooltip>Delete Job</Tooltip>
                                                             }
                                                         >
                                                             <button type="button" className="btn btn-circle btn-sm btn-danger"
@@ -535,7 +541,7 @@ function RecruitmentProcess() {
                                                                             variant: "secondary"
                                                                         },
                                                                         {
-                                                                            title: "Remove stage",
+                                                                            title: "Remove Job",
                                                                             handler: () => removeRecruitmentStep(index),
                                                                             variant: "primary"
                                                                         }
@@ -552,7 +558,7 @@ function RecruitmentProcess() {
                                                             <OverlayTrigger
                                                                 placement="bottom"
                                                                 overlay={
-                                                                    <Tooltip>Move stage one step up</Tooltip>
+                                                                    <Tooltip>Move Job one step up</Tooltip>
                                                                 }
                                                             >
                                                                 <button type="button" onClick={() => moveStepUp(index)} className="btn btn-circle btn-sm btn-warning">
@@ -566,7 +572,7 @@ function RecruitmentProcess() {
                                                             <OverlayTrigger
                                                                 placement="bottom"
                                                                 overlay={
-                                                                    <Tooltip>Move stage one step down</Tooltip>
+                                                                    <Tooltip>Move Job one step down</Tooltip>
                                                                 }
                                                             >
                                                                 <button type="button" onClick={() => moveStepDown(index)} className="btn btn-circle btn-sm btn-warning">
