@@ -1,4 +1,4 @@
-#heading {
+.heading {
     font-size: 0.6em;
     padding: 6em 0 6em 0;
     color: white;
@@ -6,7 +6,7 @@
     text-align: center;
 }
 
-#colorful {
+.colorful {
     /* position: absolute;
     font-family: 'Helvetica';
     top: 50%;
@@ -17,14 +17,16 @@
     font-size: 4em;
     background: rgb(0, 102, 211);
     background: linear-gradient(90deg, rgba(0, 102, 211, 1) 0%, rgba(164, 89, 173, 1) 50%, rgba(255, 66, 101, 1) 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-#colorful:hover {
+.colorful:hover {
     color: rgba(255, 255, 255, .1);
     background: linear-gradient(to right, rgba(0, 102, 211, 1), rgba(164, 89, 173, 1), rgb(255, 45, 83), rgb(88, 86, 217), rgb(52, 170, 220), rgb(76, 217, 105), rgba(0, 102, 211, 1));
     background-size: 400%;
+    background-clip: text;
     -webkit-background-clip: text;
     font-weight: 900;
     font-size: 4em;
@@ -42,7 +44,7 @@
 
 }
 
-#quoted {
+.quoted {
     margin-top: 0.5em;
     color: gray;
     font-style: italic;
@@ -51,7 +53,7 @@
 /* LARGE (NON-MOBILE) SCREENS */
 @media only screen and (min-width: 65rem) {
 
-    #heading {
+    .heading {
         font-size: 1em;
         padding: 6em 2em 5em 2em;
     }

@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { Component } from "react";
 import './HeroBanner.css';
 
-function HeroBanner() {
-    return (
-        <div>
-            <div id="heading">
-                <h1 id="colorful">WE ARE THE #1 HIRING SOLUTIONS PLATFORM IN THE NATION!</h1>
-                <h3 id="quoted">—CEO, Hiring Guru</h3>
-            </div> 
-        </div>
+class HeroBanner extends Component {
+    state = {
+        text1: this.props.text1,
+        text2: this.props.text2
 
-    );
+    };
+
+    render() {
+        return (
+            <div>
+                <div className="heading">
+                    <h1 className="colorful">{this.props.text1}</h1>
+                    <h3 className="quoted">{this.props.text2}</h3>
+                </div>
+            </div>
+        )
+    }
 }
 
 export default HeroBanner;
