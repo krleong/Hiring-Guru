@@ -11,9 +11,6 @@ import Pagination from 'react-bootstrap/Pagination';
 import GeneralSearch from '../../components/GeneralSearch/GeneralSearch';
 
 function Employees() {
-    // const params = useParams();
-    // const employee = EMPLOYEES[params.index]
-
     let active = 1;
     let items = [];
     for (let number = 1; number <= 1; number++) {
@@ -90,6 +87,10 @@ function Employees() {
             </div>
         </div>
     );
+
+
+
+
 }
 
 export default Employees;
