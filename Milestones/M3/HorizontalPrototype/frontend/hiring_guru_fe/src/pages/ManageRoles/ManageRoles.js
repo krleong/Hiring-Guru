@@ -62,30 +62,30 @@ function RoleEditDialog(props) {
                         Title
                     </label>
                     <input className="form-control" id="recruitmentStageTitleInput"
-                        placeholder="Enter title ..."
+                        placeholder="Enter title"
                         value={props.roleTitle}
                         onChange={props.onTitleChange}
                     />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Benefits
+                        Expectations
                     </label>
                     <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                        rows="5" placeholder="Enter description ..."
-                        value={props.benefits}
-                        onChange={props.onBenefitsChange}
+                        rows="5" placeholder="Enter description"
+                        value={props.expectations}
+                        onChange={props.onExpectationsChange}
                     >
                     </textarea>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Expectations
+                        Benefits
                     </label>
                     <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                        rows="5" placeholder="Enter description ..."
-                        value={props.expectations}
-                        onChange={props.onExpectationsChange}
+                        rows="5" placeholder="Enter description"
+                        value={props.benefits}
+                        onChange={props.onBenefitsChange}
                     >
                     </textarea>
                 </div>
@@ -149,8 +149,8 @@ export function ManageRoles() {
             setRoles([
                 ...roles,
                 {
-                    expectations: createRoleDialogState.expectations,
                     title: createRoleDialogState.title,
+                    expectations: createRoleDialogState.expectations,
                     benefits: createRoleDialogState.benefits
                 }
             ])
@@ -188,8 +188,8 @@ export function ManageRoles() {
                                     show: true,
                                     index: index,
                                     title: row.title,
-                                    benefits: row.benefits,
                                     expectations: row.expectations,
+                                    benefits: row.benefits,
                                 })
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
@@ -241,8 +241,8 @@ export function ManageRoles() {
             for (let i = 0; i < roles.length; i++) {
                 if (i === editDialogState.index) {
                     newRoles.push({
-                        expectations: editDialogState.expectations,
                         title: editDialogState.title,
+                        expectations: editDialogState.expectations,
                         benefits: editDialogState.benefits
                     })
                 }
@@ -257,11 +257,6 @@ export function ManageRoles() {
             })
         }
     }
-
-    const selectRow = {
-        mode: 'checkbox',
-        clickToSelect: true
-    };
 
     return (
         <div className={"page-container"}>

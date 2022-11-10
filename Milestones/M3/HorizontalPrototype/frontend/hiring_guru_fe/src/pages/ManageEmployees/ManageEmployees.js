@@ -13,22 +13,26 @@ import Button from "react-bootstrap/Button";
 const Employees = [
     {
         title: "Farhan Haider",
-        position: "Team Lead",
+        job: "Software Engineer",
+        role: "Team Lead",
         company: "Binary Brains"
     },
     {
         title: "Kenny Leong",
-        position: "Frontend Engineer",
+        job: "Software Engineer",
+        role: "Frontend Engineer",
         company: "Binary Brains"
     },
     {
         title: "Mamadou Bah",
-        position: "Frontend Engineer",
+        job: "Software Engineer",
+        role: "Frontend Engineer",
         company: "Binary Brains"
     },
     {
         title: "Khushi Khanna",
-        position: "Backend Engineer",
+        job: "Software Engineer",
+        role: "Backend Engineer",
         company: "Binary Brains"
     }
 ]
@@ -45,7 +49,7 @@ function EmployeeEditDialog(props) {
                     {
                         props.errors.map((error, index) => {
                             return (
-                                <div key={`create-rect-step-error-${index}`} className="alert alert-danger" position="alert">
+                                <div key={`create-rect-step-error-${index}`} className="alert alert-danger" role="alert">
                                     {error}
                                 </div>
                             )
@@ -64,25 +68,36 @@ function EmployeeEditDialog(props) {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Company
+                        Job Title
                     </label>
-                    <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                        rows="5" placeholder="Enter company name"
-                        value={props.company}
-                        onChange={props.onCompanyChange}
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="Enter job title"
+                        value={props.job}
+                        onChange={props.onJobChange}
                     >
-                    </textarea>
+                    </input>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Position
+                        Role
                     </label>
-                    <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                        rows="5" placeholder="Enter position title"
-                        value={props.position}
-                        onChange={props.onPositionChange}
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="Enter role"
+                        value={props.role}
+                        onChange={props.onRoleChange}
                     >
-                    </textarea>
+                    </input>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Company
+                    </label>
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="Enter company name"
+                        value={props.company}
+                        onChange={props.onCompanyChange}
+                    >
+                    </input>
                 </div>
             </div>
         </Dialog>
@@ -96,17 +111,19 @@ export function ManageEmployees() {
     const [editDialogState, setEditDialogState] = useState({
         show: false,
         title: "",
+        job: "",
+        role: "",
         company: "",
-        position: "",
         errors: [],
         index: undefined
     })
 
-    const [createEmployeeDialogState, setCreateEmployeeDialogState] = useState({
+    const [createDialogState, setCreateDialogState] = useState({
         show: false,
         title: "",
+        job: "",
+        role: "",
         company: "",
-        position: "",
         errors: [],
         index: undefined
     })
@@ -124,18 +141,21 @@ export function ManageEmployees() {
 
     const createEmployee = () => {
         let errors = []
-        if (!createEmployeeDialogState.title || createEmployeeDialogState.title.length === 0) {
+        if (!createDialogState.title || createDialogState.title.length === 0) {
             errors.push("Employee title cannot be empty")
         }
-        if (!createEmployeeDialogState.position || createEmployeeDialogState.position.length === 0) {
-            errors.push("Employee position cannot be empty")
+        if (!createDialogState.job || createDialogState.job.length === 0) {
+            errors.push("Employee job title cannot be empty")
         }
-        if (!createEmployeeDialogState.company || createEmployeeDialogState.company.length === 0) {
+        if (!createDialogState.role || createDialogState.role.length === 0) {
+            errors.push("Employee role cannot be empty")
+        }
+        if (!createDialogState.company || createDialogState.company.length === 0) {
             errors.push("Employee company cannot be empty")
         }
         if (errors.length > 0) {
-            setCreateEmployeeDialogState({
-                ...createEmployeeDialogState,
+            setCreateDialogState({
+                ...createDialogState,
                 show: true,
                 errors: errors,
             })
@@ -144,13 +164,14 @@ export function ManageEmployees() {
             setEmployees([
                 ...roles,
                 {
-                    position: createEmployeeDialogState.position,
-                    title: createEmployeeDialogState.title,
-                    company: createEmployeeDialogState.company
+                    title: createDialogState.title,
+                    company: createDialogState.company,
+                    job: createDialogState.job,
+                    role: createDialogState.role,
                 }
             ])
-            setCreateEmployeeDialogState({
-                ...createEmployeeDialogState,
+            setCreateDialogState({
+                ...createDialogState,
                 show: false,
             })
         }
@@ -162,8 +183,12 @@ export function ManageEmployees() {
             text: 'Name'
         },
         {
-            dataField: 'position',
-            text: 'Position'
+            dataField: 'job',
+            text: 'Job Title'
+        },
+        {
+            dataField: 'role',
+            text: 'Role'
         },
         {
             dataField: 'company',
@@ -183,8 +208,9 @@ export function ManageEmployees() {
                                     show: true,
                                     index: index,
                                     title: row.title,
+                                    job: row.job,
+                                    role: row.role,
                                     company: row.company,
-                                    position: row.position,
                                 })
                             }}>Contact</DropdownItem> */}
                             <DropdownItem onClick={() => {
@@ -193,8 +219,9 @@ export function ManageEmployees() {
                                     show: true,
                                     index: index,
                                     title: row.title,
+                                    job: row.job,
+                                    role: row.role,
                                     company: row.company,
-                                    position: row.position,
                                 })
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
@@ -226,10 +253,13 @@ export function ManageEmployees() {
     const handleEditEmployee = () => {
         let errors = []
         if (!editDialogState.title || editDialogState.title.length === 0) {
-            errors.push("Employee title cannot be empty")
+            errors.push("Employee name cannot be empty")
         }
-        if (!editDialogState.position || editDialogState.position.length === 0) {
-            errors.push("Employee position cannot be empty")
+        if (!editDialogState.job || editDialogState.job.length === 0) {
+            errors.push("Employee job title cannot be empty")
+        }
+        if (!editDialogState.role || editDialogState.role.length === 0) {
+            errors.push("Employee role cannot be empty")
         }
         if (!editDialogState.company || editDialogState.company.length === 0) {
             errors.push("Employee company cannot be empty")
@@ -246,8 +276,9 @@ export function ManageEmployees() {
             for (let i = 0; i < roles.length; i++) {
                 if (i === editDialogState.index) {
                     newEmployees.push({
-                        position: editDialogState.position,
                         title: editDialogState.title,
+                        job: editDialogState.job,
+                        role: editDialogState.role,
                         company: editDialogState.company
                     })
                 }
@@ -262,11 +293,6 @@ export function ManageEmployees() {
             })
         }
     }
-
-    const selectRow = {
-        mode: 'checkbox',
-        clickToSelect: true
-    };
 
     return (
         <div className={"page-container"}>
@@ -297,10 +323,16 @@ export function ManageEmployees() {
                         title: e.target.value
                     })
                 }}
-                onPositionChange={(e) => {
+                onJobChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        position: e.target.value
+                        job: e.target.value
+                    })
+                }}
+                onRoleChange={(e) => {
+                    setEditDialogState({
+                        ...editDialogState,
+                        role: e.target.value
                     })
                 }}
                 onCompanyChange={(e) => {
@@ -310,18 +342,19 @@ export function ManageEmployees() {
                     })
                 }}
                 name={editDialogState.title}
-                position={editDialogState.position}
+                job={editDialogState.job}
+                role={editDialogState.role}
                 company={editDialogState.company}
             />
             <EmployeeEditDialog
-                show={createEmployeeDialogState.show}
+                show={createDialogState.show}
                 title={"Add Employee"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setCreateEmployeeDialogState({
-                                ...createEmployeeDialogState,
+                            setCreateDialogState({
+                                ...createDialogState,
                                 show: false
                             })
                         },
@@ -333,28 +366,34 @@ export function ManageEmployees() {
                         variant: "primary"
                     }
                 ]}
-                errors={createEmployeeDialogState.errors}
+                errors={createDialogState.errors}
                 onNameChange={(e) => {
-                    setCreateEmployeeDialogState({
-                        ...createEmployeeDialogState,
+                    setCreateDialogState({
+                        ...createDialogState,
                         title: e.target.value
                     })
                 }}
-                onPositionChange={(e) => {
-                    setCreateEmployeeDialogState({
-                        ...createEmployeeDialogState,
-                        position: e.target.value
+                onJobChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        job: e.target.value
+                    })
+                }}
+                onRoleChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        role: e.target.value
                     })
                 }}
                 onCompanyChange={(e) => {
-                    setCreateEmployeeDialogState({
-                        ...createEmployeeDialogState,
+                    setCreateDialogState({
+                        ...createDialogState,
                         company: e.target.value
                     })
                 }}
-                name={createEmployeeDialogState.title}
-                position={createEmployeeDialogState.position}
-                company={createEmployeeDialogState.company}
+                name={createDialogState.title}
+                role={createDialogState.role}
+                company={createDialogState.company}
             />
             <div>
                 <ToolkitProvider
@@ -378,8 +417,8 @@ export function ManageEmployees() {
 
                                     <Button variant="primary"
                                         onClick={() => {
-                                            setCreateEmployeeDialogState({
-                                                ...createEmployeeDialogState,
+                                            setCreateDialogState({
+                                                ...createDialogState,
                                                 show: true
                                             })
                                         }}

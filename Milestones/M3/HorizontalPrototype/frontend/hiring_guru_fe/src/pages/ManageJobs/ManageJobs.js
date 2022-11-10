@@ -38,10 +38,10 @@ const Jobs = [
         description: "Data analysts are responsible for analyzing data using statistical techniques, " +
             "implementing and maintaining databases, gathering data from primary and secondary sources, " +
             "identifying, analyzing and interpreting trends from the data."
-    },
+    }
 ]
 
-function JobEditDialog(props) {
+function EmployeeEditDialog(props) {
     return (
         <Dialog
             show={props.show}
@@ -49,7 +49,7 @@ function JobEditDialog(props) {
             actions={props.actions}
         >
             <div>
-                <div className={"job-step-errors"}>
+                <div className={"recruitment-step-errors"}>
                     {
                         props.errors.map((error, index) => {
                             return (
@@ -61,52 +61,52 @@ function JobEditDialog(props) {
                     }
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="jobStageTitleInput" className="form-label">
+                    <label htmlFor="recruitmentStageNameInput" className="form-label">
                         Job Title
                     </label>
-                    <input className="form-control" id="jobStageTitleInput"
-                        placeholder="Enter title"
-                        value={props.jobTitle}
-                        onChange={props.onTitleChange}
+                    <input className="form-control" id="recruitmentStageNameInput"
+                        placeholder="Enter job title"
+                        value={props.name}
+                        onChange={props.onNameChange}
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="jobStageWorkplaceInput" className="form-label">
-                        Workplace Type
+                    <label htmlFor="recruitmentStageNameInput" className="form-label">
+                        Workplace
                     </label>
-                    <input className="form-control" id="jobStageWorkplaceInput"
-                        placeholder="On-site, Remote, Hybrid"
-                        value={props.jobWorkplace}
+                    <input className="form-control" id="recruitmentStageNameInput"
+                        placeholder="San Francisco, CA"
+                        value={props.workplace}
                         onChange={props.onWorkplaceChange}
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="jobStageEmploymentInput" className="form-label">
+                    <label htmlFor="recruitmentStageNameInput" className="form-label">
                         Employment Type
                     </label>
-                    <input className="form-control" id="jobStageEmploymentInput"
+                    <input className="form-control" id="recruitmentStageNameInput"
                         placeholder="Full-Time, Part-Time, Internship"
-                        value={props.jobEmployment}
+                        value={props.employment}
                         onChange={props.onEmploymentChange}
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="jobLocationInput" className="form-label">
-                        Job Location
+                    <label htmlFor="recruitmentStageNameInput" className="form-label">
+                        Location
                     </label>
-                    <input className="form-control" id="jobLocationInput"
+                    <input className="form-control" id="recruitmentStageNameInput"
                         placeholder="San Francisco, CA"
-                        value={props.Location}
+                        value={props.location}
                         onChange={props.onLocationChange}
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="jobStageDescriptionInput" className="form-label">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
                         Description
                     </label>
-                    <textarea className="form-control" id="jobStageDescriptionInput"
-                        rows="5" placeholder="Enter description ..."
-                        value={props.stepDescription}
+                    <textarea className="form-control" id="recruitmentStageDescriptionInput"
+                        rows="5" placeholder="Enter description"
+                        value={props.description}
                         onChange={props.onDescriptionChange}
                     >
                     </textarea>
@@ -123,20 +123,20 @@ export function ManageJobs() {
     const [editDialogState, setEditDialogState] = useState({
         show: false,
         title: "",
-        workplace: "",
-        employment: "",
         location: "",
+        employment: "",
+        workplace: "",
         description: "",
         errors: [],
         index: undefined
     })
 
-    const [createJobDialogState, setCreateJobDialogState] = useState({
+    const [createDialogState, setCreateDialogState] = useState({
         show: false,
         title: "",
-        workplace: "",
-        employment: "",
         location: "",
+        employment: "",
+        workplace: "",
         description: "",
         errors: [],
         index: undefined
@@ -144,7 +144,7 @@ export function ManageJobs() {
 
     const appContext = useContext(ApplicationContext);
 
-    const removeJob = (index) => {
+    const removeEmployee = (index) => {
         let newJobs = []
         for (let i = 0; i < roles.length; i++) {
             i !== index && newJobs.push(roles[i])
@@ -153,26 +153,27 @@ export function ManageJobs() {
         setJobs(newJobs)
     }
 
-    const createJob = () => {
+    const createEmployee = () => {
         let errors = []
-        if (!createJobDialogState.title || createJobDialogState.title.length === 0) {
+        if (!createDialogState.title || createDialogState.title.length === 0) {
             errors.push("Job title cannot be empty")
         }
-        if (!createJobDialogState.workplace || createJobDialogState.workplace.length === 0) {
-            errors.push("Job workplace cannot be empty")
+        if (!createDialogState.workplace || createDialogState.workplace.length === 0) {
+            errors.push("Workplace type cannot be empty")
         }
-        if (!createJobDialogState.employment || createJobDialogState.employment.length === 0) {
-            errors.push("Job employment cannot be empty")
+        if (!createDialogState.employment || createDialogState.employment.length === 0) {
+            errors.push("Employment type cannot be empty")
         }
-        if (!createJobDialogState.location || createJobDialogState.location.length === 0) {
-            errors.push("Job location cannot be empty")
+        if (!createDialogState.location || createDialogState.location.length === 0) {
+            errors.push("Location title cannot be empty")
         }
-        if (!createJobDialogState.description || createJobDialogState.description.length === 0) {
+
+        if (!createDialogState.description || createDialogState.description.length === 0) {
             errors.push("Job description cannot be empty")
         }
         if (errors.length > 0) {
-            setCreateJobDialogState({
-                ...createJobDialogState,
+            setCreateDialogState({
+                ...createDialogState,
                 show: true,
                 errors: errors,
             })
@@ -181,15 +182,15 @@ export function ManageJobs() {
             setJobs([
                 ...roles,
                 {
-                    title: createJobDialogState.title,
-                    workplace: createJobDialogState.workplace,
-                    employment: createJobDialogState.employment,
-                    location: createJobDialogState.location,
-                    description: createJobDialogState.description,
+                    title: createDialogState.title,
+                    location: createDialogState.location,
+                    employment: createDialogState.employment,
+                    workplace: createDialogState.workplace,
+                    description: createDialogState.description,
                 }
             ])
-            setCreateJobDialogState({
-                ...createJobDialogState,
+            setCreateDialogState({
+                ...createDialogState,
                 show: false,
             })
         }
@@ -198,7 +199,7 @@ export function ManageJobs() {
     const columns = [
         {
             dataField: 'title',
-            text: 'Title'
+            text: 'Name'
         },
         {
             dataField: 'workplace',
@@ -224,15 +225,26 @@ export function ManageJobs() {
                             <Filter /> Action
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
+                            {/* <DropdownItem onClick={() => {
+                                setEditDialogState({
+                                    ...editDialogState,
+                                    show: true,
+                                    index: index,
+                                    title: row.title,
+                                    job: row.job,
+                                    role: row.role,
+                                    company: row.company,
+                                })
+                            }}>Contact</DropdownItem> */}
                             <DropdownItem onClick={() => {
                                 setEditDialogState({
                                     ...editDialogState,
                                     show: true,
                                     index: index,
                                     title: row.title,
-                                    workplace: row.workplace,
-                                    employment: row.employment,
                                     location: row.location,
+                                    employment: row.employment,
+                                    workplace: row.workplace,
                                     description: row.description,
                                 })
                             }}>Edit</DropdownItem>
@@ -246,14 +258,14 @@ export function ManageJobs() {
                                             variant: "secondary"
                                         },
                                         {
-                                            title: "Remove job",
-                                            handler: () => removeJob(index),
+                                            title: "Remove employee",
+                                            handler: () => removeEmployee(index),
                                             variant: "primary"
                                         }
                                     ],
                                     "Once deleted, this can't be undone. Are you sure you want to proceed?"
                                 )
-                            }}>Delete</DropdownItem>
+                            }}>Remove</DropdownItem>
                         </Dropdown.Menu>
                     </Dropdown>
                 )
@@ -268,13 +280,17 @@ export function ManageJobs() {
             errors.push("Job title cannot be empty")
         }
         if (!editDialogState.workplace || editDialogState.workplace.length === 0) {
-            errors.push("Job workplace cannot be empty")
+            errors.push("Workplace type cannot be empty")
         }
         if (!editDialogState.employment || editDialogState.employment.length === 0) {
-            errors.push("Job employment cannot be empty")
+            errors.push("Employment type cannot be empty")
         }
         if (!editDialogState.location || editDialogState.location.length === 0) {
-            errors.push("Job location cannot be empty")
+            errors.push("Location title cannot be empty")
+        }
+
+        if (!editDialogState.description || editDialogState.description.length === 0) {
+            errors.push("Job description cannot be empty")
         }
         if (errors.length > 0) {
             setEditDialogState({
@@ -289,10 +305,10 @@ export function ManageJobs() {
                 if (i === editDialogState.index) {
                     newJobs.push({
                         title: editDialogState.title,
-                        workplace: editDialogState.workplace,
-                        employment: editDialogState.employment,
                         location: editDialogState.location,
-                        description: editDialogState.description,
+                        employment: editDialogState.employment,
+                        workplace: editDialogState.workplace,
+                        description: editDialogState.description
                     })
                 }
                 else {
@@ -307,14 +323,9 @@ export function ManageJobs() {
         }
     }
 
-    const selectRow = {
-        mode: 'checkbox',
-        clickToSelect: true
-    };
-
     return (
         <div className={"page-container"}>
-            <JobEditDialog
+            <EmployeeEditDialog
                 show={editDialogState.show}
                 title={"Edit Job"}
                 actions={[
@@ -335,7 +346,7 @@ export function ManageJobs() {
                     }
                 ]}
                 errors={editDialogState.errors}
-                onTitleChange={(e) => {
+                onNameChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
                         title: e.target.value
@@ -359,20 +370,27 @@ export function ManageJobs() {
                         location: e.target.value
                     })
                 }}
-                jobTitle={editDialogState.title}
+                onDescriptionChange={(e) => {
+                    setEditDialogState({
+                        ...editDialogState,
+                        description: e.target.value
+                    })
+                }}
+                name={editDialogState.title}
                 workplace={editDialogState.workplace}
                 employment={editDialogState.employment}
                 location={editDialogState.location}
+                description={editDialogState.description}
             />
-            <JobEditDialog
-                show={createJobDialogState.show}
+            <EmployeeEditDialog
+                show={createDialogState.show}
                 title={"Create Job"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setCreateJobDialogState({
-                                ...createJobDialogState,
+                            setCreateDialogState({
+                                ...createDialogState,
                                 show: false
                             })
                         },
@@ -380,33 +398,46 @@ export function ManageJobs() {
                     },
                     {
                         title: "Create",
-                        handler: createJob,
+                        handler: createEmployee,
                         variant: "primary"
                     }
                 ]}
-                errors={createJobDialogState.errors}
-                onTitleChange={(e) => {
-                    setCreateJobDialogState({
-                        ...createJobDialogState,
+                errors={createDialogState.errors}
+                onNameChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
                         title: e.target.value
                     })
                 }}
-                onExpectationsChange={(e) => {
-                    setCreateJobDialogState({
-                        ...createJobDialogState,
-                        expectations: e.target.value
+                onWorkplaceChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        workplace: e.target.value
                     })
                 }}
-                onBenefitsChange={(e) => {
-                    setCreateJobDialogState({
-                        ...createJobDialogState,
-                        benefits: e.target.value
+                onEmploymentChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        employment: e.target.value
                     })
                 }}
-                jobTitle={createJobDialogState.title}
-                workplace={createJobDialogState.workplace}
-                employment={createJobDialogState.employment}
-                location={createJobDialogState.location}
+                onLocationChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        location: e.target.value
+                    })
+                }}
+                onDescriptionChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        description: e.target.value
+                    })
+                }}
+                name={createDialogState.title}
+                workplace={createDialogState.workplace}
+                employment={createDialogState.employment}
+                location={createDialogState.location}
+                description={createDialogState.description}
             />
             <div>
                 <ToolkitProvider
@@ -417,7 +448,7 @@ export function ManageJobs() {
                 >
                     {
                         props => (
-                            <div className={"job-roles-container"}>
+                            <div className={"employees-container"}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
                                     <Breadcrumb.Item active>Recruitment: Jobs</Breadcrumb.Item>
@@ -430,8 +461,8 @@ export function ManageJobs() {
 
                                     <Button variant="primary"
                                         onClick={() => {
-                                            setCreateJobDialogState({
-                                                ...createJobDialogState,
+                                            setCreateDialogState({
+                                                ...createDialogState,
                                                 show: true
                                             })
                                         }}
