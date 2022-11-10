@@ -77,8 +77,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: "Hiring Guru Backend"
-          environment_name: "Hiringgurubackend-prod"
+          application_name: "Hiring Guru Backend Prod"
+          environment_name: "Hiringgurubackendprod-env"
           version_label: "docker-app-${{ steps.format-time.outputs.replaced }}"
           region: us-west-1
           deployment_package: ./Milestones/M3/HorizontalPrototype/backend/hiring_guru_be/deploy.zip
