@@ -10,7 +10,7 @@ import SignUp from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import CreateCompany from './pages/CreateCompany/CreateCompany';
 import FreeTrial from './pages/FreeTrial/FreeTrial';
-import ManageJobs from './pages/ManageJobs/ManageJobs';
+import {ManageJobs} from './pages/ManageJobs/ManageJobs';
 import ApplyForJob from './pages/ApplyForJob/ApplyForJob';
 import JobReferral2 from './pages/JobReferral2/JobReferral2';
 import Member from './components/Member/Member';

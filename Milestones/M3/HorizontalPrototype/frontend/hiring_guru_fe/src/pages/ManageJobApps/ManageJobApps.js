@@ -1,4 +1,4 @@
-import './ManageJobs.css';
+import './ManageJobApps.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import React, { useContext, useState } from "react";
@@ -10,38 +10,38 @@ import { Dialog } from "../../components/Dialog/Dialog";
 import { ApplicationContext } from "../../HiringGuru";
 import Button from "react-bootstrap/Button";
 
-const Jobs = [
+const JobApps = [
     {
-        title: "Software Engineer",
-        location: "San Francisco",
-        employment: "Full-Time",
-        workplace: "On-site",
-        description: "An IT professional who designs, develops and maintains computer software at a company. They " +
-            "use their creativity and technical skills and apply the principles of software engineering to help " +
-            "solve new and ongoing problems for an organization."
+        title: "Farhan Haider",
+        job: "Software Engineer",
+        role: "Team Lead",
+        company: "Binary Brains",
+        timestamp: "11/10/2022 at 9:00 AM"
     },
     {
-        title: "Product Manager",
-        location: "New York",
-        employment: "Part-Time",
-        workplace: "Remote",
-        description: "A professional who combines both product planning and marketing to manage" +
-            "the entire life cycle of one project. They're responsible for gathering customer" +
-            "requirements and defining their vision with engineering as well as overseeing product" +
-            "strategy, pricing and positioning strategies."
+        title: "Kenny Leong",
+        job: "Software Engineer",
+        role: "Frontend Engineer",
+        company: "Binary Brains",
+        timestamp: "11/10/2022 at 9:00 AM"
     },
     {
-        title: "Data Analyst",
-        location: "San Francisco",
-        employment: "Internship",
-        workplace: "On-site",
-        description: "Data analysts are responsible for analyzing data using statistical techniques, " +
-            "implementing and maintaining databases, gathering data from primary and secondary sources, " +
-            "identifying, analyzing and interpreting trends from the data."
+        title: "Mamadou Bah",
+        job: "Software Engineer",
+        role: "Frontend Engineer",
+        company: "Binary Brains",
+        timestamp: "11/10/2022 at 9:00 AM"
+    },
+    {
+        title: "Khushi Khanna",
+        job: "Software Engineer",
+        role: "Backend Engineer",
+        company: "Binary Brains",
+        timestamp: "11/10/2022 at 9:00 AM"
     }
 ]
 
-function EmployeeEditDialog(props) {
+function JobAppsEditDialog(props) {
     return (
         <Dialog
             show={props.show}
@@ -62,54 +62,57 @@ function EmployeeEditDialog(props) {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageNameInput" className="form-label">
-                        Job Title
+                        Candidate Name
                     </label>
                     <input className="form-control" id="recruitmentStageNameInput"
-                        placeholder="Enter job title"
+                        placeholder="First name Last name"
                         value={props.name}
                         onChange={props.onNameChange}
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="recruitmentStageNameInput" className="form-label">
-                        Workplace
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Prospective Job Title
                     </label>
-                    <input className="form-control" id="recruitmentStageNameInput"
-                        placeholder="San Francisco, CA"
-                        value={props.workplace}
-                        onChange={props.onWorkplaceChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="recruitmentStageNameInput" className="form-label">
-                        Employment Type
-                    </label>
-                    <input className="form-control" id="recruitmentStageNameInput"
-                        placeholder="Full-Time, Part-Time, Internship"
-                        value={props.employment}
-                        onChange={props.onEmploymentChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="recruitmentStageNameInput" className="form-label">
-                        Location
-                    </label>
-                    <input className="form-control" id="recruitmentStageNameInput"
-                        placeholder="San Francisco, CA"
-                        value={props.location}
-                        onChange={props.onLocationChange}
-                    />
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="Enter job title"
+                        value={props.job}
+                        onChange={props.onJobChange}
+                    >
+                    </input>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Description
+                        Prospective Role
                     </label>
-                    <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                        rows="5" placeholder="Enter description"
-                        value={props.description}
-                        onChange={props.onDescriptionChange}
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="Enter role"
+                        value={props.role}
+                        onChange={props.onRoleChange}
                     >
-                    </textarea>
+                    </input>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Prospective Company
+                    </label>
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="Enter company name"
+                        value={props.company}
+                        onChange={props.onCompanyChange}
+                    >
+                    </input>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Date and Time Submitted
+                    </label>
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="MM/DD/YEAR at 0:00 AM"
+                        value={props.timestamp}
+                        onChange={props.onTimestampChange}
+                    >
+                    </input>
                 </div>
             </div>
         </Dialog>
@@ -117,16 +120,16 @@ function EmployeeEditDialog(props) {
 }
 
 
-export function ManageJobs() {
+export function ManageJobApps() {
     const { SearchBar } = Search;
-    const [roles, setJobs] = useState(Jobs)
+    const [roles, setJobApps] = useState(JobApps)
     const [editDialogState, setEditDialogState] = useState({
         show: false,
         title: "",
-        location: "",
-        employment: "",
-        workplace: "",
-        description: "",
+        job: "",
+        role: "",
+        company: "",
+        timestamp:"",
         errors: [],
         index: undefined
     })
@@ -134,42 +137,41 @@ export function ManageJobs() {
     const [createDialogState, setCreateDialogState] = useState({
         show: false,
         title: "",
-        location: "",
-        employment: "",
-        workplace: "",
-        description: "",
+        job: "",
+        role: "",
+        company: "",
+        timestamp:"",
         errors: [],
         index: undefined
     })
 
     const appContext = useContext(ApplicationContext);
 
-    const removeEmployee = (index) => {
-        let newJobs = []
+    const removeJobApp = (index) => {
+        let newJobApps = []
         for (let i = 0; i < roles.length; i++) {
-            i !== index && newJobs.push(roles[i])
+            i !== index && newJobApps.push(roles[i])
         }
         appContext.closeDialog()
-        setJobs(newJobs)
+        setJobApps(newJobApps)
     }
 
     const createEmployee = () => {
         let errors = []
         if (!createDialogState.title || createDialogState.title.length === 0) {
-            errors.push("Job title cannot be empty")
+            errors.push("Candidate name cannot be empty")
         }
-        if (!createDialogState.workplace || createDialogState.workplace.length === 0) {
-            errors.push("Workplace type cannot be empty")
+        if (!createDialogState.job || createDialogState.job.length === 0) {
+            errors.push("Prospective job title cannot be empty")
         }
-        if (!createDialogState.employment || createDialogState.employment.length === 0) {
-            errors.push("Employment type cannot be empty")
+        if (!createDialogState.role || createDialogState.role.length === 0) {
+            errors.push("Prospective job role cannot be empty")
         }
-        if (!createDialogState.location || createDialogState.location.length === 0) {
-            errors.push("Location title cannot be empty")
+        if (!createDialogState.company || createDialogState.company.length === 0) {
+            errors.push("Prospective company cannot be empty")
         }
-
-        if (!createDialogState.description || createDialogState.description.length === 0) {
-            errors.push("Job description cannot be empty")
+        if (!createDialogState.timestamp || createDialogState.timestamp.length === 0) {
+            errors.push("Submission timestamp cannot be empty")
         }
         if (errors.length > 0) {
             setCreateDialogState({
@@ -179,14 +181,14 @@ export function ManageJobs() {
             })
         }
         else {
-            setJobs([
+            setJobApps([
                 ...roles,
                 {
                     title: createDialogState.title,
-                    location: createDialogState.location,
-                    employment: createDialogState.employment,
-                    workplace: createDialogState.workplace,
-                    description: createDialogState.description,
+                    company: createDialogState.company,
+                    job: createDialogState.job,
+                    role: createDialogState.role,
+                    timestamp: createDialogState.timestamp,
                 }
             ])
             setCreateDialogState({
@@ -202,20 +204,20 @@ export function ManageJobs() {
             text: 'Name'
         },
         {
-            dataField: 'workplace',
-            text: 'Workplace'
+            dataField: 'job',
+            text: 'Job Title'
         },
         {
-            dataField: 'employment',
-            text: 'Employment'
+            dataField: 'role',
+            text: 'Role'
         },
         {
-            dataField: 'location',
-            text: 'Location'
+            dataField: 'company',
+            text: 'Company'
         },
         {
-            dataField: 'description',
-            text: 'Description'
+            dataField: 'timestamp',
+            text: 'Timestamp'
         },
         {
             formatter: (cell, row, index) => {
@@ -242,10 +244,10 @@ export function ManageJobs() {
                                     show: true,
                                     index: index,
                                     title: row.title,
-                                    location: row.location,
-                                    employment: row.employment,
-                                    workplace: row.workplace,
-                                    description: row.description,
+                                    job: row.job,
+                                    role: row.role,
+                                    company: row.company,
+                                    timestamp:row.timestamp,
                                 })
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
@@ -258,8 +260,8 @@ export function ManageJobs() {
                                             variant: "secondary"
                                         },
                                         {
-                                            title: "Remove employee",
-                                            handler: () => removeEmployee(index),
+                                            title: "Remove job application",
+                                            handler: () => removeJobApp(index),
                                             variant: "primary"
                                         }
                                     ],
@@ -274,23 +276,22 @@ export function ManageJobs() {
         }
     ];
 
-    const handleEditJob = () => {
+    const handleEditJobApp = () => {
         let errors = []
         if (!editDialogState.title || editDialogState.title.length === 0) {
-            errors.push("Job title cannot be empty")
+            errors.push("Candidate name cannot be empty")
         }
-        if (!editDialogState.workplace || editDialogState.workplace.length === 0) {
-            errors.push("Workplace type cannot be empty")
+        if (!editDialogState.job || editDialogState.job.length === 0) {
+            errors.push("Prospective job title cannot be empty")
         }
-        if (!editDialogState.employment || editDialogState.employment.length === 0) {
-            errors.push("Employment type cannot be empty")
+        if (!editDialogState.role || editDialogState.role.length === 0) {
+            errors.push("Prospective job role cannot be empty")
         }
-        if (!editDialogState.location || editDialogState.location.length === 0) {
-            errors.push("Location title cannot be empty")
+        if (!editDialogState.company || editDialogState.company.length === 0) {
+            errors.push("Prospective company cannot be empty")
         }
-
-        if (!editDialogState.description || editDialogState.description.length === 0) {
-            errors.push("Job description cannot be empty")
+        if (!editDialogState.timestamp || editDialogState.timestamp.length === 0) {
+            errors.push("Submission timestamp cannot be empty")
         }
         if (errors.length > 0) {
             setEditDialogState({
@@ -300,22 +301,22 @@ export function ManageJobs() {
             })
         }
         else {
-            let newJobs = []
+            let newJobApps = []
             for (let i = 0; i < roles.length; i++) {
                 if (i === editDialogState.index) {
-                    newJobs.push({
+                    newJobApps.push({
                         title: editDialogState.title,
-                        location: editDialogState.location,
-                        employment: editDialogState.employment,
-                        workplace: editDialogState.workplace,
-                        description: editDialogState.description
+                        job: editDialogState.job,
+                        role: editDialogState.role,
+                        company: editDialogState.company,
+                        timestamp: editDialogState.timestamp
                     })
                 }
                 else {
-                    newJobs.push(roles[i])
+                    newJobApps.push(roles[i])
                 }
             }
-            setJobs(newJobs)
+            setJobApps(newJobApps)
             setEditDialogState({
                 ...editDialogState,
                 show: false,
@@ -325,9 +326,9 @@ export function ManageJobs() {
 
     return (
         <div className={"page-container"}>
-            <EmployeeEditDialog
+            <JobAppsEditDialog
                 show={editDialogState.show}
-                title={"Edit Job"}
+                title={"Edit Submission"}
                 actions={[
                     {
                         title: "Close",
@@ -341,7 +342,7 @@ export function ManageJobs() {
                     },
                     {
                         title: "Save",
-                        handler: handleEditJob,
+                        handler: handleEditJobApp,
                         variant: "primary"
                     }
                 ]}
@@ -352,40 +353,39 @@ export function ManageJobs() {
                         title: e.target.value
                     })
                 }}
-                onWorkplaceChange={(e) => {
+                onJobChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        workplace: e.target.value
+                        job: e.target.value
                     })
                 }}
-                
-                onEmploymentChange={(e) => {
+                onRoleChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        employment: e.target.value
+                        role: e.target.value
                     })
                 }}
-                onLocationChange={(e) => {
+                onCompanyChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        location: e.target.value
+                        company: e.target.value
                     })
                 }}
-                onDescriptionChange={(e) => {
+                onTimestampChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        description: e.target.value
+                        timestamp: e.target.value
                     })
                 }}
                 name={editDialogState.title}
-                workplace={editDialogState.workplace}
-                employment={editDialogState.employment}
-                location={editDialogState.location}
-                description={editDialogState.description}
+                job={editDialogState.job}
+                role={editDialogState.role}
+                company={editDialogState.company}
+                timestamp={editDialogState.timestamp}
             />
-            <EmployeeEditDialog
+            <JobAppsEditDialog
                 show={createDialogState.show}
-                title={"Create Job"}
+                title={"Add Submission"}
                 actions={[
                     {
                         title: "Close",
@@ -410,35 +410,34 @@ export function ManageJobs() {
                         title: e.target.value
                     })
                 }}
-                onWorkplaceChange={(e) => {
+                onJobChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        workplace: e.target.value
+                        job: e.target.value
                     })
                 }}
-                onEmploymentChange={(e) => {
+                onRoleChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        employment: e.target.value
+                        role: e.target.value
                     })
                 }}
-                onLocationChange={(e) => {
+                onCompanyChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        location: e.target.value
+                        company: e.target.value
                     })
                 }}
-                onDescriptionChange={(e) => {
+                onTimestampChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        description: e.target.value
+                        timestamp: e.target.value
                     })
                 }}
                 name={createDialogState.title}
-                workplace={createDialogState.workplace}
-                employment={createDialogState.employment}
-                location={createDialogState.location}
-                description={createDialogState.description}
+                role={createDialogState.role}
+                company={createDialogState.company}
+                timestamp={createDialogState.timestamp}
             />
             <div>
                 <ToolkitProvider
@@ -452,9 +451,9 @@ export function ManageJobs() {
                             <div className={"employees-container"}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                                    <Breadcrumb.Item active>Recruitment: Jobs</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>Recruitment: Job Apps</Breadcrumb.Item>
                                 </Breadcrumb>
-                                <h1>Manage Jobs</h1>
+                                <h1>Manage Job Apps</h1>
 
                                 <div className={"container-vcenter-hright"}>
 
@@ -467,7 +466,7 @@ export function ManageJobs() {
                                                 show: true
                                             })
                                         }}
-                                    >Create Job</Button>
+                                    >Add Submission</Button>
                                 </div>
                                 {/* <hr /> */}
                                 <BootstrapTable

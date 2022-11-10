@@ -59,15 +59,15 @@ function CreateCompany() {
         <Form.Select aria-label="Default select example">
         <Form.Label>Organization Size</Form.Label>
         <option>Organization Size</option>
-        <option value="1">0-1 emplopyees</option>
-        <option value="1">2-10 emplopyees</option>
-        <option value="1">11-50 emplopyees</option>
-        <option value="1">51-200 emplopyees</option>
-        <option value="1">201-500 emplopyees</option>
-        <option value="1">501-1,000 emplopyees</option>
-        <option value="1">1,001-5,000 emplopyees</option>
-        <option value="1">5,001-10,000 emplopyees</option>
-        <option value="1">10,000+ emplopyees</option>
+        <option value="1">0-1 employees</option>
+        <option value="1">2-10 employees</option>
+        <option value="1">11-50 employees</option>
+        <option value="1">51-200 employees</option>
+        <option value="1">201-500 employees</option>
+        <option value="1">501-1,000 employees</option>
+        <option value="1">1,001-5,000 employees</option>
+        <option value="1">5,001-10,000 employees</option>
+        <option value="1">10,000+ employees</option>
     </Form.Select>
         </Form>
         </div>
@@ -80,7 +80,7 @@ function CreateCompany() {
         <option value="1">Self-Employed</option>
         <option value="1">Government Agency</option>
         <option value="1">Nonprofit</option>
-        <option value="1">Privetly Held</option>
+        <option value="1">Privately Held</option>
         <option value="1">Partnership</option>
     </Form.Select>
         </Form>
@@ -98,7 +98,7 @@ function CreateCompany() {
               <Button id="free-trial-btn" variant="primary"
               onClick={() => {
                   loginWithRedirect({
-                      redirectUri: `${window.location.origin}/dashboard`
+                      redirectUri: `${window.location.origin}/dashboard/home`
                   })
               }}>Create Company</Button>
             </div>

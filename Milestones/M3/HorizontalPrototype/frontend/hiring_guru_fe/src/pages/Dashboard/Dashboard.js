@@ -7,14 +7,13 @@ import { Route, Routes } from 'react-router-dom';
 // import DropdownButton from 'react-bootstrap/DropdownButton';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import SideNav from "../../components/SideNav/SideNav";
-// import ManageEmployees from "../Employees/Employees";
-import ManageJobs from '../ManageJobs/ManageJobs';
-import JobApps from '../JobApps/JobApps';
+import { ManageJobApps } from '../ManageJobApps/ManageJobApps';
 import RecruitmentProcess from '../RecruitmentProcess/RecruitmentProcess';
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import './Dashboard.css';
 import { ManageRoles } from '../ManageRoles/ManageRoles';
 import { ManageEmployees } from '../ManageEmployees/ManageEmployees';
+import { ManageJobs } from '../ManageJobs/ManageJobs';
 
 export default function Dashboard() {
     useEffect(() => {
@@ -34,7 +33,7 @@ export default function Dashboard() {
                         </svg> Toggle Sidebar</a>
                     <Routes>
                         <Route path={'/home'} element={<div><Breadcrumb><Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item></Breadcrumb>
-                            <h1>Dashboard Home</h1><HeroBanner text1="WELCOME, {{user}}!" text2="Click on Sidebar to navigate the Dashboard." /></div>} />
+                            <h1>Dashboard Home</h1><HeroBanner text1="WELCOME, GUEST!" text2="Click on Sidebar to navigate the Dashboard." /></div>} />
                     </Routes>
                     <Routes>
                         <Route path={'/manage-employees'} element={<ManageEmployees />} />
@@ -46,7 +45,7 @@ export default function Dashboard() {
                         <Route path={'/manage-job-roles'} element={<ManageRoles />} />
                     </Routes>
                     <Routes>
-                        <Route path={'/job-apps'} element={<JobApps />} />
+                        <Route path={'/manage-job-apps'} element={<ManageJobApps />} />
                     </Routes>
                     <Routes>
                         <Route path={'/recruitment-process'} element={<RecruitmentProcess />} />

@@ -31,13 +31,13 @@ export default function NavBar(props) {
                             <Nav.Link href={'/jobs'}>Job Posts</Nav.Link>
                             <Nav.Link href={'/pricing'}>Pricing</Nav.Link>
                             <Nav.Link href={'/about'}>About Us</Nav.Link>
-                            <NavDropdown title="DEV" id="collasible-nav-dropdown">
+                            {/* <NavDropdown title="DEV" id="collasible-nav-dropdown">
                                 <NavDropdown.Item href={'/dashboard/home'}>Dashboard</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href={'/create-company'}>Create Company</NavDropdown.Item>
                                 <NavDropdown.Item href={'/job-apply'}>Apply For Job</NavDropdown.Item>
                                 <NavDropdown.Item href={'/job-referral'}>Job Referral</NavDropdown.Item>
-                            </NavDropdown>
+                            </NavDropdown> */}
                         </Nav>
                         <Nav>
                             {
@@ -47,7 +47,7 @@ export default function NavBar(props) {
                                 </Button> :
                                     <Button id="login-btn"
                                         variant="outline-primary" onClick={() => loginWithRedirect({
-                                        redirectUri: `${window.location.origin}/dashboard`
+                                        redirectUri: `${window.location.origin}/dashboard/home`
                                     })}>
                                         Log In
                                     </Button>
