@@ -45,7 +45,6 @@ const filterJobs = (jobs, keyword, type) => {
     keyword = keyword.toUpperCase()
     let filteredOnType = []
     let finalFiltered = []
-    debugger
     if (type === JobType.All.server) {
         filteredOnType = jobs
     } else {
@@ -60,7 +59,7 @@ const filterJobs = (jobs, keyword, type) => {
             job.title.toUpperCase().includes(keyword) ||
             job.description.toUpperCase().includes(keyword) ||
             job.location.toUpperCase().includes(keyword) ||
-            job.company.title.toUpperCase().includes(keyword)
+            job.role.company.title.toUpperCase().includes(keyword)
         ) {
             finalFiltered.push(job)
         }
@@ -85,7 +84,7 @@ function JobSearch() {
             searchFetchError: ''
         })
         axios({
-            url: `${BASE_URL}/jobs`,
+            url: `${BASE_URL}/roles/jobs`,
             method: 'get',
             timeout: 10000,
             params: {
@@ -205,7 +204,18 @@ function JobSearch() {
                     }
                     {
                         (searchState.searchStatus === JobSearchStatus.Success) &&
-                        <h4>We found {searchState.listOfJobs.length} results for "{searchState.searchString}"</h4>
+                        (
+                            searchState.searchString.length === 0?
+                                <h4>
+                                    Please enter a keyword.
+                                </h4>: (searchState.listOfJobs.length === 0?
+                                <h4>
+                                    We could not find any result for "{searchState.searchString}". Please try with a different keyword.
+                                </h4>:
+                                <h4>
+                                    We found {searchState.listOfJobs.length} results for "{searchState.searchString}"
+                                </h4>)
+                        )
                     }
                     {
                         (searchState.searchStatus === JobSearchStatus.InProgress) &&
@@ -219,13 +229,13 @@ function JobSearch() {
                 <div className={'search-results container'}>
                     
                     <div className={'search-results-data row'}>
-                        {searchState.listOfJobs.map((job, index) => {
+                        {searchState.searchString.length > 0 && searchState.listOfJobs.map((job, index) => {
                             return (
-                                <div key={`${job.title}-${job.location}-${job.company}-${index}`} className={'search-result col-12'}>
+                                <div key={`${job.title}-${job.location}-${job.role.company}-${index}`} className={'search-result col-12'}>
                                     <div className={'job'}>
                                         <div className={'job-header row'}>
                                             <div className={'company-title col-12'}>
-                                                {job.company.title}
+                                                {job.role.company.title}
                                             </div>
 
                                             <div className={'job-title col-12 h5'}>
