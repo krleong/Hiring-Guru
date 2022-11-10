@@ -98,7 +98,7 @@ function CreateCompany() {
               <Button id="free-trial-btn" variant="primary"
               onClick={() => {
                   loginWithRedirect({
-                      redirectUri: `${window.location.origin}/dashboard`
+                      redirectUri: `${window.location.origin}/dashboard/home`
                   })
               }}>Create Company</Button>
             </div>

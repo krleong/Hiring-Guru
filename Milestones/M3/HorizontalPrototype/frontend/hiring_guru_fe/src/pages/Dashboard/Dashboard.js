@@ -33,7 +33,7 @@ export default function Dashboard() {
                         </svg> Toggle Sidebar</a>
                     <Routes>
                         <Route path={'/home'} element={<div><Breadcrumb><Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item></Breadcrumb>
-                            <h1>Dashboard Home</h1><HeroBanner text1="WELCOME, {{user}}!" text2="Click on Sidebar to navigate the Dashboard." /></div>} />
+                            <h1>Dashboard Home</h1><HeroBanner text1="WELCOME, GUEST!" text2="Click on Sidebar to navigate the Dashboard." /></div>} />
                     </Routes>
                     <Routes>
                         <Route path={'/manage-employees'} element={<ManageEmployees />} />

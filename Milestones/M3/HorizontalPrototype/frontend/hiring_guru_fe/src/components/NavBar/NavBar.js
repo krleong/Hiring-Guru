@@ -47,7 +47,7 @@ export default function NavBar(props) {
                                 </Button> :
                                     <Button id="login-btn"
                                         variant="outline-primary" onClick={() => loginWithRedirect({
-                                        redirectUri: `${window.location.origin}/dashboard`
+                                        redirectUri: `${window.location.origin}/dashboard/home`
                                     })}>
                                         Log In
                                     </Button>
