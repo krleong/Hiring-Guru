@@ -1,110 +1,55 @@
 import './ManageJobs.css';
+import BootstrapTable from 'react-bootstrap-table-next';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
+import React, { useContext, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import {/*Modal,*/ OverlayTrigger, Tooltip } from "react-bootstrap";
-import {
-    ArrowBarDown,
-    ArrowBarUp,
-    ArrowDown,
-    Filter,
-    // HeartFill,
-    // Pencil,
-    PencilFill,
-    Trash3Fill
-} from "react-bootstrap-icons";
-import React, { useContext, /*useEffect,*/ useState } from "react";
-import Button from "react-bootstrap/Button";
-import { ApplicationContext } from "../../HiringGuru";
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import { Filter } from "react-bootstrap-icons";
+import DropdownItem from "react-bootstrap/DropdownItem";
 import { Dialog } from "../../components/Dialog/Dialog";
+import { ApplicationContext } from "../../HiringGuru";
+import Button from "react-bootstrap/Button";
 
-const JobRoles = [
-    {
-        ui: 'View Jobs',
-        server: 'JOB_POSTS'
-    },
-
-]
-
-const JobStepType = {
-    Interview: {
-        ui: 'Interview',
-        server: 'INTERVIEW'
-    },
-    ProgrammingTest: {
-        ui: 'Programming Test',
-        server: 'PROGRAMMING_TEST'
-    },
-    WorkplaceType: {
-        ui: 'Workplace Type',
-        server: 'WORKPLACE_TYPE'
-    },
-    Employment: {
-        ui: 'Employment',
-        server: 'EMPLOYMENT'
-    },
-    Location: {
-        ui: 'Location',
-        server: 'LOCATION'
-    },
-}
-
-const JobPipelineSoftwareEngineer = [
+const Jobs = [
     {
         title: "Software Engineer",
-        Location: "San Francisco",
-        Employment: "Full-Time",
-        Workplace: "On-site",
-        detail: "An IT professional who designs, develops and maintains computer software at a company. They " + 
-       "use their creativity and technical skills and apply the principles of software engineering to help " +
-        "solve new and ongoing problems for an organization."
+        location: "San Francisco",
+        employment: "Full-Time",
+        workplace: "On-site",
+        description: "An IT professional who designs, develops and maintains computer software at a company. They " +
+            "use their creativity and technical skills and apply the principles of software engineering to help " +
+            "solve new and ongoing problems for an organization."
     },
     {
         title: "Product Manager",
-        Location: "New York",
-        Employment: "Part-Time",
-        Workplace: "Remote",
-        detail: "A professional who combines both product planning and marketing to manage" + 
-        "the entire life cycle of one project. They're responsible for gathering customer" +
-        "requirements and defining their vision with engineering as well as overseeing product" +
-        "strategy, pricing and positioning strategies." 
+        location: "New York",
+        employment: "Part-Time",
+        workplace: "Remote",
+        description: "A professional who combines both product planning and marketing to manage" +
+            "the entire life cycle of one project. They're responsible for gathering customer" +
+            "requirements and defining their vision with engineering as well as overseeing product" +
+            "strategy, pricing and positioning strategies."
     },
     {
         title: "Data Analyst",
-        Location: "San Francisco",
-        Employment: "Internship",
-        Workplace: "On-site",
-        detail: "Data analysts are responsible for analyzing data using statistical techniques, " +
-        "implementing and maintaining databases, gathering data from primary and secondary sources, " +
-        "identifying, analyzing and interpreting trends from the data." 
+        location: "San Francisco",
+        employment: "Internship",
+        workplace: "On-site",
+        description: "Data analysts are responsible for analyzing data using statistical techniques, " +
+            "implementing and maintaining databases, gathering data from primary and secondary sources, " +
+            "identifying, analyzing and interpreting trends from the data."
     },
 ]
 
-const JobPipelineCEO = [
-    {
-        type: JobStepType.Interview,
-        title: "Interview Evaluation",
-        detail: "Interview with the founder to discuss past experience and assess personality traits."
-    },
-    {
-        type: JobStepType.Interview,
-        title: "HR Interview",
-        detail: "HR Interview should cover discussion about personality and salary package."
-    },
-]
-
-const JobPipelineRoleMap = {
-    JOB_POSTS: JobPipelineSoftwareEngineer,
-    CEO: JobPipelineCEO
-}
-
-function JobStepDialog(props) {
+function JobEditDialog(props) {
     return (
         <Dialog
             show={props.show}
-            title={"Create a new Job"}
+            title={props.title}
             actions={props.actions}
         >
             <div>
-                <div className={"Job-step-errors"}>
+                <div className={"job-step-errors"}>
                     {
                         props.errors.map((error, index) => {
                             return (
@@ -115,51 +60,51 @@ function JobStepDialog(props) {
                         })
                     }
                 </div>
-                <div className="mb-Job">
-                    <label htmlFor="JobStageTitleInput" className="form-label">
+                <div className="mb-3">
+                    <label htmlFor="jobStageTitleInput" className="form-label">
                         Job Title
                     </label>
-                    <input className="form-control" id="JobStageTitleInput"
-                        placeholder="Enter title ..."
-                        value={props.stepTitle}
+                    <input className="form-control" id="jobStageTitleInput"
+                        placeholder="Enter title"
+                        value={props.jobTitle}
                         onChange={props.onTitleChange}
                     />
                 </div>
-                <div className="mb-Work">
-                    <label htmlFor="JobStageWorkplaceInput" className="form-label">
+                <div className="mb-3">
+                    <label htmlFor="jobStageWorkplaceInput" className="form-label">
                         Workplace Type
                     </label>
-                    <input className="form-control" id="JobStageWorkplaceInput"
+                    <input className="form-control" id="jobStageWorkplaceInput"
                         placeholder="On-site, Remote, Hybrid"
-                        value={props.stepWorkplace}
+                        value={props.jobWorkplace}
                         onChange={props.onWorkplaceChange}
                     />
                 </div>
-                <div className="mb-Employment">
-                    <label htmlFor="JobStageEmploymentInput" className="form-label">
+                <div className="mb-3">
+                    <label htmlFor="jobStageEmploymentInput" className="form-label">
                         Employment Type
                     </label>
-                    <input className="form-control" id="JobStageEmploymentInput"
+                    <input className="form-control" id="jobStageEmploymentInput"
                         placeholder="Full-Time, Part-Time, Internship"
-                        value={props.stepEmployment}
+                        value={props.jobEmployment}
                         onChange={props.onEmploymentChange}
                     />
                 </div>
-                <div className="mb-Location">
-                    <label htmlFor="JobLocationInput" className="form-label">
+                <div className="mb-3">
+                    <label htmlFor="jobLocationInput" className="form-label">
                         Job Location
                     </label>
-                    <input className="form-control" id="JobLocationInput"
+                    <input className="form-control" id="jobLocationInput"
                         placeholder="San Francisco, CA"
                         value={props.Location}
                         onChange={props.onLocationChange}
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="JobStageDescriptionInput" className="form-label">
+                    <label htmlFor="jobStageDescriptionInput" className="form-label">
                         Description
                     </label>
-                    <textarea className="form-control" id="JobStageDescriptionInput"
+                    <textarea className="form-control" id="jobStageDescriptionInput"
                         rows="5" placeholder="Enter description ..."
                         value={props.stepDescription}
                         onChange={props.onDescriptionChange}
@@ -172,425 +117,337 @@ function JobStepDialog(props) {
 }
 
 
-function JobProcess() {
-    const appContext = useContext(ApplicationContext);
-    const [JobProcessState, setJobProcessState] = useState({
-        selectedJobRole: JobRoles.All,
-        JobProcess: undefined
-    })
-    const [createJobStepFormState, setCreateJobStepFormState] = useState({
-        showCreationDialog: false,
-        showModificationDialog: false,
+export function ManageJobs() {
+    const { SearchBar } = Search;
+    const [roles, setJobs] = useState(Jobs)
+    const [editDialogState, setEditDialogState] = useState({
+        show: false,
         title: "",
-        Workplace:"",
-        Employment:"",
-        Location:"",
-        description: "",
-        errors: [],
-
-    })
-    const [modifyJobStepFormState, setModifyJobStepFormState] = useState({
-        showModificationDialog: false,
-        title: "",
-        Workplace:"",
-        Employment:"",
-        Location:"",
+        workplace: "",
+        employment: "",
+        location: "",
         description: "",
         errors: [],
         index: undefined
     })
 
-    const moveStepUp = (index) => {
-        console.log("Moving step up")
-        let process = JobProcessState.JobProcess
-        const saveState = process[index - 1]
-        process[index - 1] = process[index]
-        process[index] = saveState
-        setJobProcessState({
-            ...JobProcessState,
-            JobProcess: process
-        })
-    }
-    const moveStepDown = (index) => {
-        console.log("Moving step down")
-        let process = JobProcessState.JobProcess
-        const saveState = process[index + 1]
-        process[index + 1] = process[index]
-        process[index] = saveState
-        setJobProcessState({
-            ...JobProcessState,
-            ...JobProcessState,
-            JobProcess: process
-        })
-    }
+    const [createJobDialogState, setCreateJobDialogState] = useState({
+        show: false,
+        title: "",
+        workplace: "",
+        employment: "",
+        location: "",
+        description: "",
+        errors: [],
+        index: undefined
+    })
 
-    const modifyJobStep = () => {
-        let newSteps = []
-        for (let i = 0; i < JobProcessState.JobProcess.length; i++) {
-            if (i === modifyJobStepFormState.index) {
-                newSteps.push({
-                    type: JobStepType[modifyJobStepFormState.type],
-                    title: modifyJobStepFormState.title,
-                    Workplace:modifyJobStepFormState.Workplace,
-                    Employment:modifyJobStepFormState.Employment,
-                    Location:modifyJobStepFormState.Location,
-                    detail: modifyJobStepFormState.description
-                })
-            }
-            else {
-                newSteps.push(JobProcessState.JobProcess[i])
-            }
+    const appContext = useContext(ApplicationContext);
+
+    const removeJob = (index) => {
+        let newJobs = []
+        for (let i = 0; i < roles.length; i++) {
+            i !== index && newJobs.push(roles[i])
         }
-        setModifyJobStepFormState({
-            ...modifyJobStepFormState,
-            showModificationDialog: false
-        })
-        setJobProcessState({
-            ...JobProcessState,
-            JobProcess: newSteps
-        })
+        appContext.closeDialog()
+        setJobs(newJobs)
     }
 
-    const createJobStep = () => {
+    const createJob = () => {
         let errors = []
-        if (!createJobStepFormState.title || createJobStepFormState.title.length === 0) {
-            errors.push("Please provide a title for this stage")
+        if (!createJobDialogState.title || createJobDialogState.title.length === 0) {
+            errors.push("Job title cannot be empty")
         }
-        if (!createJobStepFormState.description || createJobStepFormState.description.length === 0) {
-            errors.push("Please provide a description")
+        if (!createJobDialogState.workplace || createJobDialogState.workplace.length === 0) {
+            errors.push("Job workplace cannot be empty")
         }
-        if (!createJobStepFormState.Workplace || createJobStepFormState.Workplace.length === 0) {
-            errors.push("Please provide the workplace")
+        if (!createJobDialogState.employment || createJobDialogState.employment.length === 0) {
+            errors.push("Job employment cannot be empty")
         }
-        if (!createJobStepFormState.Employment || createJobStepFormState.Employment.length === 0) {
-            errors.push("Please provide the employment type")
+        if (!createJobDialogState.location || createJobDialogState.location.length === 0) {
+            errors.push("Job location cannot be empty")
         }
-        if (!createJobStepFormState.Location || createJobStepFormState.Location.length === 0) {
-            errors.push("Please provide the location")
+        if (!createJobDialogState.description || createJobDialogState.description.length === 0) {
+            errors.push("Job description cannot be empty")
         }
         if (errors.length > 0) {
-            setCreateJobStepFormState({
-                ...createJobStepFormState,
-                showCreationDialog: true,
+            setCreateJobDialogState({
+                ...createJobDialogState,
+                show: true,
                 errors: errors,
             })
         }
         else {
-            setCreateJobStepFormState({
-                ...createJobStepFormState,
-                showCreationDialog: false
-            })
-            setJobProcessState({
-                ...JobProcessState,
-                JobProcess: [
-                    ...JobProcessState.JobProcess,
-                    {
-                        type: JobStepType[createJobStepFormState.type],
-                        title: createJobStepFormState.title,
-                        detail: createJobStepFormState.description,
-                        Workplace: createJobStepFormState.Workplace,
-                        Employment: createJobStepFormState.Employment,
-                        Location: createJobStepFormState.Location,
-                    }
-                ]
+            setJobs([
+                ...roles,
+                {
+                    title: createJobDialogState.title,
+                    workplace: createJobDialogState.workplace,
+                    employment: createJobDialogState.employment,
+                    location: createJobDialogState.location,
+                    description: createJobDialogState.description,
+                }
+            ])
+            setCreateJobDialogState({
+                ...createJobDialogState,
+                show: false,
             })
         }
     }
 
-    const removeJobStep = (index) => {
-        let newSteps = []
-        for (let i = 0; i < JobProcessState.JobProcess.length; i++) {
-            i !== index && newSteps.push(JobProcessState.JobProcess[i])
+    const columns = [
+        {
+            dataField: 'title',
+            text: 'Title'
+        },
+        {
+            dataField: 'workplace',
+            text: 'Workplace'
+        },
+        {
+            dataField: 'employment',
+            text: 'Employment'
+        },
+        {
+            dataField: 'location',
+            text: 'Location'
+        },
+        {
+            dataField: 'description',
+            text: 'Description'
+        },
+        {
+            formatter: (cell, row, index) => {
+                return (
+                    <Dropdown className={"input-group-text"}>
+                        <Dropdown.Toggle id="dropdown-basic">
+                            <Filter /> Action
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <DropdownItem onClick={() => {
+                                setEditDialogState({
+                                    ...editDialogState,
+                                    show: true,
+                                    index: index,
+                                    title: row.title,
+                                    workplace: row.workplace,
+                                    employment: row.employment,
+                                    location: row.location,
+                                    description: row.description,
+                                })
+                            }}>Edit</DropdownItem>
+                            <DropdownItem onClick={() => {
+                                appContext.openDialog(
+                                    "Are you sure?",
+                                    [
+                                        {
+                                            title: "Close",
+                                            handler: appContext.closeDialog,
+                                            variant: "secondary"
+                                        },
+                                        {
+                                            title: "Remove job",
+                                            handler: () => removeJob(index),
+                                            variant: "primary"
+                                        }
+                                    ],
+                                    "Once deleted, this can't be undone. Are you sure you want to proceed?"
+                                )
+                            }}>Delete</DropdownItem>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                )
+            },
+            text: "Actions"
         }
-        appContext.closeDialog()
-        setJobProcessState({
-            ...JobProcessState,
-            JobProcess: newSteps
-        })
+    ];
+
+    const handleEditJob = () => {
+        let errors = []
+        if (!editDialogState.title || editDialogState.title.length === 0) {
+            errors.push("Job title cannot be empty")
+        }
+        if (!editDialogState.workplace || editDialogState.workplace.length === 0) {
+            errors.push("Job workplace cannot be empty")
+        }
+        if (!editDialogState.employment || editDialogState.employment.length === 0) {
+            errors.push("Job employment cannot be empty")
+        }
+        if (!editDialogState.location || editDialogState.location.length === 0) {
+            errors.push("Job location cannot be empty")
+        }
+        if (errors.length > 0) {
+            setEditDialogState({
+                ...editDialogState,
+                show: true,
+                errors: errors,
+            })
+        }
+        else {
+            let newJobs = []
+            for (let i = 0; i < roles.length; i++) {
+                if (i === editDialogState.index) {
+                    newJobs.push({
+                        title: editDialogState.title,
+                        workplace: editDialogState.workplace,
+                        employment: editDialogState.employment,
+                        location: editDialogState.location,
+                        description: editDialogState.description,
+                    })
+                }
+                else {
+                    newJobs.push(roles[i])
+                }
+            }
+            setJobs(newJobs)
+            setEditDialogState({
+                ...editDialogState,
+                show: false,
+            })
+        }
     }
+
+    const selectRow = {
+        mode: 'checkbox',
+        clickToSelect: true
+    };
+
     return (
-        <div>
-            <JobStepDialog
-                show={createJobStepFormState.showCreationDialog}
-                title={"Add a new stage to the Job process"}
+        <div className={"page-container"}>
+            <JobEditDialog
+                show={editDialogState.show}
+                title={"Edit Job"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setCreateJobStepFormState({
-                                ...createJobStepFormState,
-                                showCreationDialog: false
+                            setEditDialogState({
+                                ...editDialogState,
+                                show: false
                             })
                         },
                         variant: "secondary"
                     },
                     {
-                        title: "Create Step",
-                        handler: createJobStep,
+                        title: "Save",
+                        handler: handleEditJob,
                         variant: "primary"
                     }
                 ]}
-                errors={createJobStepFormState.errors}
+                errors={editDialogState.errors}
                 onTitleChange={(e) => {
-                    setCreateJobStepFormState({
-                        ...createJobStepFormState,
+                    setEditDialogState({
+                        ...editDialogState,
                         title: e.target.value
+                    })
+                }}
+                onWorkplaceChange={(e) => {
+                    setEditDialogState({
+                        ...editDialogState,
+                        workplace: e.target.value
+                    })
+                }}
+                onEmploymentChange={(e) => {
+                    setEditDialogState({
+                        ...editDialogState,
+                        employment: e.target.value
                     })
                 }}
                 onLocationChange={(e) => {
-                    setCreateJobStepFormState({
-                        ...createJobStepFormState,
-                        Location: e.target.value
+                    setEditDialogState({
+                        ...editDialogState,
+                        location: e.target.value
                     })
                 }}
-                
-                errors={createJobStepFormState.errors}
-                onEmploymentChange={(e) => {
-                    setCreateJobStepFormState({
-                        ...createJobStepFormState,
-                        Employment: e.target.value
-                    })
-                }}
-                errors={createJobStepFormState.errors}
-                onWorkplaceChange={(e) => {
-                    setCreateJobStepFormState({
-                        ...createJobStepFormState,
-                        Workplace: e.target.value
-                    })
-                }}
-                onDescriptionChange={(e) => {
-                    setCreateJobStepFormState({
-                        ...createJobStepFormState,
-                        description: e.target.value
-                    })
-                }}
-                onStageTypeChange={(e) => {
-                    setCreateJobStepFormState({
-                        ...createJobStepFormState,
-                        type: e.target.value
-                    })
-                }}
-                selectedStageType={createJobStepFormState.type}
-                stepTitle={createJobStepFormState.title}
-                stepEmployment={createJobStepFormState.Employment}
-                stepLocation={createJobStepFormState.Location}
-                stepWorkplace={createJobStepFormState.Workplace}
-                stepDescription={createJobStepFormState.description}
+                jobTitle={editDialogState.title}
+                workplace={editDialogState.workplace}
+                employment={editDialogState.employment}
+                location={editDialogState.location}
             />
-            <JobStepDialog
-                show={modifyJobStepFormState.showModificationDialog}
-                title={"Add a new stage to the Job process"}
+            <JobEditDialog
+                show={createJobDialogState.show}
+                title={"Create Job"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setModifyJobStepFormState({
-                                ...modifyJobStepFormState,
-                                showModificationDialog: false
+                            setCreateJobDialogState({
+                                ...createJobDialogState,
+                                show: false
                             })
                         },
                         variant: "secondary"
                     },
                     {
-                        title: "Modify stage",
-                        handler: modifyJobStep,
+                        title: "Create",
+                        handler: createJob,
                         variant: "primary"
                     }
                 ]}
-                errors={modifyJobStepFormState.errors}
+                errors={createJobDialogState.errors}
                 onTitleChange={(e) => {
-                    setModifyJobStepFormState({
-                        ...modifyJobStepFormState,
+                    setCreateJobDialogState({
+                        ...createJobDialogState,
                         title: e.target.value
                     })
                 }}
-                onDescriptionChange={(e) => {
-                    setModifyJobStepFormState({
-                        ...modifyJobStepFormState,
-                        description: e.target.value
+                onExpectationsChange={(e) => {
+                    setCreateJobDialogState({
+                        ...createJobDialogState,
+                        expectations: e.target.value
                     })
                 }}
-                onStageTypeChange={(e) => {
-                    setModifyJobStepFormState({
-                        ...modifyJobStepFormState,
-                        type: e.target.value
+                onBenefitsChange={(e) => {
+                    setCreateJobDialogState({
+                        ...createJobDialogState,
+                        benefits: e.target.value
                     })
                 }}
-                selectedStageType={modifyJobStepFormState.type}
-                stepTitle={modifyJobStepFormState.title}
-                stepDescription={modifyJobStepFormState.description}
+                jobTitle={createJobDialogState.title}
+                workplace={createJobDialogState.workplace}
+                employment={createJobDialogState.employment}
+                location={createJobDialogState.location}
             />
-            <div className={"page-container"}>
-                <h1>Manage Jobs - NEED TO MAKE A TABLE</h1>
-                <div className="role-selection-control">
-                    <div className={"role-selection-header"}>
-                        <h5>Please select an action</h5>
-                    </div>
-                    <div className={"role-selection-dropdown"}>
-                        <div className="input-group input-group-sm">
-                            <Dropdown className={"input-group-text"}>
-                                <Dropdown.Toggle id="dropdown-basic">
-                                    <Filter /> Select Below
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    {
-                                        JobRoles.map((jobRole) => {
-                                            return (
-                                                <Dropdown.Item key={jobRole.ui} onClick={(e) => {
-                                                    setJobProcessState({
-                                                        ...JobProcessState,
-                                                        JobProcess: JobPipelineRoleMap[jobRole.server],
-                                                        selectedJobRole: jobRole
-                                                    })
-                                                }} active={JobProcessState.selectedJobRole === jobRole}>
-                                                    {jobRole.ui}
-                                                </Dropdown.Item>
-                                            )
-                                        })
-                                    }
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </div>
-                    </div>
-                </div>
-                {
-                    JobProcessState.JobProcess !== undefined &&
-                    <div className={"Job-pipeline-detail-container"}>
-                        <div className={"Job-pipeline-controls container-vcenter-hright"}>
-                            <Button
-                                variant="primary"
-                                onClick={() => {
-                                    setCreateJobStepFormState({
-                                        ...createJobStepFormState,
-                                        showCreationDialog: true
-                                    })
-                                }}
-                            >
-                                Post a new Job
-                            </Button>
-                        </div>
-                        <div className={"Job-pipeline-detail"}>
-                            {
-                                JobProcessState.JobProcess.map((step, index) => {
-                                    const lenSteps = JobProcessState.JobProcess.length
-                                    return (
-                                        <div key={`index-${step.title}`} className={"Job-pipeline-step row"}>
-                                            <div className={"step-number-container container-all-center col-1"}>
-                                            </div>
-                                            <div className={"step-detail-container col-9"}>
-                                                <div className={"step-detail"}>
-                                                    <div href={'/dashboard/home'} className={'step-title h5'}>{step.title}</div>
-                                                    <div className={'step-location'}>{step.Location}</div>
-                                                    <div className={'step-employment'}>{step.Employment}</div>
-                                                    <div className={'step-Workplace'}>{step.Workplace}</div>
-                                                    <div className={'step-description'}>{step.detail}</div>
-                                                </div>
-                                            </div>
-                                            <div className={"step-actions-container container-all-center col-2"}>
-                                                <div className={"step-actions"}>
-                                                    <div className={"icon-container"}>
-                                                        <OverlayTrigger
-                                                            placement="bottom"
-                                                            overlay={
-                                                                <Tooltip>Update Job</Tooltip>
-                                                            }
-                                                        >
-                                                            <button type="button" className="btn btn-circle btn-sm btn-success"
-                                                                onClick={() => {
-                                                                    let stepType
-                                                                    Object.keys(JobStepType).map((k) => {
-                                                                        if (JobStepType[k].ui === step.type.ui) {
-                                                                            stepType = k
-                                                                        }
-                                                                    })
-                                                                    setModifyJobStepFormState({
-                                                                        ...modifyJobStepFormState,
-                                                                        title: step.title,
-                                                                        employment: step.employment,
-                                                                        location: step.location,
-                                                                        Workplace: step.workplace,
-                                                                        description: step.detail,
-                                                                        type: stepType,
-                                                                        showModificationDialog: true,
-                                                                        index: index
-                                                                    })
-                                                                }}
-                                                            >
-                                                                <PencilFill></PencilFill>
-                                                            </button>
-                                                        </OverlayTrigger>
-                                                    </div>
-                                                    <div className={"icon-container"}>
-                                                        <OverlayTrigger
-                                                            placement="bottom"
-                                                            overlay={
-                                                                <Tooltip>Delete Job</Tooltip>
-                                                            }
-                                                        >
-                                                            <button type="button" className="btn btn-circle btn-sm btn-danger"
-                                                                onClick={() => appContext.openDialog(
-                                                                    "Are you sure?",
-                                                                    [
-                                                                        {
-                                                                            title: "Close",
-                                                                            handler: appContext.closeDialog,
-                                                                            variant: "secondary"
-                                                                        },
-                                                                        {
-                                                                            title: "Remove Job",
-                                                                            handler: () => removeJobStep(index),
-                                                                            variant: "primary"
-                                                                        }
-                                                                    ],
-                                                                    "Once deleted, this can't be undone. Are you sure you want to proceed?"
-                                                                )}
-                                                            >
-                                                                <Trash3Fill></Trash3Fill>
-                                                            </button>
-                                                        </OverlayTrigger>
-                                                    </div>
-                                                    <div className={"icon-container"}>
-                                                        <OverlayTrigger
-                                                            placement="bottom"
-                                                            overlay={
-                                                                <Tooltip>Submit Job Referral</Tooltip>
-                                                            }
-                                                        >
-                                                            <button href={'/job-referral'} type="button" className="btn btn-circle btn-sm btn-primary">
-                                                            
-                                                            
-   
-                                                                <PencilFill></PencilFill>
-                                                            </button>
-                                                        </OverlayTrigger>
-                                                    </div>
-                                                    {
-                                                        index !== 0 && <div className={"icon-container"}>
-                                                            
-                                                        </div>
-                                                    }
-                                                    {
-                                                        index !== lenSteps - 1 && <div className={"icon-container"}>
-                                                        
-                                                        </div>
-                                                    }
-                                                </div>
-                                            </div>
-                                            {
-                                                index !== lenSteps - 1 && <div className={"step-detail-footer col-12"}>
-                                                   
-                                                </div>
-                                            }
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                    </div>
-                }
+            <div>
+                <ToolkitProvider
+                    keyField="id"
+                    data={roles}
+                    columns={columns}
+                    search
+                >
+                    {
+                        props => (
+                            <div className={"job-roles-container"}>
+                                <Breadcrumb>
+                                    <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>Recruitment: Jobs</Breadcrumb.Item>
+                                </Breadcrumb>
+                                <h1>Manage Jobs</h1>
+
+                                <div className={"container-vcenter-hright"}>
+
+                                    <SearchBar {...props.searchProps} />
+
+                                    <Button variant="primary"
+                                        onClick={() => {
+                                            setCreateJobDialogState({
+                                                ...createJobDialogState,
+                                                show: true
+                                            })
+                                        }}
+                                    >Create Job</Button>
+                                </div>
+                                {/* <hr /> */}
+                                <BootstrapTable
+                                    {...props.baseProps}
+                                    striped
+                                    condensed
+                                />
+                            </div>
+                        )
+                    }
+                </ToolkitProvider>
             </div>
         </div>
-    );
+    )
 }
-
-export default JobProcess;

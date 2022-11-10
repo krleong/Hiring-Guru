@@ -18,7 +18,6 @@ function SideNav() {
                             {/* </a> */}
                             <div className="collapse show" id="home-collapse">
                                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a /*href="/dashboard/employees"*/ className="link-dark rounded" >Companies (INACTIVE)</a></li>
                                     <li><a href="/dashboard/manage-employees" className="link-dark rounded" >Employees</a></li>
                                     {/* <li><a /*href="/dashboard/permissions" className="link-dark rounded">Company Permissions (INACTIVE)</a></li> */}
                                 </ul>

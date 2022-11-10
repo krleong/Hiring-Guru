@@ -58,7 +58,7 @@ function EmployeeEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageNameInput"
                         placeholder="First name Last name"
-                        value={props.roleName}
+                        value={props.name}
                         onChange={props.onNameChange}
                     />
                 </div>
@@ -67,7 +67,7 @@ function EmployeeEditDialog(props) {
                         Company
                     </label>
                     <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                        rows="5" placeholder="Enter description ..."
+                        rows="5" placeholder="Enter company name"
                         value={props.company}
                         onChange={props.onCompanyChange}
                     >
@@ -78,7 +78,7 @@ function EmployeeEditDialog(props) {
                         Position
                     </label>
                     <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                        rows="5" placeholder="Enter description ..."
+                        rows="5" placeholder="Enter position title"
                         value={props.position}
                         onChange={props.onPositionChange}
                     >
@@ -207,7 +207,7 @@ export function ManageEmployees() {
                                             variant: "secondary"
                                         },
                                         {
-                                            title: "Remove role",
+                                            title: "Remove employee",
                                             handler: () => removeEmployee(index),
                                             variant: "primary"
                                         }
@@ -223,7 +223,7 @@ export function ManageEmployees() {
         }
     ];
 
-    const handleEditRecruitmentStep = () => {
+    const handleEditEmployee = () => {
         let errors = []
         if (!editDialogState.title || editDialogState.title.length === 0) {
             errors.push("Employee title cannot be empty")
@@ -286,7 +286,7 @@ export function ManageEmployees() {
                     },
                     {
                         title: "Save",
-                        handler: handleEditRecruitmentStep,
+                        handler: handleEditEmployee,
                         variant: "primary"
                     }
                 ]}
@@ -309,7 +309,7 @@ export function ManageEmployees() {
                         company: e.target.value
                     })
                 }}
-                roleName={editDialogState.title}
+                name={editDialogState.title}
                 position={editDialogState.position}
                 company={editDialogState.company}
             />
@@ -352,7 +352,7 @@ export function ManageEmployees() {
                         company: e.target.value
                     })
                 }}
-                roleName={createEmployeeDialogState.title}
+                name={createEmployeeDialogState.title}
                 position={createEmployeeDialogState.position}
                 company={createEmployeeDialogState.company}
             />

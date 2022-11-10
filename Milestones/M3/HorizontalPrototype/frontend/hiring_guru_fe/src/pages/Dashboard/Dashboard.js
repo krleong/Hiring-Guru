@@ -8,13 +8,13 @@ import { Route, Routes } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import SideNav from "../../components/SideNav/SideNav";
 // import ManageEmployees from "../Employees/Employees";
-import ManageJobs from '../ManageJobs/ManageJobs';
 import JobApps from '../JobApps/JobApps';
 import RecruitmentProcess from '../RecruitmentProcess/RecruitmentProcess';
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import './Dashboard.css';
 import { ManageRoles } from '../ManageRoles/ManageRoles';
 import { ManageEmployees } from '../ManageEmployees/ManageEmployees';
+import { ManageJobs } from '../ManageJobs/ManageJobs';
 
 export default function Dashboard() {
     useEffect(() => {
