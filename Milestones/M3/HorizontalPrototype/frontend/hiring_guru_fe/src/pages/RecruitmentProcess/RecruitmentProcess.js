@@ -1,5 +1,6 @@
 import './RecruitmentProcess.css';
 import Dropdown from "react-bootstrap/Dropdown";
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import {/*Modal,*/ OverlayTrigger, Tooltip } from "react-bootstrap";
 import {
     ArrowBarDown,
@@ -16,7 +17,7 @@ import Button from "react-bootstrap/Button";
 import { ApplicationContext } from "../../HiringGuru";
 import { Dialog } from "../../components/Dialog/Dialog";
 
-const JobRoles = [
+const jobPositions = [
     {
         ui: 'Software Engineer',
         server: 'SOFTWARE_ENGINEER'
@@ -77,7 +78,7 @@ const RecruitmentPipelineCEO = [
     },
 ]
 
-const RecruitmentPipelineRoleMap = {
+const RecruitmentPipelinePositionMap = {
     SOFTWARE_ENGINEER: RecruitmentPipelineSoftwareEngineer,
     CEO: RecruitmentPipelineCEO
 }
@@ -94,7 +95,7 @@ function RecruitmentStepDialog(props) {
                     {
                         props.errors.map((error, index) => {
                             return (
-                                <div key={`create-rect-step-error-${index}`} className="alert alert-danger" role="alert">
+                                <div key={`create-rect-step-error-${index}`} className="alert alert-danger" position="alert">
                                     {error}
                                 </div>
                             )
@@ -148,7 +149,7 @@ function RecruitmentStepDialog(props) {
 function RecruitmentProcess() {
     const appContext = useContext(ApplicationContext);
     const [recruitmentProcessState, setRecruitmentProcessState] = useState({
-        selectedJobRole: JobRoles.All,
+        selectedjobPosition: jobPositions.All,
         recruitmentProcess: undefined
     })
     const [createRecruitmentStepFormState, setCreateRecruitmentStepFormState] = useState({
@@ -354,28 +355,33 @@ function RecruitmentProcess() {
                 stepDescription={modifyRecruitmentStepFormState.description}
             />
             <div className={"page-container"}>
-                <div className="role-selection-control">
-                    <div className={"role-selection-header"}>
-                        <h5>Please select a Role to configure its RecruitmentProcess</h5>
+                <Breadcrumb>
+                    <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Recruitment: Hiring Pipeline</Breadcrumb.Item>
+                </Breadcrumb>
+                <h1>Design Hiring Pipeline</h1>
+                <div className="position-selection-control">
+                    <div className={"position-selection-header"}>
+                        <h5>Select a position to configure its Recruitment Process:</h5>
                     </div>
-                    <div className={"role-selection-dropdown"}>
+                    <div className={"position-selection-dropdown"}>
                         <div className="input-group input-group-sm">
                             <Dropdown className={"input-group-text"}>
                                 <Dropdown.Toggle id="dropdown-basic">
-                                    <Filter /> Select Job Role
+                                    <Filter /> Select Job Position
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     {
-                                        JobRoles.map((jobRole) => {
+                                        jobPositions.map((jobPosition) => {
                                             return (
-                                                <Dropdown.Item key={jobRole.ui} onClick={(e) => {
+                                                <Dropdown.Item key={jobPosition.ui} onClick={(e) => {
                                                     setRecruitmentProcessState({
                                                         ...recruitmentProcessState,
-                                                        recruitmentProcess: RecruitmentPipelineRoleMap[jobRole.server],
-                                                        selectedJobRole: jobRole
+                                                        recruitmentProcess: RecruitmentPipelinePositionMap[jobPosition.server],
+                                                        selectedjobPosition: jobPosition
                                                     })
-                                                }} active={recruitmentProcessState.selectedJobRole === jobRole}>
-                                                    {jobRole.ui}
+                                                }} active={recruitmentProcessState.selectedjobPosition === jobPosition}>
+                                                    {jobPosition.ui}
                                                 </Dropdown.Item>
                                             )
                                         })

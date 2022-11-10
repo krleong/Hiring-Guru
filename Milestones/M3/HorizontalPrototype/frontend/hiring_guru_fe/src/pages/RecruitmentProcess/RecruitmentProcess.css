@@ -1,11 +1,13 @@
 .icon-container {
-    display: inline;
-    margin-right: 8px;
+    float: right;
+    /* display: inline; */
+    padding: 2px;
     font-size: 20px;
 }
 
 .page-container {
-    padding: 80px 10% 0 10%;
+    /* padding: 80px 0 0 0; */
+    width: 100%;
 }
 
 .btn-default {
@@ -55,16 +57,28 @@ div.container-vcenter-hright {
     justify-content: right;
 }
 
+div.position-selection-dropdown {
+    margin-top: 25px;
+}
 div.recruitment-pipeline-controls {
     margin-right: 12px;
 }
 
 div.recruitment-pipeline-step {
+    /* margin-left: auto; 
+    margin-right: auto;
+    width: 110%; */
     margin-top: 25px;
     margin-bottom: 15px;
+    padding: 20px;
+    border: solid 1px gray;
+}
+
+.step-number.btn {
+    min-width: 20px;
 }
 
 div.connector-arrow-container {
-    margin-top: 10px;
+    margin-top: 18px;
     font-size: 28px;
 }
