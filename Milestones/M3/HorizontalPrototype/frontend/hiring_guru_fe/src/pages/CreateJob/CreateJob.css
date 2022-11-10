@@ -1,124 +1,70 @@
-.gridJob-container{
-    height: 50%;
-    display: grid;
-    grid-gap: 5px;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+.icon-container {
+    display: inline;
+    margin-right: 8px;
+    font-size: 20px;
 }
 
-.createJob{
-    background: rgb(0, 102, 211);
-    background: linear-gradient(90deg, rgba(0, 102, 211, 1) 0%, rgb(121, 89, 173) 50%, rgba(255, 66, 101, 1) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 70px;
-    grid-column: 1 / 13;
-    grid-row: 1 / 2;
+.page-container {
+    padding: 80px 10% 0 10%;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-circle {
+    width: 50px;
+    height: 50px;
+    padding: 8px 2px;
+    border-radius: 25px;
     text-align: center;
-    height: 50%;
-    width: 620%;
+    font-size: 20px;
+    line-height: 1.42857;
 }
 
-.JobTitle-container{
-    color: rgb(11, 97, 255);
-    grid-column: 3 / 4;
-    grid-row: 2 / 3;
-    height: 30%;
-    width: 100%;
-    position: relative;
-    bottom: 100px;
+.btn-circle.btn-sm {
+    width: 40px;
+    height: 40px;
+    padding: 6px 0px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.42857;
 }
 
-.JobType-container{
-    color: rgb(11, 97, 255);
-    grid-column: 5 / 6;
-    grid-row: 2 / 3;
-    height: 30%;
-    width: 100%;
-    position: relative;
-    bottom: 100px;
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
 }
 
-.Company-container{
-    color: rgb(11, 97, 255);
-    grid-column: 4 / 5;
-    grid-row: 2 / 3;
-    height: 30%;
-    width: 100%;
-    position: relative;
-    bottom: 100px;
+div.container-all-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.Salary-container{
-    color: rgb(11, 97, 255);
-    grid-column: 3 / 4;
-    grid-row: 3 / 4;
-    height: 30%;
-    width: 100%;
-    position: relative;
-    bottom: 200px;
+div.container-vcenter-hright {
+    display: flex;
+    align-items: center;
+    justify-content: right;
 }
 
-.Location-container{
-    color: rgb(11, 97, 255);
-    grid-column: 4 / 5;
-    grid-row: 3 / 4;
-    height: 30%;
-    width: 100%;
-    position: relative;
-    bottom: 200px;
+div.Job-pipeline-controls {
+    margin-right: 12px;
 }
 
-.Experience-container{
-    color: rgb(11, 97, 255);
-    grid-column: 5 / 6;
-    grid-row: 3 / 4;
-    height: 30%;
-    width: 100%;
-    position: relative;
-    bottom: 200px;
+div.Job-pipeline-step {
+    margin-top: 25px;
+    margin-bottom: 15px;
 }
 
-.CompanyDesc-container{
-    color: rgb(11, 97, 255);
-    grid-column: 3 / 4;
-    grid-row: 4 / 5;
-    height: 100%;
-    width: 100%;
-    position: relative;
-    bottom: 300px;
-    right: 100px;
-}
-
-.Description-container{
-    color: rgb(11, 97, 255);
-    grid-column: 4 / 5;
-    grid-row: 4 / 5;
-    height: 100%;
-    width: 100%;
-    position: relative;
-    bottom: 300px;
-}
-
-.Qualifications-container{
-    color: rgb(11, 97, 255);
-    grid-column: 5 / 6;
-    grid-row: 4 / 5;
-    height: 100%;
-    width: 100%;
-    position: relative;
-    bottom: 300px;
-    left: 100px;
-}
-
-.Submit2-container{
-    width: 100%;
-    height: 60%;
-    grid-column:  4 / 6; 
-    grid-row: 5 / 6 ;
-    color: rgb(0, 66, 247);
-    position: relative;
-    bottom: 160px;
-    left: 50px;
-    display: block;
+div.connector-arrow-container {
+    margin-top: 10px;
+    font-size: 28px;
 }
