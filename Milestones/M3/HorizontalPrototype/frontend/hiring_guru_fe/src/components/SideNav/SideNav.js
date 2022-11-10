@@ -31,7 +31,7 @@ function SideNav() {
                                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                     <li><a href="/dashboard/manage-jobs" className="link-dark rounded">Manage Jobs</a></li>
                                     <li><a href="/dashboard/manage-job-roles" className="link-dark rounded">Manage Job Roles</a></li>
-                                    <li><a href="/dashboard/job-apps" className="link-dark rounded">Job Applications</a></li>
+                                    <li><a href="/dashboard/manage-job-apps" className="link-dark rounded">Job Applications</a></li>
                                     <li><a href="/dashboard/recruitment-process" className="link-dark rounded">Hiring Pipeline</a></li>
 
                                 </ul>
@@ -44,8 +44,8 @@ function SideNav() {
                             </button>
                             <div className="collapse" id="account-collapse">
                                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a /*href="/dashboard/home"*/ className="link-dark rounded">Overview (INACTIVE)</a></li>
-                                    <li><a /*href="/dashboard/home"*/ className="link-dark rounded">Settings (INACTIVE)</a></li>
+                                    <li><a /*href="/dashboard/home"*/ className="link-dark rounded">Overview (COMING SOON)</a></li>
+                                    <li><a /*href="/dashboard/home"*/ className="link-dark rounded">Settings (COMING SOON)</a></li>
                                 </ul>
                             </div>
                         </li>

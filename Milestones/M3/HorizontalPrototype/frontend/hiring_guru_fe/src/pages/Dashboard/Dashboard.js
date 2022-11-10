@@ -7,8 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 // import DropdownButton from 'react-bootstrap/DropdownButton';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import SideNav from "../../components/SideNav/SideNav";
-// import ManageEmployees from "../Employees/Employees";
-import JobApps from '../JobApps/JobApps';
+import { ManageJobApps } from '../ManageJobApps/ManageJobApps';
 import RecruitmentProcess from '../RecruitmentProcess/RecruitmentProcess';
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import './Dashboard.css';
@@ -46,7 +45,7 @@ export default function Dashboard() {
                         <Route path={'/manage-job-roles'} element={<ManageRoles />} />
                     </Routes>
                     <Routes>
-                        <Route path={'/job-apps'} element={<JobApps />} />
+                        <Route path={'/manage-job-apps'} element={<ManageJobApps />} />
                     </Routes>
                     <Routes>
                         <Route path={'/recruitment-process'} element={<RecruitmentProcess />} />
