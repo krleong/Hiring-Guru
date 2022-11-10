@@ -1,10 +1,10 @@
-import './JobReferral.css';
+import './JobReferral2.css';
 import Button from 'react-bootstrap/Button';
 
-function JobReferral() {
+function JobReferral2() {
     return (
         <div className="job-apply-container">
-            <h1>Submit a Job Referral</h1>
+            <h1>Submit another Job Referral!</h1>
             <label for="basic-url" className="form-label">Full Name</label>
             <div className="input-group mb-3">
                 <input type="text" className="form-control" placeholder="First name" aria-label="First name" />
@@ -29,4 +29,4 @@ function JobReferral() {
     );
 }
 
-export default JobReferral;
+export default JobReferral2;

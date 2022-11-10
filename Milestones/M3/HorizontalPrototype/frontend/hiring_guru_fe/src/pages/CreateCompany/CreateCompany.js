@@ -95,7 +95,7 @@ function CreateCompany() {
 
         
             <div className="Submit-container">
-            <Button href={'/'} id="free-trial-btn" variant="primary">DEV-Send to Dashboard</Button>
+            <Button href={'/dashboard/home'} id="free-trial-btn" variant="primary">Get Started</Button>
             </div>
             
             </div>

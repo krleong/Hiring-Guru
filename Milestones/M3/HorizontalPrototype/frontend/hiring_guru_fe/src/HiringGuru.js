@@ -18,6 +18,8 @@ import Tagline from './components/Tagline/Tagline.js';
 import JobApps from './pages/JobApps/JobApps';
 import RecruitmentProcess from "./pages/RecruitmentProcess/RecruitmentProcess";
 import { Dialog } from "./components/Dialog/Dialog";
+import JobReferral from './pages/JobReferral/JobReferral';
+import JobReferral2 from './pages/JobReferral2/JobReferral2.js'
 
 export const ApplicationContext = React.createContext();
 
@@ -76,7 +78,7 @@ function HiringGuru() {
         openDialog: openDialog,
         closeDialog: closeDialog
       }}>
-        <div>
+        <div> 
           <div className="page-wrapper">
             <div className="sticky-top-follow">
               <Tagline></Tagline>
@@ -91,14 +93,18 @@ function HiringGuru() {
               <Route path='/signup' element={<SignUp />} />
               <Route path='/dashboard/*' element={<Dashboard />} />
               <Route path='/create-company' element={<CreateCompany />} />
-              <Route path='/free-trial' element={<FreeTrial />} />
               <Route path='/create-job' element={<CreateJob />} />
+              <Route path='/job-referral' element={<JobReferral />} />
+              <Route path='/job-referral2' element={<JobReferral2 />} />
               <Route path='/job-apply' element={<ApplyForJob />} />
               <Route path='/about/members/:index/detail' element={<Member />} />
             </Routes>
           </div>
+          </div>
       </ApplicationContext.Provider>
+      
     </Router>
+    
   );
 }
 
