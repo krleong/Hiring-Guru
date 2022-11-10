@@ -19,6 +19,7 @@ import Tagline from './components/Tagline/Tagline.js';
 import JobApps from './pages/JobApps/JobApps';
 import RecruitmentProcess from "./pages/RecruitmentProcess/RecruitmentProcess";
 import { Dialog } from "./components/Dialog/Dialog";
+import {ManageRoles} from "./pages/ManageRoles/ManageRoles";
 
 export const ApplicationContext = React.createContext();
 
@@ -94,6 +95,8 @@ function HiringGuru() {
               <Route path='/create-company' element={<CreateCompany />} />
               <Route path='/free-trial' element={<FreeTrial />} />
               <Route path='/create-job' element={<CreateJob />} />
+              <Route path='/recruitment-process' element={<RecruitmentProcess />} />
+              <Route path='/manage-roles' element={<ManageRoles />} />
               <Route path='/job-apply' element={<ApplyForJob />} />
               <Route path='/about/members/:index/detail' element={<Member />} />
             </Routes>
