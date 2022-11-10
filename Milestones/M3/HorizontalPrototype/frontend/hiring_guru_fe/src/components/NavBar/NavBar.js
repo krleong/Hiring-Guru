@@ -35,7 +35,6 @@ export default function NavBar(props) {
                                 <NavDropdown.Item href={'/dashboard/home'}>Dashboard</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href={'/create-company'}>Create Company</NavDropdown.Item>
-                                <NavDropdown.Item href={'/create-job'}>Create Job</NavDropdown.Item>
                                 <NavDropdown.Item href={'/job-apply'}>Apply For Job</NavDropdown.Item>
                                 <NavDropdown.Item href={'/job-referral'}>Job Referral</NavDropdown.Item>
                             </NavDropdown>
@@ -47,11 +46,19 @@ export default function NavBar(props) {
                                     Log Out
                                 </Button> :
                                     <Button id="login-btn"
-                                        variant="outline-primary" onClick={() => loginWithRedirect()}>
+                                        variant="outline-primary" onClick={() => loginWithRedirect({
+                                        redirectUri: `${window.location.origin}/dashboard`
+                                    })}>
                                         Log In
                                     </Button>
                             }
-                            <Button href={'/signup'} id="signup-btn" variant="primary">Get Started</Button>
+                            {
+                                !isAuthenticated &&
+                                <Button id="signup-btn" variant="primary"
+                                  onClick={() => loginWithRedirect({
+                                    redirectUri: `${window.location.origin}/create-company`
+                                })}
+                                >Get Started</Button> }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

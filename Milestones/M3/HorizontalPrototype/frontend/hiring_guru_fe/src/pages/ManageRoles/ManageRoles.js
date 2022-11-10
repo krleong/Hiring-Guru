@@ -1,12 +1,13 @@
 import './ManageRoles.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import {Filter} from "react-bootstrap-icons";
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import { Filter } from "react-bootstrap-icons";
 import DropdownItem from "react-bootstrap/DropdownItem";
-import {Dialog} from "../../components/Dialog/Dialog";
-import {ApplicationContext} from "../../HiringGuru";
+import { Dialog } from "../../components/Dialog/Dialog";
+import { ApplicationContext } from "../../HiringGuru";
 import Button from "react-bootstrap/Button";
 
 const Roles = [
@@ -61,9 +62,9 @@ function RoleEditDialog(props) {
                         Title
                     </label>
                     <input className="form-control" id="recruitmentStageTitleInput"
-                           placeholder="Enter title ..."
-                           value={props.roleTitle}
-                           onChange={props.onTitleChange}
+                        placeholder="Enter title ..."
+                        value={props.roleTitle}
+                        onChange={props.onTitleChange}
                     />
                 </div>
                 <div className="mb-3">
@@ -71,9 +72,9 @@ function RoleEditDialog(props) {
                         Benefits
                     </label>
                     <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                              rows="5" placeholder="Enter description ..."
-                              value={props.benefits}
-                              onChange={props.onBenefitsChange}
+                        rows="5" placeholder="Enter description ..."
+                        value={props.benefits}
+                        onChange={props.onBenefitsChange}
                     >
                     </textarea>
                 </div>
@@ -82,9 +83,9 @@ function RoleEditDialog(props) {
                         Expectations
                     </label>
                     <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                              rows="5" placeholder="Enter description ..."
-                              value={props.expectations}
-                              onChange={props.onExpectationsChange}
+                        rows="5" placeholder="Enter description ..."
+                        value={props.expectations}
+                        onChange={props.onExpectationsChange}
                     >
                     </textarea>
                 </div>
@@ -257,6 +258,11 @@ export function ManageRoles() {
         }
     }
 
+    const selectRow = {
+        mode: 'checkbox',
+        clickToSelect: true
+    };
+
     return (
         <div className={"page-container"}>
             <RoleEditDialog
@@ -348,28 +354,37 @@ export function ManageRoles() {
             <div>
                 <ToolkitProvider
                     keyField="id"
-                    data={ roles }
-                    columns={ columns }
+                    data={roles}
+                    columns={columns}
                     search
                 >
                     {
                         props => (
-                            <div>
-                                <h3>Manage Job Roles</h3>
+                            <div className={"job-roles-container"}>
+                                <Breadcrumb>
+                                    <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>Recruitment: Job Roles</Breadcrumb.Item>
+                                </Breadcrumb>
+                                <h1>Manage Job Roles</h1>
+
                                 <div className={"container-vcenter-hright"}>
+
+                                    <SearchBar {...props.searchProps} />
+
                                     <Button variant="primary"
-                                            onClick={() => {
-                                                setCreateRoleDialogState({
-                                                    ...createRoleDialogState,
-                                                    show: true
-                                                })
-                                            }}
+                                        onClick={() => {
+                                            setCreateRoleDialogState({
+                                                ...createRoleDialogState,
+                                                show: true
+                                            })
+                                        }}
                                     >Create Role</Button>
                                 </div>
-                                <SearchBar { ...props.searchProps } />
-                                <hr />
+                                {/* <hr /> */}
                                 <BootstrapTable
-                                    { ...props.baseProps }
+                                    {...props.baseProps}
+                                    striped
+                                    condensed
                                 />
                             </div>
                         )
