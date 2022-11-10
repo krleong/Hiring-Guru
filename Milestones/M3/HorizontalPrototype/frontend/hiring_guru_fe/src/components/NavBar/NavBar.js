@@ -33,26 +33,22 @@ export default function NavBar(props) {
                             <Nav.Link href={'/about'}>About Us</Nav.Link>
                             <NavDropdown title="DEV" id="collasible-nav-dropdown">
                                 <NavDropdown.Item href={'/dashboard/home'}>Dashboard</NavDropdown.Item>
-                                <NavDropdown.Item href={'/create-company'}>Company Creation</NavDropdown.Item>
-                                <NavDropdown.Item href={'/create-job'}>Create Your Job</NavDropdown.Item>
-                                <NavDropdown.Item href={'/recruitment-process'}>Recruitment Process</NavDropdown.Item>
-                                <NavDropdown.Item href={'/manage-roles'}>Manage Roles</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/#">
-                                    Separated link
-                                </NavDropdown.Item>
+                                <NavDropdown.Item href={'/create-company'}>Create Company</NavDropdown.Item>
+                                <NavDropdown.Item href={'/create-job'}>Create Job</NavDropdown.Item>
+                                <NavDropdown.Item href={'/job-apply'}>Apply For Job</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Button id="login-btn"
-                                variant="outline-primary" onClick={() => loginWithRedirect()}>
-                                Log In
-                            </Button>
                             {
-                                isAuthenticated && <Button id="logout-btn"
+                                isAuthenticated ? <Button id="logout-btn"
                                     variant="outline-primary" onClick={() => logout({ returnTo: window.location.origin })}>
                                     Log Out
-                                </Button>
+                                </Button> :
+                                    <Button id="login-btn"
+                                        variant="outline-primary" onClick={() => loginWithRedirect()}>
+                                        Log In
+                                    </Button>
                             }
                             <Button href={'/signup'} id="signup-btn" variant="primary">Get Started</Button>
                         </Nav>
