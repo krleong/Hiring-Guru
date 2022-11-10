@@ -18,13 +18,13 @@ import { Dialog } from "../../components/Dialog/Dialog";
 
 const JobRoles = [
     {
-        ui: 'Job Posts',
+        ui: 'View Jobs',
         server: 'JOB_POSTS'
     },
 
 ]
 
-const RecruitmentStepType = {
+const JobStepType = {
     Interview: {
         ui: 'Interview',
         server: 'INTERVIEW'
@@ -47,7 +47,7 @@ const RecruitmentStepType = {
     },
 }
 
-const RecruitmentPipelineSoftwareEngineer = [
+const JobPipelineSoftwareEngineer = [
     {
         title: "Software Engineer",
         Location: "San Francisco",
@@ -78,25 +78,25 @@ const RecruitmentPipelineSoftwareEngineer = [
     },
 ]
 
-const RecruitmentPipelineCEO = [
+const JobPipelineCEO = [
     {
-        type: RecruitmentStepType.Interview,
+        type: JobStepType.Interview,
         title: "Interview Evaluation",
         detail: "Interview with the founder to discuss past experience and assess personality traits."
     },
     {
-        type: RecruitmentStepType.Interview,
+        type: JobStepType.Interview,
         title: "HR Interview",
         detail: "HR Interview should cover discussion about personality and salary package."
     },
 ]
 
-const RecruitmentPipelineRoleMap = {
-    JOB_POSTS: RecruitmentPipelineSoftwareEngineer,
-    CEO: RecruitmentPipelineCEO
+const JobPipelineRoleMap = {
+    JOB_POSTS: JobPipelineSoftwareEngineer,
+    CEO: JobPipelineCEO
 }
 
-function RecruitmentStepDialog(props) {
+function JobStepDialog(props) {
     return (
         <Dialog
             show={props.show}
@@ -104,7 +104,7 @@ function RecruitmentStepDialog(props) {
             actions={props.actions}
         >
             <div>
-                <div className={"recruitment-step-errors"}>
+                <div className={"Job-step-errors"}>
                     {
                         props.errors.map((error, index) => {
                             return (
@@ -116,50 +116,50 @@ function RecruitmentStepDialog(props) {
                     }
                 </div>
                 <div className="mb-Job">
-                    <label htmlFor="recruitmentStageTitleInput" className="form-label">
+                    <label htmlFor="JobStageTitleInput" className="form-label">
                         Job Title
                     </label>
-                    <input className="form-control" id="recruitmentStageTitleInput"
+                    <input className="form-control" id="JobStageTitleInput"
                         placeholder="Enter title ..."
                         value={props.stepTitle}
                         onChange={props.onTitleChange}
                     />
                 </div>
                 <div className="mb-Work">
-                    <label htmlFor="recruitmentStageWorkplaceInput" className="form-label">
+                    <label htmlFor="JobStageWorkplaceInput" className="form-label">
                         Workplace Type
                     </label>
-                    <input className="form-control" id="recruitmentStageWorkplaceInput"
+                    <input className="form-control" id="JobStageWorkplaceInput"
                         placeholder="On-site, Remote, Hybrid"
                         value={props.stepWorkplace}
                         onChange={props.onWorkplaceChange}
                     />
                 </div>
                 <div className="mb-Employment">
-                    <label htmlFor="recruitmentStageEmploymentInput" className="form-label">
+                    <label htmlFor="JobStageEmploymentInput" className="form-label">
                         Employment Type
                     </label>
-                    <input className="form-control" id="recruitmentStageEmploymentInput"
+                    <input className="form-control" id="JobStageEmploymentInput"
                         placeholder="Full-Time, Part-Time, Internship"
                         value={props.stepEmployment}
                         onChange={props.onEmploymentChange}
                     />
                 </div>
                 <div className="mb-Location">
-                    <label htmlFor="recruitmentLocationInput" className="form-label">
+                    <label htmlFor="JobLocationInput" className="form-label">
                         Job Location
                     </label>
-                    <input className="form-control" id="recruitmentLocationInput"
+                    <input className="form-control" id="JobLocationInput"
                         placeholder="San Francisco, CA"
                         value={props.Location}
                         onChange={props.onLocationChange}
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                    <label htmlFor="JobStageDescriptionInput" className="form-label">
                         Description
                     </label>
-                    <textarea className="form-control" id="recruitmentStageDescriptionInput"
+                    <textarea className="form-control" id="JobStageDescriptionInput"
                         rows="5" placeholder="Enter description ..."
                         value={props.stepDescription}
                         onChange={props.onDescriptionChange}
@@ -172,13 +172,13 @@ function RecruitmentStepDialog(props) {
 }
 
 
-function RecruitmentProcess() {
+function JobProcess() {
     const appContext = useContext(ApplicationContext);
-    const [recruitmentProcessState, setRecruitmentProcessState] = useState({
+    const [JobProcessState, setJobProcessState] = useState({
         selectedJobRole: JobRoles.All,
-        recruitmentProcess: undefined
+        JobProcess: undefined
     })
-    const [createRecruitmentStepFormState, setCreateRecruitmentStepFormState] = useState({
+    const [createJobStepFormState, setCreateJobStepFormState] = useState({
         showCreationDialog: false,
         showModificationDialog: false,
         title: "",
@@ -189,7 +189,7 @@ function RecruitmentProcess() {
         errors: [],
 
     })
-    const [modifyRecruitmentStepFormState, setModifyRecruitmentStepFormState] = useState({
+    const [modifyJobStepFormState, setModifyJobStepFormState] = useState({
         showModificationDialog: false,
         title: "",
         Workplace:"",
@@ -202,123 +202,123 @@ function RecruitmentProcess() {
 
     const moveStepUp = (index) => {
         console.log("Moving step up")
-        let process = recruitmentProcessState.recruitmentProcess
+        let process = JobProcessState.JobProcess
         const saveState = process[index - 1]
         process[index - 1] = process[index]
         process[index] = saveState
-        setRecruitmentProcessState({
-            ...recruitmentProcessState,
-            recruitmentProcess: process
+        setJobProcessState({
+            ...JobProcessState,
+            JobProcess: process
         })
     }
     const moveStepDown = (index) => {
         console.log("Moving step down")
-        let process = recruitmentProcessState.recruitmentProcess
+        let process = JobProcessState.JobProcess
         const saveState = process[index + 1]
         process[index + 1] = process[index]
         process[index] = saveState
-        setRecruitmentProcessState({
-            ...recruitmentProcessState,
-            ...recruitmentProcessState,
-            recruitmentProcess: process
+        setJobProcessState({
+            ...JobProcessState,
+            ...JobProcessState,
+            JobProcess: process
         })
     }
 
-    const modifyRecruitmentStep = () => {
+    const modifyJobStep = () => {
         let newSteps = []
-        for (let i = 0; i < recruitmentProcessState.recruitmentProcess.length; i++) {
-            if (i === modifyRecruitmentStepFormState.index) {
+        for (let i = 0; i < JobProcessState.JobProcess.length; i++) {
+            if (i === modifyJobStepFormState.index) {
                 newSteps.push({
-                    type: RecruitmentStepType[modifyRecruitmentStepFormState.type],
-                    title: modifyRecruitmentStepFormState.title,
-                    Workplace:modifyRecruitmentStepFormState.Workplace,
-                    Employment:modifyRecruitmentStepFormState.Employment,
-                    Location:modifyRecruitmentStepFormState.Location,
-                    detail: modifyRecruitmentStepFormState.description
+                    type: JobStepType[modifyJobStepFormState.type],
+                    title: modifyJobStepFormState.title,
+                    Workplace:modifyJobStepFormState.Workplace,
+                    Employment:modifyJobStepFormState.Employment,
+                    Location:modifyJobStepFormState.Location,
+                    detail: modifyJobStepFormState.description
                 })
             }
             else {
-                newSteps.push(recruitmentProcessState.recruitmentProcess[i])
+                newSteps.push(JobProcessState.JobProcess[i])
             }
         }
-        setModifyRecruitmentStepFormState({
-            ...modifyRecruitmentStepFormState,
+        setModifyJobStepFormState({
+            ...modifyJobStepFormState,
             showModificationDialog: false
         })
-        setRecruitmentProcessState({
-            ...recruitmentProcessState,
-            recruitmentProcess: newSteps
+        setJobProcessState({
+            ...JobProcessState,
+            JobProcess: newSteps
         })
     }
 
-    const createRecruitmentStep = () => {
+    const createJobStep = () => {
         let errors = []
-        if (!createRecruitmentStepFormState.title || createRecruitmentStepFormState.title.length === 0) {
+        if (!createJobStepFormState.title || createJobStepFormState.title.length === 0) {
             errors.push("Please provide a title for this stage")
         }
-        if (!createRecruitmentStepFormState.description || createRecruitmentStepFormState.description.length === 0) {
+        if (!createJobStepFormState.description || createJobStepFormState.description.length === 0) {
             errors.push("Please provide a description")
         }
-        if (!createRecruitmentStepFormState.Workplace || createRecruitmentStepFormState.Workplace.length === 0) {
+        if (!createJobStepFormState.Workplace || createJobStepFormState.Workplace.length === 0) {
             errors.push("Please provide the workplace")
         }
-        if (!createRecruitmentStepFormState.employment || createRecruitmentStepFormState.employment.length === 0) {
+        if (!createJobStepFormState.Employment || createJobStepFormState.Employment.length === 0) {
             errors.push("Please provide the employment type")
         }
-        if (!createRecruitmentStepFormState.location || createRecruitmentStepFormState.location.length === 0) {
+        if (!createJobStepFormState.Location || createJobStepFormState.Location.length === 0) {
             errors.push("Please provide the location")
         }
         if (errors.length > 0) {
-            setCreateRecruitmentStepFormState({
-                ...createRecruitmentStepFormState,
+            setCreateJobStepFormState({
+                ...createJobStepFormState,
                 showCreationDialog: true,
                 errors: errors,
             })
         }
         else {
-            setCreateRecruitmentStepFormState({
-                ...createRecruitmentStepFormState,
+            setCreateJobStepFormState({
+                ...createJobStepFormState,
                 showCreationDialog: false
             })
-            setRecruitmentProcessState({
-                ...recruitmentProcessState,
-                recruitmentProcess: [
-                    ...recruitmentProcessState.recruitmentProcess,
+            setJobProcessState({
+                ...JobProcessState,
+                JobProcess: [
+                    ...JobProcessState.JobProcess,
                     {
-                        type: RecruitmentStepType[createRecruitmentStepFormState.type],
-                        title: createRecruitmentStepFormState.title,
-                        detail: createRecruitmentStepFormState.description,
-                        Workplace: createRecruitmentStepFormState.Workplace,
-                        Employment: createRecruitmentStepFormState.Employment,
-                        Location: createRecruitmentStepFormState.Location,
+                        type: JobStepType[createJobStepFormState.type],
+                        title: createJobStepFormState.title,
+                        detail: createJobStepFormState.description,
+                        Workplace: createJobStepFormState.Workplace,
+                        Employment: createJobStepFormState.Employment,
+                        Location: createJobStepFormState.Location,
                     }
                 ]
             })
         }
     }
 
-    const removeRecruitmentStep = (index) => {
+    const removeJobStep = (index) => {
         let newSteps = []
-        for (let i = 0; i < recruitmentProcessState.recruitmentProcess.length; i++) {
-            i !== index && newSteps.push(recruitmentProcessState.recruitmentProcess[i])
+        for (let i = 0; i < JobProcessState.JobProcess.length; i++) {
+            i !== index && newSteps.push(JobProcessState.JobProcess[i])
         }
         appContext.closeDialog()
-        setRecruitmentProcessState({
-            ...recruitmentProcessState,
-            recruitmentProcess: newSteps
+        setJobProcessState({
+            ...JobProcessState,
+            JobProcess: newSteps
         })
     }
     return (
         <div>
-            <RecruitmentStepDialog
-                show={createRecruitmentStepFormState.showCreationDialog}
-                title={"Add a new stage to the recruitment process"}
+            <JobStepDialog
+                show={createJobStepFormState.showCreationDialog}
+                title={"Add a new stage to the Job process"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setCreateRecruitmentStepFormState({
-                                ...createRecruitmentStepFormState,
+                            setCreateJobStepFormState({
+                                ...createJobStepFormState,
                                 showCreationDialog: false
                             })
                         },
@@ -326,60 +326,67 @@ function RecruitmentProcess() {
                     },
                     {
                         title: "Create Step",
-                        handler: createRecruitmentStep,
+                        handler: createJobStep,
                         variant: "primary"
                     }
                 ]}
-                errors={createRecruitmentStepFormState.errors}
+                errors={createJobStepFormState.errors}
                 onTitleChange={(e) => {
-                    setCreateRecruitmentStepFormState({
-                        ...createRecruitmentStepFormState,
+                    setCreateJobStepFormState({
+                        ...createJobStepFormState,
                         title: e.target.value
                     })
                 }}
+                errors={createJobStepFormState.errors}
+                onLocationChange={(e) => {
+                    setCreateJobStepFormState({
+                        ...createJobStepFormState,
+                        Location: e.target.value
+                    })
+                }}
                 
-                errors={createRecruitmentStepFormState.errors}
+                errors={createJobStepFormState.errors}
                 onEmploymentChange={(e) => {
-                    setCreateRecruitmentStepFormState({
-                        ...createRecruitmentStepFormState,
+                    setCreateJobStepFormState({
+                        ...createJobStepFormState,
                         Employment: e.target.value
                     })
                 }}
-                errors={createRecruitmentStepFormState.errors}
+                errors={createJobStepFormState.errors}
                 onWorkplaceChange={(e) => {
-                    setCreateRecruitmentStepFormState({
-                        ...createRecruitmentStepFormState,
+                    setCreateJobStepFormState({
+                        ...createJobStepFormState,
                         Workplace: e.target.value
                     })
                 }}
                 onDescriptionChange={(e) => {
-                    setCreateRecruitmentStepFormState({
-                        ...createRecruitmentStepFormState,
+                    setCreateJobStepFormState({
+                        ...createJobStepFormState,
                         description: e.target.value
                     })
                 }}
                 onStageTypeChange={(e) => {
-                    setCreateRecruitmentStepFormState({
-                        ...createRecruitmentStepFormState,
+                    setCreateJobStepFormState({
+                        ...createJobStepFormState,
                         type: e.target.value
                     })
                 }}
-                selectedStageType={createRecruitmentStepFormState.type}
-                stepTitle={createRecruitmentStepFormState.title}
-                stepEmployment={createRecruitmentStepFormState.Employment}
-                stepLocation={createRecruitmentStepFormState.Location}
-                stepWorkplace={createRecruitmentStepFormState.Workplace}
-                stepDescription={createRecruitmentStepFormState.description}
+                selectedStageType={createJobStepFormState.type}
+                stepTitle={createJobStepFormState.title}
+                stepEmployment={createJobStepFormState.Employment}
+                stepLocation={createJobStepFormState.Location}
+                stepWorkplace={createJobStepFormState.Workplace}
+                stepDescription={createJobStepFormState.description}
             />
-            <RecruitmentStepDialog
-                show={modifyRecruitmentStepFormState.showModificationDialog}
-                title={"Add a new stage to the recruitment process"}
+            <JobStepDialog
+                show={modifyJobStepFormState.showModificationDialog}
+                title={"Add a new stage to the Job process"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setModifyRecruitmentStepFormState({
-                                ...modifyRecruitmentStepFormState,
+                            setModifyJobStepFormState({
+                                ...modifyJobStepFormState,
                                 showModificationDialog: false
                             })
                         },
@@ -387,55 +394,55 @@ function RecruitmentProcess() {
                     },
                     {
                         title: "Modify stage",
-                        handler: modifyRecruitmentStep,
+                        handler: modifyJobStep,
                         variant: "primary"
                     }
                 ]}
-                errors={modifyRecruitmentStepFormState.errors}
+                errors={modifyJobStepFormState.errors}
                 onTitleChange={(e) => {
-                    setModifyRecruitmentStepFormState({
-                        ...modifyRecruitmentStepFormState,
+                    setModifyJobStepFormState({
+                        ...modifyJobStepFormState,
                         title: e.target.value
                     })
                 }}
                 onDescriptionChange={(e) => {
-                    setModifyRecruitmentStepFormState({
-                        ...modifyRecruitmentStepFormState,
+                    setModifyJobStepFormState({
+                        ...modifyJobStepFormState,
                         description: e.target.value
                     })
                 }}
                 onStageTypeChange={(e) => {
-                    setModifyRecruitmentStepFormState({
-                        ...modifyRecruitmentStepFormState,
+                    setModifyJobStepFormState({
+                        ...modifyJobStepFormState,
                         type: e.target.value
                     })
                 }}
-                selectedStageType={modifyRecruitmentStepFormState.type}
-                stepTitle={modifyRecruitmentStepFormState.title}
-                stepDescription={modifyRecruitmentStepFormState.description}
+                selectedStageType={modifyJobStepFormState.type}
+                stepTitle={modifyJobStepFormState.title}
+                stepDescription={modifyJobStepFormState.description}
             />
             <div className={"page-container"}>
                 <div className="role-selection-control">
                     <div className={"role-selection-header"}>
-                        <h5>Please select Job posts</h5>
+                        <h5>Please select an action</h5>
                     </div>
                     <div className={"role-selection-dropdown"}>
                         <div className="input-group input-group-sm">
                             <Dropdown className={"input-group-text"}>
                                 <Dropdown.Toggle id="dropdown-basic">
-                                    <Filter /> Select Job Post
+                                    <Filter /> Select Below
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     {
                                         JobRoles.map((jobRole) => {
                                             return (
                                                 <Dropdown.Item key={jobRole.ui} onClick={(e) => {
-                                                    setRecruitmentProcessState({
-                                                        ...recruitmentProcessState,
-                                                        recruitmentProcess: RecruitmentPipelineRoleMap[jobRole.server],
+                                                    setJobProcessState({
+                                                        ...JobProcessState,
+                                                        JobProcess: JobPipelineRoleMap[jobRole.server],
                                                         selectedJobRole: jobRole
                                                     })
-                                                }} active={recruitmentProcessState.selectedJobRole === jobRole}>
+                                                }} active={JobProcessState.selectedJobRole === jobRole}>
                                                     {jobRole.ui}
                                                 </Dropdown.Item>
                                             )
@@ -447,14 +454,14 @@ function RecruitmentProcess() {
                     </div>
                 </div>
                 {
-                    recruitmentProcessState.recruitmentProcess !== undefined &&
-                    <div className={"recruitment-pipeline-detail-container"}>
-                        <div className={"recruitment-pipeline-controls container-vcenter-hright"}>
+                    JobProcessState.JobProcess !== undefined &&
+                    <div className={"Job-pipeline-detail-container"}>
+                        <div className={"Job-pipeline-controls container-vcenter-hright"}>
                             <Button
                                 variant="primary"
                                 onClick={() => {
-                                    setCreateRecruitmentStepFormState({
-                                        ...createRecruitmentStepFormState,
+                                    setCreateJobStepFormState({
+                                        ...createJobStepFormState,
                                         showCreationDialog: true
                                     })
                                 }}
@@ -462,12 +469,12 @@ function RecruitmentProcess() {
                                 Post a new Job
                             </Button>
                         </div>
-                        <div className={"recruitment-pipeline-detail"}>
+                        <div className={"Job-pipeline-detail"}>
                             {
-                                recruitmentProcessState.recruitmentProcess.map((step, index) => {
-                                    const lenSteps = recruitmentProcessState.recruitmentProcess.length
+                                JobProcessState.JobProcess.map((step, index) => {
+                                    const lenSteps = JobProcessState.JobProcess.length
                                     return (
-                                        <div key={`index-${step.title}`} className={"recruitment-pipeline-step row"}>
+                                        <div key={`index-${step.title}`} className={"Job-pipeline-step row"}>
                                             <div className={"step-number-container container-all-center col-1"}>
                                             </div>
                                             <div className={"step-detail-container col-9"}>
@@ -491,13 +498,13 @@ function RecruitmentProcess() {
                                                             <button type="button" className="btn btn-circle btn-sm btn-success"
                                                                 onClick={() => {
                                                                     let stepType
-                                                                    Object.keys(RecruitmentStepType).map((k) => {
-                                                                        if (RecruitmentStepType[k].ui === step.type.ui) {
+                                                                    Object.keys(JobStepType).map((k) => {
+                                                                        if (JobStepType[k].ui === step.type.ui) {
                                                                             stepType = k
                                                                         }
                                                                     })
-                                                                    setModifyRecruitmentStepFormState({
-                                                                        ...modifyRecruitmentStepFormState,
+                                                                    setModifyJobStepFormState({
+                                                                        ...modifyJobStepFormState,
                                                                         title: step.title,
                                                                         employment: step.employment,
                                                                         location: step.location,
@@ -531,7 +538,7 @@ function RecruitmentProcess() {
                                                                         },
                                                                         {
                                                                             title: "Remove Job",
-                                                                            handler: () => removeRecruitmentStep(index),
+                                                                            handler: () => removeJobStep(index),
                                                                             variant: "primary"
                                                                         }
                                                                     ],
@@ -571,4 +578,4 @@ function RecruitmentProcess() {
     );
 }
 
-export default RecruitmentProcess;
+export default JobProcess;
