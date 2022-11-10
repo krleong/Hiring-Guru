@@ -337,7 +337,6 @@ function JobProcess() {
                         title: e.target.value
                     })
                 }}
-                errors={createJobStepFormState.errors}
                 onLocationChange={(e) => {
                     setCreateJobStepFormState({
                         ...createJobStepFormState,
@@ -345,14 +344,12 @@ function JobProcess() {
                     })
                 }}
                 
-                errors={createJobStepFormState.errors}
                 onEmploymentChange={(e) => {
                     setCreateJobStepFormState({
                         ...createJobStepFormState,
                         Employment: e.target.value
                     })
                 }}
-                errors={createJobStepFormState.errors}
                 onWorkplaceChange={(e) => {
                     setCreateJobStepFormState({
                         ...createJobStepFormState,
@@ -554,9 +551,13 @@ function JobProcess() {
                                                             placement="bottom"
                                                             overlay={
                                                                 <Tooltip>Submit Job Referral</Tooltip>
+                                                                
                                                             }
+                                                            
                                                         >
-                                                            <button href={'/job-referral'} type="button" className="btn btn-circle btn-sm btn-primary">
+                                                            <button type="button" className="btn btn-circle btn-sm btn-primary"
+                                                                
+                                                            >
                                                             
                                                             
    
