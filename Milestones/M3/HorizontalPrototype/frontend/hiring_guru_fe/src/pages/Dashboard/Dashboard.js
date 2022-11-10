@@ -7,11 +7,14 @@ import { Route, Routes } from 'react-router-dom';
 // import DropdownButton from 'react-bootstrap/DropdownButton';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import SideNav from "../../components/SideNav/SideNav";
-import Employee from "../Employees/Employees";
+// import ManageEmployees from "../Employees/Employees";
+import ManageJobs from '../ManageJobs/ManageJobs';
 import JobApps from '../JobApps/JobApps';
 import RecruitmentProcess from '../RecruitmentProcess/RecruitmentProcess';
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import './Dashboard.css';
+import { ManageRoles } from '../ManageRoles/ManageRoles';
+import { ManageEmployees } from '../ManageEmployees/ManageEmployees';
 
 export default function Dashboard() {
     useEffect(() => {
@@ -34,7 +37,13 @@ export default function Dashboard() {
                             <h1>Dashboard Home</h1><HeroBanner text1="WELCOME, {{user}}!" text2="Click on Sidebar to navigate the Dashboard." /></div>} />
                     </Routes>
                     <Routes>
-                        <Route path={'/employees'} element={<Employee />} />
+                        <Route path={'/manage-employees'} element={<ManageEmployees />} />
+                    </Routes>
+                    <Routes>
+                        <Route path={'/manage-jobs'} element={<ManageJobs />} />
+                    </Routes>
+                    <Routes>
+                        <Route path={'/manage-job-roles'} element={<ManageRoles />} />
                     </Routes>
                     <Routes>
                         <Route path={'/job-apps'} element={<JobApps />} />

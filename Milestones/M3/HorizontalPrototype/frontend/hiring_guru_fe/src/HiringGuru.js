@@ -10,7 +10,7 @@ import SignUp from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import CreateCompany from './pages/CreateCompany/CreateCompany';
 import FreeTrial from './pages/FreeTrial/FreeTrial';
-import CreateJob from './pages/CreateJob/CreateJob';
+import ManageJobs from './pages/ManageJobs/ManageJobs';
 import ApplyForJob from './pages/ApplyForJob/ApplyForJob';
 import Member from './components/Member/Member';
 import NavBar from './components/NavBar/NavBar.js';
@@ -94,9 +94,6 @@ function HiringGuru() {
               <Route path='/dashboard/*' element={<Dashboard />} />
               <Route path='/create-company' element={<CreateCompany />} />
               <Route path='/free-trial' element={<FreeTrial />} />
-              <Route path='/create-job' element={<CreateJob />} />
-              <Route path='/recruitment-process' element={<RecruitmentProcess />} />
-              <Route path='/manage-roles' element={<ManageRoles />} />
               <Route path='/job-apply' element={<ApplyForJob />} />
               <Route path='/about/members/:index/detail' element={<Member />} />
             </Routes>

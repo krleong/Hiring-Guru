@@ -1,24 +1,16 @@
 .right-side-content {
-    width: 60%;
-    margin: 5em auto auto 27%;
+    width: 65%;
+    margin: 5em auto auto 24%;
 }
 
 .sidebar-toggle-btn {
     float: right;
 }
 
-h1 {
-    margin-bottom: 0.5em;
-}
-
-.pagination {
-    float: right;
-}
-
 /* FOR MOBILE SCREENS */
 @media only screen and (max-width: 65em) {
 
-    .dashboard-container {
+    .right-side-content {
         width: 90%;
         margin: auto;
         margin-top: 2em;
