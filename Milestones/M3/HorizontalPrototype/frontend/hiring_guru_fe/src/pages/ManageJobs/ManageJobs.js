@@ -1,4 +1,4 @@
-import './CreateJob.css';
+import './ManageJobs.css';
 import Dropdown from "react-bootstrap/Dropdown";
 import {/*Modal,*/ OverlayTrigger, Tooltip } from "react-bootstrap";
 import {
@@ -337,7 +337,6 @@ function JobProcess() {
                         title: e.target.value
                     })
                 }}
-                errors={createJobStepFormState.errors}
                 onLocationChange={(e) => {
                     setCreateJobStepFormState({
                         ...createJobStepFormState,
@@ -422,6 +421,7 @@ function JobProcess() {
                 stepDescription={modifyJobStepFormState.description}
             />
             <div className={"page-container"}>
+                <h1>Manage Jobs - NEED TO MAKE A TABLE</h1>
                 <div className="role-selection-control">
                     <div className={"role-selection-header"}>
                         <h5>Please select an action</h5>
@@ -479,7 +479,7 @@ function JobProcess() {
                                             </div>
                                             <div className={"step-detail-container col-9"}>
                                                 <div className={"step-detail"}>
-                                                    <div className={'step-title h5'}>{step.title}</div>
+                                                    <div href={'/dashboard/home'} className={'step-title h5'}>{step.title}</div>
                                                     <div className={'step-location'}>{step.Location}</div>
                                                     <div className={'step-employment'}>{step.Employment}</div>
                                                     <div className={'step-Workplace'}>{step.Workplace}</div>
@@ -546,6 +546,21 @@ function JobProcess() {
                                                                 )}
                                                             >
                                                                 <Trash3Fill></Trash3Fill>
+                                                            </button>
+                                                        </OverlayTrigger>
+                                                    </div>
+                                                    <div className={"icon-container"}>
+                                                        <OverlayTrigger
+                                                            placement="bottom"
+                                                            overlay={
+                                                                <Tooltip>Submit Job Referral</Tooltip>
+                                                            }
+                                                        >
+                                                            <button href={'/job-referral'} type="button" className="btn btn-circle btn-sm btn-primary">
+                                                            
+                                                            
+   
+                                                                <PencilFill></PencilFill>
                                                             </button>
                                                         </OverlayTrigger>
                                                     </div>

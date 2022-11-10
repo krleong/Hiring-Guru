@@ -10,16 +10,17 @@ import SignUp from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import CreateCompany from './pages/CreateCompany/CreateCompany';
 import FreeTrial from './pages/FreeTrial/FreeTrial';
-import CreateJob from './pages/CreateJob/CreateJob';
+import ManageJobs from './pages/ManageJobs/ManageJobs';
 import ApplyForJob from './pages/ApplyForJob/ApplyForJob';
+import JobReferral2 from './pages/JobReferral2/JobReferral2';
 import Member from './components/Member/Member';
 import NavBar from './components/NavBar/NavBar.js';
 import Footer from './components/Footer/Footer.js';
 import Tagline from './components/Tagline/Tagline.js';
-import JobApps from './pages/JobApps/JobApps';
 import RecruitmentProcess from "./pages/RecruitmentProcess/RecruitmentProcess";
 import { Dialog } from "./components/Dialog/Dialog";
-import {ManageRoles} from "./pages/ManageRoles/ManageRoles";
+import { ManageRoles } from "./pages/ManageRoles/ManageRoles";
+import JobReferral from './pages/JobReferral/JobReferral';
 
 export const ApplicationContext = React.createContext();
 
@@ -93,18 +94,20 @@ function HiringGuru() {
               <Route path='/signup' element={<SignUp />} />
               <Route path='/dashboard/*' element={<Dashboard />} />
               <Route path='/create-company' element={<CreateCompany />} />
-              <Route path='/free-trial' element={<FreeTrial />} />
-              <Route path='/create-job' element={<CreateJob />} />
+              <Route path='/create-job' element={<ManageJobs />} />
               <Route path='/recruitment-process' element={<RecruitmentProcess />} />
               <Route path='/manage-roles' element={<ManageRoles />} />
               <Route path='/job-apply' element={<ApplyForJob />} />
+              <Route path='/job-referral' element={<JobReferral />} />
+              <Route path='/job-referral2' element={<JobReferral2 />} />
               <Route path='/about/members/:index/detail' element={<Member />} />
             </Routes>
           </div>
-          <Footer></Footer>
         </div>
       </ApplicationContext.Provider>
+
     </Router>
+
   );
 }
 
