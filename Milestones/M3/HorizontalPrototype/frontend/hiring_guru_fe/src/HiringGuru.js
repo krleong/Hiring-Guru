@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import CreateCompany from './pages/CreateCompany/CreateCompany';
 import CreateJob from './pages/CreateJob/CreateJob';
 import ApplyForJob from './pages/ApplyForJob/ApplyForJob';
+import JobReferral2 from './pages/JobReferral2/JobReferral2';
 import Member from './components/Member/Member';
 import NavBar from './components/NavBar/NavBar.js';
 import Footer from './components/Footer/Footer.js';
@@ -18,12 +19,8 @@ import Tagline from './components/Tagline/Tagline.js';
 import JobApps from './pages/JobApps/JobApps';
 import RecruitmentProcess from "./pages/RecruitmentProcess/RecruitmentProcess";
 import { Dialog } from "./components/Dialog/Dialog";
-<<<<<<< HEAD
-import JobReferral from './pages/JobReferral/JobReferral';
-import JobReferral2 from './pages/JobReferral2/JobReferral2.js'
-=======
 import {ManageRoles} from "./pages/ManageRoles/ManageRoles";
->>>>>>> 6c49fb72b6db3708d243701f2e45ccfb3dda1977
+import JobReferral from './pages/JobReferral/JobReferral';
 
 export const ApplicationContext = React.createContext();
 
@@ -101,6 +98,8 @@ function HiringGuru() {
               <Route path='/recruitment-process' element={<RecruitmentProcess />} />
               <Route path='/manage-roles' element={<ManageRoles />} />
               <Route path='/job-apply' element={<ApplyForJob />} />
+              <Route path='/job-referral' element={<JobReferral />} />
+              <Route path='/job-referral2' element={<JobReferral2 />} />
               <Route path='/about/members/:index/detail' element={<Member />} />
             </Routes>
           </div>
