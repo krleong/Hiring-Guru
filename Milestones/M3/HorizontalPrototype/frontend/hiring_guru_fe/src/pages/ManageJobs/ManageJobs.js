@@ -337,7 +337,6 @@ function JobProcess() {
                         title: e.target.value
                     })
                 }}
-                errors={createJobStepFormState.errors}
                 onLocationChange={(e) => {
                     setCreateJobStepFormState({
                         ...createJobStepFormState,

@@ -363,7 +363,7 @@ export function ManageRoles() {
                             <div className={"job-roles-container"}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                                    <Breadcrumb.Item active>Recruitment: Manage Job Roles</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>Recruitment: Job Roles</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Manage Job Roles</h1>
 
