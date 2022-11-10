@@ -36,6 +36,7 @@ export default function NavBar(props) {
                                 <NavDropdown.Item href={'/create-company'}>Company Creation</NavDropdown.Item>
                                 <NavDropdown.Item href={'/create-job'}>Create Your Job</NavDropdown.Item>
                                 <NavDropdown.Item href={'/recruitment-process'}>Recruitment Process</NavDropdown.Item>
+                                <NavDropdown.Item href={'/manage-roles'}>Manage Roles</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="/#">
                                     Separated link
