@@ -1,7 +1,8 @@
 .dashboard-container {
     width: 60%;
+    margin: 5em auto auto 27%;
 }
-
+ 
 .sidebar-toggle-btn {
     float: right;
 }
@@ -11,7 +12,7 @@ h1 {
 }
 
 .pagination {
-float: right;
+    float: right;
 }
 
 /* FOR MOBILE SCREENS */

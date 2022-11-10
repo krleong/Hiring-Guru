@@ -1,6 +1,6 @@
 // import { useParams } from 'react-router-dom';
 import { EMPLOYEES } from '../../constants';
-import './Employee.css';
+import './JobApps.css';
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
@@ -8,9 +8,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Pagination from 'react-bootstrap/Pagination';
-import '../../pages/Dashboard/Dashboard.css';
+import GeneralSearch from '../../components/GeneralSearch/GeneralSearch';
 
-function Employee() {
+function JobApps() {
     // const params = useParams();
     // const employee = EMPLOYEES[params.index]
 
@@ -28,25 +28,26 @@ function Employee() {
         <div>
             <Breadcrumb>
                 <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                <Breadcrumb.Item href="/dashboard/teams">
-                    My Teams
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active>Employees</Breadcrumb.Item>
+                <Breadcrumb.Item active>Recruitment: Job Applications</Breadcrumb.Item>
             </Breadcrumb>
-            <h1>Employees</h1>
+            <GeneralSearch />
+
+            <h1>Job Applications</h1>
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th className="narrow-width"><Form>
+                        <th><Form>
                             <Form.Check
                                 type={'checkbox'}
                                 id={`default-checkbox`}
                                 label={''}
                             />
                         </Form></th>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th className="narrow-width">Action</th>
+                        <th className="wide-width">Candidate</th>
+                        <th className="wide-width">Position</th>
+                        <th className="wide-width">Prospective Company</th>
+                        <th >Submitted</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,10 +64,13 @@ function Employee() {
                                     </Form></td>
                                 <td><a href="#/employee-info">{employee.name}</a></td>
                                 <td>{employee.position}</td>
+                                <td>{employee.company}</td>
+                                <td>11/10/2022 at 9:00 AM</td>
                                 <td><DropdownButton id="dropdown-basic-button" title="Action">
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Contact</Dropdown.Item>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item href="#/action-2">Accept</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Decline</Dropdown.Item>
                                 </DropdownButton></td>
                             </tr>
                         )
@@ -75,7 +79,7 @@ function Employee() {
             </Table>
             <div>
                 {/* For individual pagination elements  */}
-            {/* <Pagination>{items}</Pagination> */}
+                {/* <Pagination>{items}</Pagination> */}
                 <Pagination>
                     <Pagination.First />
                     <Pagination.Prev />
@@ -90,4 +94,4 @@ function Employee() {
     );
 }
 
-export default Employee;
+export default JobApps;
