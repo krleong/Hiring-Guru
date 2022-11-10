@@ -480,7 +480,7 @@ function JobProcess() {
                                             </div>
                                             <div className={"step-detail-container col-9"}>
                                                 <div className={"step-detail"}>
-                                                    <div className={'step-title h5'}>{step.title}</div>
+                                                    <div href={'/dashboard/home'} className={'step-title h5'}>{step.title}</div>
                                                     <div className={'step-location'}>{step.Location}</div>
                                                     <div className={'step-employment'}>{step.Employment}</div>
                                                     <div className={'step-Workplace'}>{step.Workplace}</div>
@@ -547,6 +547,21 @@ function JobProcess() {
                                                                 )}
                                                             >
                                                                 <Trash3Fill></Trash3Fill>
+                                                            </button>
+                                                        </OverlayTrigger>
+                                                    </div>
+                                                    <div className={"icon-container"}>
+                                                        <OverlayTrigger
+                                                            placement="bottom"
+                                                            overlay={
+                                                                <Tooltip>Submit Job Referral</Tooltip>
+                                                            }
+                                                        >
+                                                            <button href={'/job-referral'} type="button" className="btn btn-circle btn-sm btn-primary">
+                                                            
+                                                            
+   
+                                                                <PencilFill></PencilFill>
                                                             </button>
                                                         </OverlayTrigger>
                                                     </div>
