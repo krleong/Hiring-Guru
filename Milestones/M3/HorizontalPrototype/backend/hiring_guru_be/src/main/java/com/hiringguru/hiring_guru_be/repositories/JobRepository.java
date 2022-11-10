@@ -13,6 +13,6 @@ public interface JobRepository extends CrudRepository<Job, Integer> {
             value = "select * from Job",
             nativeQuery = true
     )
-    List<Job> queryJob(JobType jobType, String queryString);
+    List<Job> queryJob();
 
 }
