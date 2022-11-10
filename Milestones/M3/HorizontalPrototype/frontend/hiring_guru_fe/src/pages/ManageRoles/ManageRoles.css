@@ -1,0 +1,11 @@
+div.container-all-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.container-vcenter-hright {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
