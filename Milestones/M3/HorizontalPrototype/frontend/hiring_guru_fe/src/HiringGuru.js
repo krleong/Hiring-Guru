@@ -98,13 +98,8 @@ function HiringGuru() {
               <Route path='/dashboard/*' element={<Dashboard />} />
               <Route path='/create-company' element={<CreateCompany />} />
               <Route path='/create-job' element={<CreateJob />} />
-<<<<<<< HEAD
-              <Route path='/job-referral' element={<JobReferral />} />
-              <Route path='/job-referral2' element={<JobReferral2 />} />
-=======
               <Route path='/recruitment-process' element={<RecruitmentProcess />} />
               <Route path='/manage-roles' element={<ManageRoles />} />
->>>>>>> 6c49fb72b6db3708d243701f2e45ccfb3dda1977
               <Route path='/job-apply' element={<ApplyForJob />} />
               <Route path='/about/members/:index/detail' element={<Member />} />
             </Routes>
