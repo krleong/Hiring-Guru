@@ -5,6 +5,19 @@ import axios from "axios";
 import { BASE_URL } from "../configuration";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+
+
+var handleClick= "something";
+function HomeButton() {
+    const navigate = useNavigate();
+  
+    function handleClick() {
+      navigate("/job-apply");
+    }
+  }
+  
 
 const JobSearchStatus = {
     NotStarted: "NotStarted",
@@ -214,6 +227,7 @@ function JobSearch() {
                     }
                 </div>
                 <div className={'search-results container'}>
+                    
                     <div className={'search-results-data row'}>
                         {searchState.searchString.length > 0 && searchState.listOfJobs.map((job, index) => {
                             return (
@@ -234,11 +248,12 @@ function JobSearch() {
                                         </div>
                                         <div className={'job-controls inline-buttons'}>
                                             <div className={'learn-more-button'}>
-                                                <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => { alert("Not implemented yet") }}>
-                                                    Learn More
-                                                    <span className={'button-icon-right'}><BoxArrowUpRight /></span>
-                                                </button>
+
+                                                
                                             </div>
+                                            <Button href={'/job-apply'} id="free-trial-btn" variant="primary">Apply for this Job
+                                            <span className={'button-icon-right'}><BoxArrowUpRight /></span></Button>
+
                                             <div className={'like-button'} onClick={() => { alert("Not implemented yet") }}>
                                                 <button type="button" className="btn btn-outline-primary btn-sm">
                                                     Like
@@ -262,5 +277,4 @@ function JobSearch() {
         </div>
     );
 }
-
 export default JobSearch;

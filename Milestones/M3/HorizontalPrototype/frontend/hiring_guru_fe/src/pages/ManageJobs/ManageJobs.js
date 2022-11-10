@@ -358,6 +358,7 @@ export function ManageJobs() {
                         workplace: e.target.value
                     })
                 }}
+                
                 onEmploymentChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,

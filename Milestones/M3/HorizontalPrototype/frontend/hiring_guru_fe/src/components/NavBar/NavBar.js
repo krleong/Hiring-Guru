@@ -46,11 +46,19 @@ export default function NavBar(props) {
                                     Log Out
                                 </Button> :
                                     <Button id="login-btn"
-                                        variant="outline-primary" onClick={() => loginWithRedirect()}>
+                                        variant="outline-primary" onClick={() => loginWithRedirect({
+                                        redirectUri: `${window.location.origin}/dashboard`
+                                    })}>
                                         Log In
                                     </Button>
                             }
-                            <Button href={'/signup'} id="signup-btn" variant="primary">Get Started</Button>
+                            {
+                                !isAuthenticated &&
+                                <Button id="signup-btn" variant="primary"
+                                  onClick={() => loginWithRedirect({
+                                    redirectUri: `${window.location.origin}/create-company`
+                                })}
+                                >Get Started</Button> }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
