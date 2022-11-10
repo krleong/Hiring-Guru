@@ -1,11 +1,11 @@
 import './CreateCompany.css';
 import Button from 'react-bootstrap/Button';
+import {useAuth0} from "@auth0/auth0-react";
 import Form from 'react-bootstrap/Form';
 
 
-
 function CreateCompany() {
-    
+    const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
     return (
             <div className="gridM-container">
                 <h1 className ="heading1">Create your Company Today!</h1>
@@ -95,7 +95,12 @@ function CreateCompany() {
 
         
             <div className="Submit-container">
-            <Button href={'/dashboard/home'} id="free-trial-btn" variant="primary">Get Started</Button>
+              <Button id="free-trial-btn" variant="primary"
+              onClick={() => {
+                  loginWithRedirect({
+                      redirectUri: `${window.location.origin}/dashboard`
+                  })
+              }}>Create Company</Button>
             </div>
             
             </div>
