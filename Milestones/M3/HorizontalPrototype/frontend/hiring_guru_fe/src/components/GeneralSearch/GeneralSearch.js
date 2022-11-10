@@ -1,4 +1,4 @@
-import './JobSearch.css';
+import './GeneralSearch.css';
 import { useState } from "react";
 import { Filter, BoxArrowUpRight, HeartFill } from 'react-bootstrap-icons';
 import axios from "axios";
@@ -56,7 +56,7 @@ const filterJobs = (jobs, keyword, type) => {
 }
 
 
-function JobSearch() {
+function GeneralSearch() {
     const [searchState, setSearchState] = useState({
         listOfJobs: [],
         searchString: '',
@@ -105,11 +105,11 @@ function JobSearch() {
         })
     }
     return (
-        <div className='job-search-component'>
-            <div className={'job-search-field-container'}>
-                <div className={'search-field fluid-container'}>
-                    <div className="input-group input-group-lg">
-                        <Dropdown className={"input-group-text"}>
+        <div className='general-search-component'>
+            <div className={'general-search-field-container'}>
+                <div className={'general search-field fluid-container'}>
+                    <div className="general input-group input-group-lg">
+                        {/* <Dropdown className={"input-group-text"}>
                             <OverlayTrigger
                                 placement="bottom"
                                 overlay={
@@ -136,18 +136,18 @@ function JobSearch() {
                                     })
                                 }
                             </Dropdown.Menu>
-                        </Dropdown>
+                        </Dropdown> */}
                         <OverlayTrigger
                             placement="bottom"
                             overlay={
-                                <Tooltip>Enter a keyword to search for jobs</Tooltip>
+                                <Tooltip>Filter table</Tooltip>
                             }
                         >
                             <input
                                 type="text"
-                                className="form-control"
-                                placeholder="Search for jobs"
-                                aria-label="Search for jobs"
+                                className="general-search form-control"
+                                placeholder="Filter"
+                                aria-label="Filter"
                                 aria-describedby="basic-addon1"
                                 onChange={(e) => {
                                     setSearchState({
@@ -203,54 +203,9 @@ function JobSearch() {
                         </div>
                     }
                 </div>
-                <div className={'search-results container'}>
-                    <div className={'search-results-data row'}>
-                        {searchState.listOfJobs.map((job, index) => {
-                            return (
-                                <div key={`${job.title}-${job.location}-${job.company}-${index}`} className={'search-result col-12'}>
-                                    <div className={'job'}>
-                                        <div className={'job-header row'}>
-                                            <div className={'company-title col-12'}>
-                                                {job.company.title}
-                                            </div>
-
-                                            <div className={'job-title col-12 h5'}>
-                                                {job.role.title}
-                                            </div>
-
-                                            <div className={'company-title col-12'}>
-                                                {job.location}
-                                            </div>
-                                        </div>
-                                        <div className={'job-controls inline-buttons'}>
-                                            <div className={'learn-more-button'}>
-                                                <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => { alert("Not implemented yet") }}>
-                                                    Learn More
-                                                    <span className={'button-icon-right'}><BoxArrowUpRight /></span>
-                                                </button>
-                                            </div>
-                                            <div className={'like-button'} onClick={() => { alert("Not implemented yet") }}>
-                                                <button type="button" className="btn btn-outline-primary btn-sm">
-                                                    Like
-                                                    <span className={'button-icon-right'}><HeartFill /></span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className={'job-detail-container row'}>
-                                            <div className={'company-title col-12'}>
-                                                {job.description}
-                                            </div>
-                                        </div>
-                                        <div className={'job-border-bottom'}></div>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
             </div>
         </div>
     );
 }
 
-export default JobSearch;
+export default GeneralSearch;
