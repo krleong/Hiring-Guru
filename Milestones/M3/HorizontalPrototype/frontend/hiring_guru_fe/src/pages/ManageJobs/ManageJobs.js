@@ -1,4 +1,4 @@
-import './CreateJob.css';
+import './ManageJobs.css';
 import Dropdown from "react-bootstrap/Dropdown";
 import {/*Modal,*/ OverlayTrigger, Tooltip } from "react-bootstrap";
 import {
@@ -337,7 +337,6 @@ function JobProcess() {
                         title: e.target.value
                     })
                 }}
-                errors={createJobStepFormState.errors}
                 onLocationChange={(e) => {
                     setCreateJobStepFormState({
                         ...createJobStepFormState,
@@ -422,6 +421,7 @@ function JobProcess() {
                 stepDescription={modifyJobStepFormState.description}
             />
             <div className={"page-container"}>
+                <h1>Manage Jobs - NEED TO MAKE A TABLE</h1>
                 <div className="role-selection-control">
                     <div className={"role-selection-header"}>
                         <h5>Please select an action</h5>

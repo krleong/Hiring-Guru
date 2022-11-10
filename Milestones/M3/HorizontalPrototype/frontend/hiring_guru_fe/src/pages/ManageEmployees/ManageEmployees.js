@@ -1,4 +1,4 @@
-import './ManageRoles.css';
+import './ManageEmployees.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import React, { useContext, useState } from "react";
@@ -10,35 +10,30 @@ import { Dialog } from "../../components/Dialog/Dialog";
 import { ApplicationContext } from "../../HiringGuru";
 import Button from "react-bootstrap/Button";
 
-const Roles = [
+const Employees = [
     {
-        title: "Software Engineer",
-        expectations: "Write and test product or system development code." +
-            " Participate in, or lead design reviews with peers and stakeholders" +
-            " to decide amongst available technologies. Review code developed by" +
-            " other developers and provide feedback to ensure best practices" +
-            " (e.g., style guidelines, checking code in, accuracy, testability," +
-            " and efficiency). Contribute to existing documentation or educational" +
-            " content and adapt content based on product/program updates and user " +
-            "feedback. Triage product or system issues and debug/track/resolve" +
-            " by analyzing the sources of issues and the impact on hardware, " +
-            "network, or service operations and quality.",
-        benefits: "Beyond competitive pay, you can receive incentive awards for" +
-            " your performance. Other great perks include 401(k) match, stock" +
-            " purchase plan, paid maternity and parental leave, PTO, multiple" +
-            " health plans, and much more."
+        title: "Farhan Haider",
+        position: "Team Lead",
+        company: "Binary Brains"
     },
     {
-        title: "Software Engineer",
-        expectations: "Participate in, or lead design reviews with peers and stakeholders" +
-            " to decide amongst available technologies ",
-        benefits: "Beyond competitive pay, you can receive incentive awards for your performance." +
-            " Other great perks include 401(k) match, stock purchase plan, paid maternity and" +
-            " parental leave, PTO, multiple health plans, and much more."
+        title: "Kenny Leong",
+        position: "Frontend Engineer",
+        company: "Binary Brains"
+    },
+    {
+        title: "Mamadou Bah",
+        position: "Frontend Engineer",
+        company: "Binary Brains"
+    },
+    {
+        title: "Khushi Khanna",
+        position: "Backend Engineer",
+        company: "Binary Brains"
     }
 ]
 
-function RoleEditDialog(props) {
+function EmployeeEditDialog(props) {
     return (
         <Dialog
             show={props.show}
@@ -58,34 +53,34 @@ function RoleEditDialog(props) {
                     }
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="recruitmentStageTitleInput" className="form-label">
-                        Title
+                    <label htmlFor="recruitmentStageNameInput" className="form-label">
+                        Name
                     </label>
-                    <input className="form-control" id="recruitmentStageTitleInput"
-                        placeholder="Enter title ..."
-                        value={props.roleTitle}
-                        onChange={props.onTitleChange}
+                    <input className="form-control" id="recruitmentStageNameInput"
+                        placeholder="First name Last name"
+                        value={props.roleName}
+                        onChange={props.onNameChange}
                     />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Benefits
+                        Company
                     </label>
                     <textarea className="form-control" id="recruitmentStageDescriptionInput"
                         rows="5" placeholder="Enter description ..."
-                        value={props.benefits}
-                        onChange={props.onBenefitsChange}
+                        value={props.company}
+                        onChange={props.onCompanyChange}
                     >
                     </textarea>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Expectations
+                        Position
                     </label>
                     <textarea className="form-control" id="recruitmentStageDescriptionInput"
                         rows="5" placeholder="Enter description ..."
-                        value={props.expectations}
-                        onChange={props.onExpectationsChange}
+                        value={props.position}
+                        onChange={props.onPositionChange}
                     >
                     </textarea>
                 </div>
@@ -95,67 +90,67 @@ function RoleEditDialog(props) {
 }
 
 
-export function ManageRoles() {
+export function ManageEmployees() {
     const { SearchBar } = Search;
-    const [roles, setRoles] = useState(Roles)
+    const [roles, setEmployees] = useState(Employees)
     const [editDialogState, setEditDialogState] = useState({
         show: false,
         title: "",
-        benefits: "",
-        expectations: "",
+        company: "",
+        position: "",
         errors: [],
         index: undefined
     })
 
-    const [createRoleDialogState, setCreateRoleDialogState] = useState({
+    const [createEmployeeDialogState, setCreateEmployeeDialogState] = useState({
         show: false,
         title: "",
-        benefits: "",
-        expectations: "",
+        company: "",
+        position: "",
         errors: [],
         index: undefined
     })
 
     const appContext = useContext(ApplicationContext);
 
-    const removeRole = (index) => {
-        let newRoles = []
+    const removeEmployee = (index) => {
+        let newEmployees = []
         for (let i = 0; i < roles.length; i++) {
-            i !== index && newRoles.push(roles[i])
+            i !== index && newEmployees.push(roles[i])
         }
         appContext.closeDialog()
-        setRoles(newRoles)
+        setEmployees(newEmployees)
     }
 
-    const createRole = () => {
+    const createEmployee = () => {
         let errors = []
-        if (!createRoleDialogState.title || createRoleDialogState.title.length === 0) {
-            errors.push("Role title cannot be empty")
+        if (!createEmployeeDialogState.title || createEmployeeDialogState.title.length === 0) {
+            errors.push("Employee title cannot be empty")
         }
-        if (!createRoleDialogState.expectations || createRoleDialogState.expectations.length === 0) {
-            errors.push("Role expectations cannot be empty")
+        if (!createEmployeeDialogState.position || createEmployeeDialogState.position.length === 0) {
+            errors.push("Employee position cannot be empty")
         }
-        if (!createRoleDialogState.benefits || createRoleDialogState.benefits.length === 0) {
-            errors.push("Role benefits cannot be empty")
+        if (!createEmployeeDialogState.company || createEmployeeDialogState.company.length === 0) {
+            errors.push("Employee company cannot be empty")
         }
         if (errors.length > 0) {
-            setCreateRoleDialogState({
-                ...createRoleDialogState,
+            setCreateEmployeeDialogState({
+                ...createEmployeeDialogState,
                 show: true,
                 errors: errors,
             })
         }
         else {
-            setRoles([
+            setEmployees([
                 ...roles,
                 {
-                    expectations: createRoleDialogState.expectations,
-                    title: createRoleDialogState.title,
-                    benefits: createRoleDialogState.benefits
+                    position: createEmployeeDialogState.position,
+                    title: createEmployeeDialogState.title,
+                    company: createEmployeeDialogState.company
                 }
             ])
-            setCreateRoleDialogState({
-                ...createRoleDialogState,
+            setCreateEmployeeDialogState({
+                ...createEmployeeDialogState,
                 show: false,
             })
         }
@@ -164,15 +159,15 @@ export function ManageRoles() {
     const columns = [
         {
             dataField: 'title',
-            text: 'Title'
+            text: 'Name'
         },
         {
-            dataField: 'expectations',
-            text: 'Expectations'
+            dataField: 'position',
+            text: 'Position'
         },
         {
-            dataField: 'benefits',
-            text: 'Benefits'
+            dataField: 'company',
+            text: 'Company'
         },
         {
             formatter: (cell, row, index) => {
@@ -182,14 +177,24 @@ export function ManageRoles() {
                             <Filter /> Action
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
+                            {/* <DropdownItem onClick={() => {
+                                setEditDialogState({
+                                    ...editDialogState,
+                                    show: true,
+                                    index: index,
+                                    title: row.title,
+                                    company: row.company,
+                                    position: row.position,
+                                })
+                            }}>Contact</DropdownItem> */}
                             <DropdownItem onClick={() => {
                                 setEditDialogState({
                                     ...editDialogState,
                                     show: true,
                                     index: index,
                                     title: row.title,
-                                    benefits: row.benefits,
-                                    expectations: row.expectations,
+                                    company: row.company,
+                                    position: row.position,
                                 })
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
@@ -203,13 +208,13 @@ export function ManageRoles() {
                                         },
                                         {
                                             title: "Remove role",
-                                            handler: () => removeRole(index),
+                                            handler: () => removeEmployee(index),
                                             variant: "primary"
                                         }
                                     ],
                                     "Once deleted, this can't be undone. Are you sure you want to proceed?"
                                 )
-                            }}>Delete</DropdownItem>
+                            }}>Remove</DropdownItem>
                         </Dropdown.Menu>
                     </Dropdown>
                 )
@@ -221,13 +226,13 @@ export function ManageRoles() {
     const handleEditRecruitmentStep = () => {
         let errors = []
         if (!editDialogState.title || editDialogState.title.length === 0) {
-            errors.push("Role title cannot be empty")
+            errors.push("Employee title cannot be empty")
         }
-        if (!editDialogState.expectations || editDialogState.expectations.length === 0) {
-            errors.push("Role expectations cannot be empty")
+        if (!editDialogState.position || editDialogState.position.length === 0) {
+            errors.push("Employee position cannot be empty")
         }
-        if (!editDialogState.benefits || editDialogState.benefits.length === 0) {
-            errors.push("Role benefits cannot be empty")
+        if (!editDialogState.company || editDialogState.company.length === 0) {
+            errors.push("Employee company cannot be empty")
         }
         if (errors.length > 0) {
             setEditDialogState({
@@ -237,20 +242,20 @@ export function ManageRoles() {
             })
         }
         else {
-            let newRoles = []
+            let newEmployees = []
             for (let i = 0; i < roles.length; i++) {
                 if (i === editDialogState.index) {
-                    newRoles.push({
-                        expectations: editDialogState.expectations,
+                    newEmployees.push({
+                        position: editDialogState.position,
                         title: editDialogState.title,
-                        benefits: editDialogState.benefits
+                        company: editDialogState.company
                     })
                 }
                 else {
-                    newRoles.push(roles[i])
+                    newEmployees.push(roles[i])
                 }
             }
-            setRoles(newRoles)
+            setEmployees(newEmployees)
             setEditDialogState({
                 ...editDialogState,
                 show: false,
@@ -265,9 +270,9 @@ export function ManageRoles() {
 
     return (
         <div className={"page-container"}>
-            <RoleEditDialog
+            <EmployeeEditDialog
                 show={editDialogState.show}
-                title={"Edit Role"}
+                title={"Edit Employee"}
                 actions={[
                     {
                         title: "Close",
@@ -286,37 +291,37 @@ export function ManageRoles() {
                     }
                 ]}
                 errors={editDialogState.errors}
-                onTitleChange={(e) => {
+                onNameChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
                         title: e.target.value
                     })
                 }}
-                onExpectationsChange={(e) => {
+                onPositionChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        expectations: e.target.value
+                        position: e.target.value
                     })
                 }}
-                onBenefitsChange={(e) => {
+                onCompanyChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        benefits: e.target.value
+                        company: e.target.value
                     })
                 }}
-                roleTitle={editDialogState.title}
-                expectations={editDialogState.expectations}
-                benefits={editDialogState.benefits}
+                roleName={editDialogState.title}
+                position={editDialogState.position}
+                company={editDialogState.company}
             />
-            <RoleEditDialog
-                show={createRoleDialogState.show}
-                title={"Create Role"}
+            <EmployeeEditDialog
+                show={createEmployeeDialogState.show}
+                title={"Add Employee"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setCreateRoleDialogState({
-                                ...createRoleDialogState,
+                            setCreateEmployeeDialogState({
+                                ...createEmployeeDialogState,
                                 show: false
                             })
                         },
@@ -324,32 +329,32 @@ export function ManageRoles() {
                     },
                     {
                         title: "Create",
-                        handler: createRole,
+                        handler: createEmployee,
                         variant: "primary"
                     }
                 ]}
-                errors={createRoleDialogState.errors}
-                onTitleChange={(e) => {
-                    setCreateRoleDialogState({
-                        ...createRoleDialogState,
+                errors={createEmployeeDialogState.errors}
+                onNameChange={(e) => {
+                    setCreateEmployeeDialogState({
+                        ...createEmployeeDialogState,
                         title: e.target.value
                     })
                 }}
-                onExpectationsChange={(e) => {
-                    setCreateRoleDialogState({
-                        ...createRoleDialogState,
-                        expectations: e.target.value
+                onPositionChange={(e) => {
+                    setCreateEmployeeDialogState({
+                        ...createEmployeeDialogState,
+                        position: e.target.value
                     })
                 }}
-                onBenefitsChange={(e) => {
-                    setCreateRoleDialogState({
-                        ...createRoleDialogState,
-                        benefits: e.target.value
+                onCompanyChange={(e) => {
+                    setCreateEmployeeDialogState({
+                        ...createEmployeeDialogState,
+                        company: e.target.value
                     })
                 }}
-                roleTitle={createRoleDialogState.title}
-                expectations={createRoleDialogState.expectations}
-                benefits={createRoleDialogState.benefits}
+                roleName={createEmployeeDialogState.title}
+                position={createEmployeeDialogState.position}
+                company={createEmployeeDialogState.company}
             />
             <div>
                 <ToolkitProvider
@@ -360,12 +365,12 @@ export function ManageRoles() {
                 >
                     {
                         props => (
-                            <div className={"job-roles-container"}>
+                            <div className={"employees-container"}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                                    <Breadcrumb.Item active>Recruitment: Job Roles</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>Recruitment: Employees</Breadcrumb.Item>
                                 </Breadcrumb>
-                                <h1>Manage Job Roles</h1>
+                                <h1>Manage Employees</h1>
 
                                 <div className={"container-vcenter-hright"}>
 
@@ -373,12 +378,12 @@ export function ManageRoles() {
 
                                     <Button variant="primary"
                                         onClick={() => {
-                                            setCreateRoleDialogState({
-                                                ...createRoleDialogState,
+                                            setCreateEmployeeDialogState({
+                                                ...createEmployeeDialogState,
                                                 show: true
                                             })
                                         }}
-                                    >Create Role</Button>
+                                    >Add Employee</Button>
                                 </div>
                                 {/* <hr /> */}
                                 <BootstrapTable

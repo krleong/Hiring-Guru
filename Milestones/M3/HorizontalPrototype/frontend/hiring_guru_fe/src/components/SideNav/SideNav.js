@@ -19,20 +19,19 @@ function SideNav() {
                             <div className="collapse show" id="home-collapse">
                                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                     <li><a /*href="/dashboard/employees"*/ className="link-dark rounded" >Companies (INACTIVE)</a></li>
-                                    <li><a href="/dashboard/employees" className="link-dark rounded" >Employees</a></li>
-                                    <li><a /*href="/dashboard/home"*/ className="link-dark rounded">Roles (INACTIVE)</a></li>
+                                    <li><a href="/dashboard/manage-employees" className="link-dark rounded" >Employees</a></li>
+                                    {/* <li><a /*href="/dashboard/permissions" className="link-dark rounded">Company Permissions (INACTIVE)</a></li> */}
                                 </ul>
                             </div>
                         </li>
                         <li className="mb-1">
-                            {/* <a className="dropdown-parent-link" href="/dashboard/home"> */}
                             <button className="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
                                 Recruitment
                             </button>
-                            {/* </a> */}
                             <div className="collapse show" id="home-collapse">
                                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a /*href="/dashboard/positions"*/ className="link-dark rounded">Job Listings (INACTIVE)</a></li>
+                                    <li><a href="/dashboard/manage-jobs" className="link-dark rounded">Manage Jobs</a></li>
+                                    <li><a href="/dashboard/manage-job-roles" className="link-dark rounded">Manage Job Roles</a></li>
                                     <li><a href="/dashboard/job-apps" className="link-dark rounded">Job Applications</a></li>
                                     <li><a href="/dashboard/recruitment-process" className="link-dark rounded">Hiring Pipeline</a></li>
 
