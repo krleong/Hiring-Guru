@@ -10,11 +10,12 @@ import SignUp from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import CreateCompany from './pages/CreateCompany/CreateCompany';
 import CreateJob from './pages/CreateJob/CreateJob';
-import JobReferral from './pages/JobReferral/JobReferral';
+import ApplyForJob from './pages/ApplyForJob/ApplyForJob';
 import Member from './components/Member/Member';
 import NavBar from './components/NavBar/NavBar.js';
 import Footer from './components/Footer/Footer.js';
 import Tagline from './components/Tagline/Tagline.js';
+import JobApps from './pages/JobApps/JobApps';
 import RecruitmentProcess from "./pages/RecruitmentProcess/RecruitmentProcess";
 import { Dialog } from "./components/Dialog/Dialog";
 
@@ -92,7 +93,7 @@ function HiringGuru() {
               <Route path='/create-company' element={<CreateCompany />} />
               <Route path='/free-trial' element={<FreeTrial />} />
               <Route path='/create-job' element={<CreateJob />} />
-              <Route path='/recruitment-process' element={<RecruitmentProcess />} />
+              <Route path='/job-apply' element={<ApplyForJob />} />
               <Route path='/about/members/:index/detail' element={<Member />} />
             </Routes>
           </div>

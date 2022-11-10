@@ -41,9 +41,9 @@ public class JobController {
 
     @PostMapping({"/roles/{roleid}/jobs"})//creates a job
     @ResponseBody
-    public void createJob(@PathVariable int roleid, @RequestParam("title") String title, @RequestParam("location") String location, @RequestParam("description") String description) {
+    public void createJob(@PathVariable int roleid, @RequestParam("title") String title, @RequestParam("location") String location, @RequestParam("description") String description, @RequestParam("jobtype") JobType jobtype) {
         Role role = this.rorepo.findById(roleid).get();
-        Job job = new Job(title, location, JobType.FULL_TIME, description, role);
+        Job job = new Job(title, location,jobtype, description, role);
         this.jobrepo.save(job);
     }
     @PatchMapping({"/roles/{roleid}/jobs"})// updates an existing job
@@ -57,7 +57,7 @@ public class JobController {
 
     @GetMapping({"/roles/jobs"})//gets all jobs
     public List<Job> getJob() {
-        List<Job> jobs =this.jobrepo.queryJob(JobType.FULL_TIME, "");
+        List<Job> jobs =this.jobrepo.queryJob();
         return jobs;
     }
 
