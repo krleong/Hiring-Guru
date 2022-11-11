@@ -15,3 +15,5 @@
 6. Database Port: 5432
 7. Database username: postgres
 8. Database password: hiring-guru-evaluator-2022
+9. Website Login Username: ferhan0000@gmail.com
+10. Website Login Password: Abcd0000
