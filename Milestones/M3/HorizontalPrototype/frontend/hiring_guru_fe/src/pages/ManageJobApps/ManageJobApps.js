@@ -260,9 +260,9 @@ export function ManageJobApps() {
                                             variant: "secondary"
                                         },
                                         {
-                                            title: "Remove job application",
+                                            title: "Remove application",
                                             handler: () => removeJobApp(index),
-                                            variant: "primary"
+                                            variant: "danger"
                                         }
                                     ],
                                     "Once deleted, this can't be undone. Are you sure you want to proceed?"

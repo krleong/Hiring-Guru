@@ -41,7 +41,7 @@ const Jobs = [
     }
 ]
 
-function EmployeeEditDialog(props) {
+function JobEditDialog(props) {
     return (
         <Dialog
             show={props.show}
@@ -144,7 +144,7 @@ export function ManageJobs() {
 
     const appContext = useContext(ApplicationContext);
 
-    const removeEmployee = (index) => {
+    const removeJob = (index) => {
         let newJobs = []
         for (let i = 0; i < roles.length; i++) {
             i !== index && newJobs.push(roles[i])
@@ -197,13 +197,13 @@ export function ManageJobs() {
     }
 
     const columns = [
-        {
+        {   
             dataField: 'title',
-            text: 'Name'
+            text: 'Name',
         },
         {
             dataField: 'workplace',
-            text: 'Workplace'
+            text: 'Workplace',
         },
         {
             dataField: 'employment',
@@ -258,9 +258,9 @@ export function ManageJobs() {
                                             variant: "secondary"
                                         },
                                         {
-                                            title: "Remove employee",
-                                            handler: () => removeEmployee(index),
-                                            variant: "primary"
+                                            title: "Remove job",
+                                            handler: () => removeJob(index),
+                                            variant: "danger"
                                         }
                                     ],
                                     "Once deleted, this can't be undone. Are you sure you want to proceed?"
@@ -270,7 +270,7 @@ export function ManageJobs() {
                     </Dropdown>
                 )
             },
-            text: "Actions"
+            text: "Actions" 
         }
     ];
 
@@ -325,7 +325,7 @@ export function ManageJobs() {
 
     return (
         <div className={"page-container"}>
-            <EmployeeEditDialog
+            <JobEditDialog
                 show={editDialogState.show}
                 title={"Edit Job"}
                 actions={[
@@ -383,7 +383,7 @@ export function ManageJobs() {
                 location={editDialogState.location}
                 description={editDialogState.description}
             />
-            <EmployeeEditDialog
+            <JobEditDialog
                 show={createDialogState.show}
                 title={"Create Job"}
                 actions={[

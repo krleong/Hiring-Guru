@@ -10,7 +10,7 @@ import SignUp from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import CreateCompany from './pages/CreateCompany/CreateCompany';
 import FreeTrial from './pages/FreeTrial/FreeTrial';
-import {ManageJobs} from './pages/ManageJobs/ManageJobs';
+import { ManageJobs } from './pages/ManageJobs/ManageJobs';
 import ApplyForJob from './pages/ApplyForJob/ApplyForJob';
 import JobReferral2 from './pages/JobReferral2/JobReferral2';
 import Member from './components/Member/Member';
@@ -62,51 +62,53 @@ function HiringGuru() {
   }
 
   return (
-    <Router>
-      <Dialog
-        show={appState.dialogState.dialogOpen}
-        title={appState.dialogState.title}
-        body={appState.dialogState.body}
-        actions={appState.dialogState.actions.length === 0 ? [
-          {
-            title: "Close",
-            handler: closeDialog,
-            variant: "secondary"
-          }
-        ] : appState.dialogState.actions}
-      ></Dialog>
-      <ApplicationContext.Provider value={{
-        openDialog: openDialog,
-        closeDialog: closeDialog
-      }}>
-        <div>
-          <div className="page-wrapper">
-            <div className="sticky-top-follow">
-              <Tagline></Tagline>
-              <NavBar></NavBar>
+    <div>
+      <Router>
+        <Dialog
+          show={appState.dialogState.dialogOpen}
+          title={appState.dialogState.title}
+          body={appState.dialogState.body}
+          actions={appState.dialogState.actions.length === 0 ? [
+            {
+              title: "Close",
+              handler: closeDialog,
+              variant: "secondary"
+            }
+          ] : appState.dialogState.actions}
+        ></Dialog>
+        <ApplicationContext.Provider value={{
+          openDialog: openDialog,
+          closeDialog: closeDialog
+        }}>
+          <div>
+            <div className="page-wrapper">
+              <div className="sticky-top-follow">
+                <Tagline></Tagline>
+                <NavBar></NavBar>
+              </div>
+              <Routes>
+                <Route path='/' element={<Landing />} />
+                <Route path='/jobs' element={<JobPosts />} />
+                <Route path='/pricing' element={<Pricing />} />
+                <Route path='/about' element={<About />} />
+                <Route path='/login' element={<LogIn />} />
+                <Route path='/signup' element={<SignUp />} />
+                <Route path='/dashboard/*' element={<Dashboard />} />
+                <Route path='/create-company' element={<CreateCompany />} />
+                <Route path='/create-job' element={<ManageJobs />} />
+                <Route path='/recruitment-process' element={<RecruitmentProcess />} />
+                <Route path='/manage-roles' element={<ManageRoles />} />
+                <Route path='/job-apply' element={<ApplyForJob />} />
+                <Route path='/job-referral' element={<JobReferral />} />
+                <Route path='/job-referral2' element={<JobReferral2 />} />
+                <Route path='/about/members/:index/detail' element={<Member />} />
+              </Routes>
             </div>
-            <Routes>
-              <Route path='/' element={<Landing />} />
-              <Route path='/jobs' element={<JobPosts />} />
-              <Route path='/pricing' element={<Pricing />} />
-              <Route path='/about' element={<About />} />
-              <Route path='/login' element={<LogIn />} />
-              <Route path='/signup' element={<SignUp />} />
-              <Route path='/dashboard/*' element={<Dashboard />} />
-              <Route path='/create-company' element={<CreateCompany />} />
-              <Route path='/create-job' element={<ManageJobs />} />
-              <Route path='/recruitment-process' element={<RecruitmentProcess />} />
-              <Route path='/manage-roles' element={<ManageRoles />} />
-              <Route path='/job-apply' element={<ApplyForJob />} />
-              <Route path='/job-referral' element={<JobReferral />} />
-              <Route path='/job-referral2' element={<JobReferral2 />} />
-              <Route path='/about/members/:index/detail' element={<Member />} />
-            </Routes>
           </div>
-        </div>
-      </ApplicationContext.Provider>
+        </ApplicationContext.Provider>
 
-    </Router>
+      </Router>
+      <Footer></Footer></div>
 
   );
 }
