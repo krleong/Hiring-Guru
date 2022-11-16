@@ -63,24 +63,29 @@ public class JobController {
 
     @GetMapping({"/roles/{roleid}/jobs"})//gets a job that matches a certain ID
     public ResponseEntity<Job> getJobById(@PathVariable int roleid) {
-        Optional<Job> jobs = this.jobrepo.findById(roleid-1);
+        Optional<Job> jobs = this.jobrepo.findById(roleid+1);
         return ResponseEntity.of(jobs);
     }
-    @GetMapping({"/roles/jobs/search"})//searches to see if a job with a certain ID exists
-    public String searchJob(int roleid){
-        boolean bool= rorepo.existsById(roleid-1);
+    @GetMapping({"/roles/{roleid}/jobs/search"})//searches to see if a job with a certain ID exists
+    public String searchJob(@PathVariable int roleid){
+        boolean bool= rorepo.existsById(roleid+1);
         if(bool)
             return "Found a role with a matching id!";
 
         return "Unable to find a role with requested id!";
 
     }
+   @GetMapping({"/roles/jobs/search"})
+   public List<Job> searchforJobKeyword(@RequestParam String keyword){
+       List<Job> jobs =this.jobrepo.searchJob(keyword);
+       return jobs;
+   }
 
     @DeleteMapping({"/roles/{roleid}/jobs"})//delete a job that matches a certain ID
     public String deleteJobById(@PathVariable int roleid) {
-        Job job = this.jobrepo.findById(roleid-1).get();
+        Job job = this.jobrepo.findById(roleid+1).get();
         this.jobrepo.save(job);
-        this.jobrepo.deleteById(roleid-1);
+        this.jobrepo.deleteById(roleid+11);
         return "Deleted Succesfully!";
     }
 }
