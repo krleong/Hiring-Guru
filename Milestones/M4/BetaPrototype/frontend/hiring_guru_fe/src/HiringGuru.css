@@ -1,0 +1,23 @@
+html, body {
+    height: 100%;
+}
+    
+.sticky-top-follow {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.page-wrapper {
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -140px;
+}
+
+.page-wrapper:after {
+    margin-top: 4em;
+    content: "";
+    display: block;
+    height: 140px;
+}
