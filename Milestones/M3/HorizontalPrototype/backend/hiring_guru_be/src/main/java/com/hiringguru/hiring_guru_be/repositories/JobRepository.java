@@ -20,10 +20,10 @@ public interface JobRepository extends CrudRepository<Job, Integer> {
             value = "select j.* " +
                     "from (job j join role r on j.role_id=r.id) join company c on r.company_id=c.id " +
                     "where (LOWER(j.title) LIKE CONCAT('%', :keyword, '%') or"+
-                    " j.description LIKE CONCAT('%', :keyword, '%') or " +
-                    "j.location LIKE CONCAT('%', :keyword, '%') or " +
-                    "c.title LIKE CONCAT('%', :keyword, '%') or " +
-                    "j.type LIKE CONCAT('%', :keyword, '%') )",
+                    " LOWER(j.description) LIKE CONCAT('%', :keyword, '%') or " +
+                    "LOWER(j.location) LIKE CONCAT('%', :keyword, '%') or " +
+                    "LOWER(c.title) LIKE CONCAT('%', :keyword, '%') or " +
+                    "LOWER(j.type) LIKE CONCAT('%', :keyword, '%') )",
               nativeQuery = true
     )
     List<Job> searchJob( String keyword);
