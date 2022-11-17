@@ -1,0 +1,19 @@
+.right-side-content {
+    width: 65%;
+    margin: 5em auto auto 24%;
+}
+
+.sidebar-toggle-btn {
+    float: right;
+}
+
+/* FOR MOBILE SCREENS */
+@media only screen and (max-width: 65em) {
+
+    .right-side-content {
+        width: 90%;
+        margin: auto;
+        margin-top: 2em;
+    }
+
+}
