@@ -1,0 +1,14 @@
+.login-container {
+    padding: 5em;
+    width: 60%;
+    margin: auto;
+}
+
+/* FOR MOBILE SCREENS */
+@media only screen and (max-width: 65em) {
+
+    .login-container {
+        width: 90%;
+    }
+
+}

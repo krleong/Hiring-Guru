@@ -1,0 +1,8 @@
+.general.search-field.fluid-container {
+    max-width: 40%;
+    float: right;
+}
+
+input.general-search.form-control {
+    font-size: 1.2em;
+}
