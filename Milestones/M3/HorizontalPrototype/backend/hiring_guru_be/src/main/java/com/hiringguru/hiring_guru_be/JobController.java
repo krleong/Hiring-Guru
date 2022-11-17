@@ -77,6 +77,7 @@ public class JobController {
     }
    @GetMapping({"/roles/jobs/search"})
    public List<Job> searchforJobKeyword(@RequestParam String keyword){
+        keyword=keyword.toLowerCase();
        List<Job> jobs =this.jobrepo.searchJob(keyword);
        return jobs;
    }
