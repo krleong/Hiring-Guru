@@ -1,4 +1,5 @@
 .gridM-container{
+    margin-top: 5em;
     height: 50%;
     display: grid;
     grid-gap: 15px;
@@ -19,6 +20,7 @@
     background: linear-gradient(90deg, rgba(0, 102, 211, 1) 0%, rgb(121, 89, 173) 50%, rgba(255, 66, 101, 1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-weight: bold;
 }
 
 .CompanySite-container{
