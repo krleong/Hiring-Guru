@@ -8,7 +8,7 @@ function CreateCompany() {
     const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
     return (
             <div className="gridM-container">
-                <h1 className ="heading1">Create your Company Today!</h1>
+                <h1 className ="heading1">Create your company today!</h1>
         <div className="CompanyName-container">
             <Form>
         <Form.Group className="CompanyName" controlId="exampleForm.ControlInput1"> </Form.Group>

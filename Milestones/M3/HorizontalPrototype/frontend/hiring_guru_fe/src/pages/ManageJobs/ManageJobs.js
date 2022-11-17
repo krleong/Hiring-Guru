@@ -270,7 +270,10 @@ export function ManageJobs() {
                     </Dropdown>
                 )
             },
-            text: "Actions" 
+            text: "Actions",
+            headerStyle:  () => {
+                return{width: "1%"};
+            } 
         }
     ];
 

@@ -129,7 +129,7 @@ export function ManageJobApps() {
         job: "",
         role: "",
         company: "",
-        timestamp:"",
+        timestamp: "",
         errors: [],
         index: undefined
     })
@@ -140,7 +140,7 @@ export function ManageJobApps() {
         job: "",
         role: "",
         company: "",
-        timestamp:"",
+        timestamp: "",
         errors: [],
         index: undefined
     })
@@ -247,7 +247,7 @@ export function ManageJobApps() {
                                     job: row.job,
                                     role: row.role,
                                     company: row.company,
-                                    timestamp:row.timestamp,
+                                    timestamp: row.timestamp,
                                 })
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
@@ -272,7 +272,10 @@ export function ManageJobApps() {
                     </Dropdown>
                 )
             },
-            text: "Actions"
+            text: "Actions",
+            headerStyle: () => {
+                return { width: "1%" };
+            }
         }
     ];
 
