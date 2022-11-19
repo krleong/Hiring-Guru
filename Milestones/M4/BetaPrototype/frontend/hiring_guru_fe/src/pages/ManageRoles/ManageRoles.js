@@ -204,7 +204,7 @@ export function ManageRoles() {
                                         {
                                             title: "Remove role",
                                             handler: () => removeRole(index),
-                                            variant: "primary"
+                                            variant: "danger"
                                         }
                                     ],
                                     "Once deleted, this can't be undone. Are you sure you want to proceed?"
@@ -214,7 +214,10 @@ export function ManageRoles() {
                     </Dropdown>
                 )
             },
-            text: "Actions"
+            text: "Actions",
+            headerStyle: () => {
+                return { width: "1%" };
+            }
         }
     ];
 
