@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Repository
 public interface JobRepository extends CrudRepository<Job, Integer> {
@@ -27,6 +30,15 @@ public interface JobRepository extends CrudRepository<Job, Integer> {
               nativeQuery = true
     )
     List<Job> searchJob(String jobtype,  String keyword);
+
+    @Transactional
+    @Modifying()
+    @Query(
+            value = " Delete from job j where j.id =:jobid " ,
+            nativeQuery=true
+    )
+
+    void deleteJob(int jobid);
 
 
 }

@@ -46,10 +46,13 @@ public class JobController {
         Job job = new Job(title, location,jobtype, description, role);
         this.jobrepo.save(job);
     }
-    @PatchMapping({"/roles/{roleid}/jobs"})// updates an existing job
-    public void updateJob(@PathVariable int roleid, @RequestParam("title") String title, @RequestParam("location") String location,@RequestParam("description")String description ){
-        Role role = this.rorepo.findById(roleid).get();
-        Job job = new Job(title, location, JobType.FULL_TIME, description, role);
+    @PutMapping({"/roles/{jobid}/jobs"})// updates an existing job
+    public void updateJob(@PathVariable int jobid, @RequestParam("title") String title, @RequestParam("location") String location,@RequestParam("description")String description, @RequestParam("jobtype") JobType jobtype ){
+        Job job = this.jobrepo.findById(jobid).get();
+        job.title=title;
+        job.location=location;
+        job.type=jobtype;
+        job.description=description;
         this.jobrepo.save(job);
 
     }
@@ -61,20 +64,12 @@ public class JobController {
         return jobs;
     }
 
-    @GetMapping({"/roles/{roleid}/jobs"})//gets a job that matches a certain ID
-    public ResponseEntity<Job> getJobById(@PathVariable int roleid) {
-        Optional<Job> jobs = this.jobrepo.findById(roleid+1);
+    @GetMapping({"/roles/{jobid}/jobs"})//gets a job that matches a certain ID
+    public ResponseEntity<Job> getJobById(@PathVariable int jobid) {
+        Optional<Job> jobs = this.jobrepo.findById(jobid);
         return ResponseEntity.of(jobs);
     }
-    @GetMapping({"/roles/{roleid}/jobs/search"})//searches to see if a job with a certain ID exists
-    public String searchJob(@PathVariable int roleid){
-        boolean bool= rorepo.existsById(roleid+1);
-        if(bool)
-            return "Found a role with a matching id!";
 
-        return "Unable to find a role with requested id!";
-
-    }
    @GetMapping({"/roles/jobs/search"})
    public List<Job> searchforJobKeyword(@RequestParam String jobtype,@RequestParam String keyword){
         keyword=keyword.toLowerCase();
@@ -83,11 +78,9 @@ public class JobController {
        return jobs;
    }
 
-    @DeleteMapping({"/roles/{roleid}/jobs"})//delete a job that matches a certain ID
-    public String deleteJobById(@PathVariable int roleid) {
-        Job job = this.jobrepo.findById(roleid+1).get();
-        this.jobrepo.save(job);
-        this.jobrepo.deleteById(roleid+11);
-        return "Deleted Succesfully!";
+    @DeleteMapping({"/roles/{jobid}/jobs"})//delete a job that matches a certain ID
+    public String deleteJobById(@PathVariable int jobid) {
+       jobrepo.deleteJob(jobid);
+       return "Deleted Succesfully";
     }
 }

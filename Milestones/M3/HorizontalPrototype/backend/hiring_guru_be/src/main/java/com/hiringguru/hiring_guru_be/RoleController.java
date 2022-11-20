@@ -41,10 +41,13 @@ public class RoleController {
         Role role = new Role(title, expectations, benefits, comp);
         this.rorepo.save(role);
     }
-    @PatchMapping({"/companies/{companyid}/roles"})//updates role information
-    public void updateRole(@PathVariable int companyid,@RequestParam("title") String title, @RequestParam("expectations") String expectations, @RequestParam("benefits") String benefits) {
-        Company comp = this.comprepo.findById(companyid).get();
-        Role role = new Role(title, expectations, benefits, comp);
+    @PutMapping({"/companies/{roleid}/roles"})//updates role information
+    public void updateRole(@PathVariable int roleid,@RequestParam("title") String title, @RequestParam("expectations") String expectations, @RequestParam("benefits") String benefits) {
+        Role role= rorepo.findById(roleid).get();
+        role.title=title;
+        role.expectations=expectations;
+        role.benefits=benefits;
+
         this.rorepo.save(role);
     }
 
@@ -54,29 +57,16 @@ public class RoleController {
         return roles;
     }
 
-    @GetMapping({"/companies/{companyid}/roles"})//gets role information that matches a certain ID
-    public ResponseEntity<Role> getRoleById(@PathVariable int companyid) {
-        Optional<Role> role = this.rorepo.findById(companyid+1);
+    @GetMapping({"/companies/{roleid}/roles"})//gets role information that matches a certain ID
+    public ResponseEntity<Role> getRoleById(@PathVariable int roleid) {
+        Optional<Role> role = this.rorepo.findById(roleid);
         return ResponseEntity.of(role);
     }
-    @GetMapping({"/companies/{companyid}/roles/search"})//searches to see if a role exists
-    public String searchRoles(@PathVariable int companyid){
-        boolean bool= rorepo.existsById(companyid+1);
-        if(bool)
-            return "Found a role with a matching id!";
 
-        return "Unable to find a role with requested id!";
 
-    }
-
-    @DeleteMapping({"/companies/{companyid}/roles"})//delete a role that matches a certain ID
-    public String deleteRoleById(@PathVariable int companyid ) {
-        Role role = this.rorepo.findById(companyid+1).get();
-        Company company = this.comprepo.findById(companyid).get();
-        comprepo.save(company);
-        rorepo.save(role);
-        this.rorepo.deleteById(companyid+1);
-        this.comprepo.deleteById(companyid);
+    @DeleteMapping({"/companies/{roleid}/roles"})//delete a role that matches a certain ID
+    public String deleteRoleById(@PathVariable int roleid ) {
+      rorepo.deleteRole(roleid);
 
         return "Deleted Succesfully!";
 
