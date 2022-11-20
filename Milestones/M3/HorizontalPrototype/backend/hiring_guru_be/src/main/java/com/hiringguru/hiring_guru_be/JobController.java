@@ -46,7 +46,7 @@ public class JobController {
         Job job = new Job(title, location,jobtype, description, role);
         this.jobrepo.save(job);
     }
-    @PutMapping({"/roles/{jobid}/jobs"})// updates an existing job
+    @PutMapping({"/roles/{roleid}/jobs/{jobid}"})// updates an existing job
     public void updateJob(@PathVariable int jobid, @RequestParam("title") String title, @RequestParam("location") String location,@RequestParam("description")String description, @RequestParam("jobtype") JobType jobtype ){
         Job job = this.jobrepo.findById(jobid).get();
         job.title=title;
@@ -64,7 +64,7 @@ public class JobController {
         return jobs;
     }
 
-    @GetMapping({"/roles/{jobid}/jobs"})//gets a job that matches a certain ID
+    @GetMapping({"/roles/{roleid}/jobs/{jobid}"})//gets a job that matches a certain ID
     public ResponseEntity<Job> getJobById(@PathVariable int jobid) {
         Optional<Job> jobs = this.jobrepo.findById(jobid);
         return ResponseEntity.of(jobs);
@@ -78,7 +78,7 @@ public class JobController {
        return jobs;
    }
 
-    @DeleteMapping({"/roles/{jobid}/jobs"})//delete a job that matches a certain ID
+    @DeleteMapping({"/roles/{roleid}/jobs/{jobid}"})//delete a job that matches a certain ID
     public String deleteJobById(@PathVariable int jobid) {
        jobrepo.deleteJob(jobid);
        return "Deleted Succesfully";

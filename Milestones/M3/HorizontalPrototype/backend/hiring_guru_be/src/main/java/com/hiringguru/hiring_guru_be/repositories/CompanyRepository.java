@@ -24,9 +24,14 @@ public interface CompanyRepository extends CrudRepository<Company, Integer> {
 
     @Transactional
     @Modifying()
-    @Query(value = "Delete from job j where j.role_id=:companyid ; " +
-            " Delete from role r  where r.company_id=:companyid ;" +
-            " Delete from company c where c.id=:companyid ",
+    @Query(value = "delete from job j" +
+            " where j.role_id in ( " +
+            " select r.id from role r " +
+            " where r.company_id=compnayid ); " +
+            " delete from role r " +
+            " where r.company_id =companyid; " +
+            "delete from company c " +
+            "where id=:companyid",
             nativeQuery = true
     )
     void deleteCompany(int companyid);
