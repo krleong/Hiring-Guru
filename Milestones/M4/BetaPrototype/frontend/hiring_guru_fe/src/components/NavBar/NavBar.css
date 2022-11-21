@@ -21,11 +21,19 @@
     font-size: 5em;
 }
 
+.nav-item.dropdown {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+span PersonIcon {
+    font-size: 5em;
+}
 /* FOR LARGE (NON-MOBILE) SCREENS */
 @media only screen and (max-width: 65em) {
 
-    #signup-btn {
+    /* #signup-btn {
         margin-top: 1em;
         margin-left: 0em;
-    }
+    } */
 }

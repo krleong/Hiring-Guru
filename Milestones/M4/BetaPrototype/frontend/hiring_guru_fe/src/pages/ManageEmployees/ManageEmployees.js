@@ -236,7 +236,7 @@ export function ManageEmployees() {
                                         {
                                             title: "Remove employee",
                                             handler: () => removeEmployee(index),
-                                            variant: "primary"
+                                            variant: "danger"
                                         }
                                     ],
                                     "Once deleted, this can't be undone. Are you sure you want to proceed?"
@@ -246,7 +246,10 @@ export function ManageEmployees() {
                     </Dropdown>
                 )
             },
-            text: "Actions"
+            text: "Actions",
+            headerStyle: () => {
+                return { width: "1%" };
+            }
         }
     ];
 
