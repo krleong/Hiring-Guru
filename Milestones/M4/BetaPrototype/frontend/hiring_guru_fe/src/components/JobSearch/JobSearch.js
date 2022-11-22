@@ -247,17 +247,15 @@ function JobSearch() {
                                             </div>
                                         </div>
                                         <div className={'job-controls inline-buttons'}>
-                                            <div className={'learn-more-button'}>
-
-                                                
+                                            <div className={'learn-more-button'}>  
                                             </div>
-                                            <Button href={'/job-apply'} id="free-trial-btn" variant="primary">Apply for this Job
-                                            <span className={'button-icon-right'}><BoxArrowUpRight /></span></Button>
+                                            <Button href={'/job-apply'} target={"_blank"} id={"free-trial-btn"} variant="primary">Apply for this Job
+                                            <span className={'button-icon-right box-arrow-up-right'}><BoxArrowUpRight /></span></Button>
 
                                             <div className={'like-button'} onClick={() => { alert("Not implemented yet") }}>
-                                                <button type="button" className="btn btn-outline-primary btn-sm">
+                                                <button type="button" className="btn btn-outline-primary">
                                                     Like
-                                                    <span className={'button-icon-right'}><HeartFill /></span>
+                                                    <span className={'button-icon-right heart-fill'}><HeartFill /></span>
                                                 </button>
                                             </div>
                                         </div>

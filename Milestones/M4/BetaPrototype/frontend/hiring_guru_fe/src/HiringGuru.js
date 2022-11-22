@@ -83,7 +83,9 @@ function HiringGuru() {
           <div>
             <div className="page-wrapper">
               <div className="sticky-top-follow">
-                <Tagline></Tagline>
+                <Routes>
+                  <Route path='/' element={<Tagline />} />
+                </Routes>
                 <NavBar></NavBar>
               </div>
               <Routes>

@@ -1,13 +1,23 @@
 import './ApplyForJob.css';
 import Button from 'react-bootstrap/Button';
+import React, { useState } from 'react'
 
-function ApplyJob() {
+
+export default function ApplyJob() {
+    const dt = null;
+    const [cdate, setDate] = useState(dt);
+    const handleDateTime = () => {
+        let dt = new Date().toLocaleDateString() + " at " + new Date().toLocaleTimeString()
+        setDate(dt);
+        alert("Application submitted successfully: " + dt + ".");
+    }
+
     return (
         <div className="job-apply-container">
             <h1>Apply for Job</h1>
             <label for="basic-url" className="form-label">Name</label>
             <div className="input-group mb-3">
-                <input type="text" className="form-control" placeholder="First name" aria-label="First name"    />
+                <input type="text" className="form-control" placeholder="First name" aria-label="First name" />
                 <input type="text" className="form-control" placeholder="Last name" aria-label="Last name" />
             </div>
             <label for="basic-url" className="form-label">Phone number</label>
@@ -28,9 +38,7 @@ function ApplyJob() {
             <div className="input-group mb-3">
                 <input type="file" className="form-control" id="inputGroupFile02" accept="application/pdf" />
             </div>
-            <Button className="submit-form-button" type="submit">Submit</Button>
+            <Button className="submit-form-button" type="submit" href={'/'} onClick={handleDateTime}>Submit</Button>
         </div>
     );
 }
-
-export default ApplyJob;
