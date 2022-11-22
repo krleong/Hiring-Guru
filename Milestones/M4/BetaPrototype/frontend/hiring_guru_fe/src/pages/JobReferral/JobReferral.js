@@ -1,7 +1,9 @@
 import './JobReferral.css';
 import Button from 'react-bootstrap/Button';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
+import LogIn from '../LogIn/LogIn';
 
-function JobReferral() {
+const JobReferral = () => {
     return (
         <div className="job-apply-container">
             <h1>Submit a Job Referral</h1>
@@ -15,18 +17,19 @@ function JobReferral() {
                 <input type="text" className="form-control" aria-label="Phone number" placeholder="@example.com" />
             </div>
             <form>
-            <label for="basic-url" className="form-label">Why this Candidate</label>
-              <textarea rows="5" cols="102"></textarea>
+                <label for="basic-url" className="form-label">Why this Candidate</label>
+                <textarea rows="5" cols="102"></textarea>
             </form>
             <label for="basic-url" className="form-label">Upload their resume/cover letter</label>
             <div className="input-group mb-3">
                 <input type="file" className="form-control" id="inputGroupFile02" />
             </div>
-            <Button href={'/job-referral2'}  variant="primary">Submit
+            <Button href={'/job-referral2'} variant="primary">Submit
             </Button>
-
         </div>
     );
 }
 
-export default JobReferral;
+export default withAuthenticationRequired(JobReferral, {
+    // onRedirecting: () => <LogIn />
+});
