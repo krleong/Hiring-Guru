@@ -46,9 +46,7 @@ public class JobApplication {
             nullable = false
     )
     public int jobId;
-    @Column(
-            nullable = false
-    )
+
 
     public JobApplication() {
     }
