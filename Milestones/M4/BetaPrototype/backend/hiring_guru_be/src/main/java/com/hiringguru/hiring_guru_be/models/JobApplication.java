@@ -1,10 +1,6 @@
 package com.hiringguru.hiring_guru_be.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(
@@ -42,26 +38,15 @@ public class JobApplication {
             nullable = false
     )
     public int phone;
-    @Column(
-            nullable = false
+    @ManyToOne(
+            cascade = {CascadeType.ALL},
+            optional = false
     )
-    public int jobId;
-
-
-    public JobApplication() {
-    }
-
-    public JobApplication(int id, String applicantName, String applicantEmail, String applicantResume, String applicantProfileLink, String submittedAt, String coverLetter, int phone, int jobId) {
-        this.id = id;
-        this.applicantName = applicantName;
-        this.applicantEmail = applicantEmail;
-        this.applicantResume = applicantResume;
-        this.applicantProfileLink = applicantProfileLink;
-        this.submittedAt = submittedAt;
-        this.coverLetter = coverLetter;
-        this.phone = phone;
-        this.jobId = jobId;
-    }
+    @JoinColumn(
+            name = "job_id",
+            referencedColumnName = "id"
+    )
+    private Job job;
 
     public int getId() {
         return id;
@@ -127,16 +112,16 @@ public class JobApplication {
         this.phone = phone;
     }
 
-    public int getJobId() {
-        return jobId;
+    public Job getJob() {
+        return job;
     }
 
-    public void setJobId(int jobId) {
-        this.jobId = jobId;
+    public void setJob(Job job) {
+        this.job = job;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "JobApplication{" +
                 "id=" + id +
                 ", applicantName='" + applicantName + '\'' +
@@ -146,8 +131,22 @@ public class JobApplication {
                 ", submittedAt='" + submittedAt + '\'' +
                 ", coverLetter='" + coverLetter + '\'' +
                 ", phone=" + phone +
-                ", jobId=" + jobId +
+                ", job=" + job +
                 '}';
     }
 
+    public JobApplication() {
+    }
+
+    public JobApplication(int id, String applicantName, String applicantEmail, String applicantResume, String applicantProfileLink, String submittedAt, String coverLetter, int phone, Job job) {
+        this.id = id;
+        this.applicantName = applicantName;
+        this.applicantEmail = applicantEmail;
+        this.applicantResume = applicantResume;
+        this.applicantProfileLink = applicantProfileLink;
+        this.submittedAt = submittedAt;
+        this.coverLetter = coverLetter;
+        this.phone = phone;
+        this.job = job;
+    }
 }
