@@ -45,7 +45,7 @@ public class CompanyController {
         this.comprepo.save(comp);
     }
     @PatchMapping({"/companies/{companyid}"})//updates an existing company
-    public void updateJobPartially(@PathVariable int companyid, @RequestParam("title")String title, @RequestParam("description") String description){
+    public void updateCompany(@PathVariable int companyid, @RequestParam("title")String title, @RequestParam("description") String description){
         Company comp = this.comprepo.findById(companyid).get();
         comp.title=title;
         comp.description=description;
