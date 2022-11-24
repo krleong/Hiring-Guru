@@ -38,6 +38,15 @@ const Roles = [
     }
 ]
 
+const Referrals = [
+    {
+    name: "Kenny Leong",
+    email: "kleong2@mail.sfsu.edu",
+    title: "Software Engineer",
+    description: "Kenny is a half decent frontend engineer and team member. Would kind of recommend."
+    }
+]
+
 function RoleEditDialog(props) {
     return (
         <Dialog
@@ -46,7 +55,7 @@ function RoleEditDialog(props) {
             actions={props.actions}
         >
             <div>
-                <div className={"recruitment-step-errors"}>
+                <div className={"role-step-errors"}>
                     {
                         props.errors.map((error, index) => {
                             return (
@@ -94,11 +103,66 @@ function RoleEditDialog(props) {
     )
 }
 
+function ReferralEditDialog(props) {
+    return (
+        <Dialog
+            show={props.show}
+            title={props.title}
+            actions={props.actions}
+        >
+            <div>
+                <div className={"referral-step-errors"}>
+                    {
+                        props.errors.map((error, index) => {
+                            return (
+                                <div key={`create-rect-step-error-${index}`} className="alert alert-danger" position="alert">
+                                    {error}
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageTitleInput" className="form-label">
+                        Referee name
+                    </label>
+                    <input className="form-control" id="recruitmentStageTitleInput"
+                        placeholder="First name Last name"
+                        value={props.name}
+                        onChange={props.onNameChange}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Referee email
+                    </label>
+                    <input className="form-control" id="recruitmentStageTitleInput"
+                        placeholder="email@example.com"
+                        value={props.email}
+                        onChange={props.onEmailChange}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Why this candidate?
+                    </label>
+                    <textarea className="form-control" id="recruitmentStageDescriptionInput"
+                        rows="5" placeholder="Enter referral description"
+                        value={props.description}
+                        onChange={props.onDescriptionChange}
+                    >
+                    </textarea>
+                </div>
+            </div>
+        </Dialog>
+    )
+}
 
 export function ManageRoles() {
     const { SearchBar } = Search;
     const [roles, setRoles] = useState(Roles)
-    const [editDialogState, setEditDialogState] = useState({
+    const [referrals, setReferrals] = useState(Referrals)
+    const [editRoleDialogState, setEditRoleDialogState] = useState({
         show: false,
         title: "",
         benefits: "",
@@ -112,6 +176,26 @@ export function ManageRoles() {
         title: "",
         benefits: "",
         expectations: "",
+        errors: [],
+        index: undefined
+    })
+
+    const [editReferralDialogState, setEditReferralDialogState] = useState({
+        show: false,
+        name: "",
+        email: "",
+        title:"",
+        description: "",
+        errors: [],
+        index: undefined
+    })
+
+    const [createReferralDialogState, setCreateReferralDialogState] = useState({
+        show: false,
+        name: "",
+        email: "",
+        title: "",
+        description: "",
         errors: [],
         index: undefined
     })
@@ -161,6 +245,53 @@ export function ManageRoles() {
         }
     }
 
+    const removeReferrals = (index) => {
+        let newReferrals = []
+        for (let i = 0; i < referrals.length; i++) {
+            i !== index && newReferrals.push(referrals[i])
+        }
+        appContext.closeDialog()
+        setReferrals(newReferrals)
+    }
+
+    const createReferral = () => {
+        let errors = []
+        if (!createReferralDialogState.name || createReferralDialogState.name.length === 0) {
+            errors.push("Referral name cannot be empty")
+        }
+        if (!createReferralDialogState.email || createReferralDialogState.email.length === 0) {
+            errors.push("Referral email cannot be empty")
+        }
+        if (!createReferralDialogState.title || createReferralDialogState.title.length === 0) {
+            errors.push("Referral job title cannot be empty")
+        }
+        if (!createReferralDialogState.description || createReferralDialogState.description.length === 0) {
+            errors.push("Referral description cannot be empty")
+        }
+        if (errors.length > 0) {
+            setCreateReferralDialogState({
+                ...createReferralDialogState,
+                show: true,
+                errors: errors,
+            })
+        }
+        else {
+            setReferrals([
+                ...referrals,
+                {
+                    name: createReferralDialogState.name,
+                    email: createReferralDialogState.email,
+                    title: createReferralDialogState.title,
+                    description: createReferralDialogState.description
+                }
+            ])
+            setCreateReferralDialogState({
+                ...createReferralDialogState,
+                show: false,
+            })
+        }
+    }
+
     const columns = [
         {
             dataField: 'title',
@@ -183,8 +314,8 @@ export function ManageRoles() {
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <DropdownItem onClick={() => {
-                                setEditDialogState({
-                                    ...editDialogState,
+                                setEditRoleDialogState({
+                                    ...editRoleDialogState,
                                     show: true,
                                     index: index,
                                     title: row.title,
@@ -192,6 +323,13 @@ export function ManageRoles() {
                                     benefits: row.benefits,
                                 })
                             }}>Edit</DropdownItem>
+                            <DropdownItem onClick={() => {
+                                setCreateReferralDialogState({
+                                    ...createReferralDialogState,
+                                    show: true,
+                                    title: row.title,
+                                })
+                            }}>Referrals</DropdownItem>
                             <DropdownItem onClick={() => {
                                 appContext.openDialog(
                                     "Are you sure?",
@@ -221,20 +359,20 @@ export function ManageRoles() {
         }
     ];
 
-    const handleEditRecruitmentStep = () => {
+    const handleEditJobRole = () => {
         let errors = []
-        if (!editDialogState.title || editDialogState.title.length === 0) {
+        if (!editRoleDialogState.title || editRoleDialogState.title.length === 0) {
             errors.push("Role title cannot be empty")
         }
-        if (!editDialogState.expectations || editDialogState.expectations.length === 0) {
+        if (!editRoleDialogState.expectations || editRoleDialogState.expectations.length === 0) {
             errors.push("Role expectations cannot be empty")
         }
-        if (!editDialogState.benefits || editDialogState.benefits.length === 0) {
+        if (!editRoleDialogState.benefits || editRoleDialogState.benefits.length === 0) {
             errors.push("Role benefits cannot be empty")
         }
         if (errors.length > 0) {
-            setEditDialogState({
-                ...editDialogState,
+            setEditRoleDialogState({
+                ...editRoleDialogState,
                 show: true,
                 errors: errors,
             })
@@ -242,11 +380,11 @@ export function ManageRoles() {
         else {
             let newRoles = []
             for (let i = 0; i < roles.length; i++) {
-                if (i === editDialogState.index) {
+                if (i === editRoleDialogState.index) {
                     newRoles.push({
-                        title: editDialogState.title,
-                        expectations: editDialogState.expectations,
-                        benefits: editDialogState.benefits
+                        title: editRoleDialogState.title,
+                        expectations: editRoleDialogState.expectations,
+                        benefits: editRoleDialogState.benefits
                     })
                 }
                 else {
@@ -254,8 +392,52 @@ export function ManageRoles() {
                 }
             }
             setRoles(newRoles)
-            setEditDialogState({
-                ...editDialogState,
+            setEditRoleDialogState({
+                ...editRoleDialogState,
+                show: false,
+            })
+        }
+    }
+
+    const handleEditJobReferral = () => {
+        let errors = []
+        if (!editReferralDialogState.name || editReferralDialogState.name.length === 0) {
+            errors.push("Referral name cannot be empty")
+        }
+        if (!editReferralDialogState.email || editReferralDialogState.email.length === 0) {
+            errors.push("Referral email cannot be empty")
+        }
+        if (!editReferralDialogState.title || editReferralDialogState.title.length === 0) {
+            errors.push("Referral job title cannot be empty")
+        }
+        if (!editReferralDialogState.description || editReferralDialogState.description.length === 0) {
+            errors.push("Referral description cannot be empty")
+        }
+        if (errors.length > 0) {
+            setEditReferralDialogState({
+                ...editReferralDialogState,
+                show: true,
+                errors: errors,
+            })
+        }
+        else {
+            let newReferrals = []
+            for (let i = 0; i < referrals.length; i++) {
+                if (i === editReferralDialogState.index) {
+                    newReferrals.push({
+                        name: editReferralDialogState.name,
+                        email: editReferralDialogState.email,
+                        title: editReferralDialogState.title,
+                        description: editReferralDialogState.description
+                    })
+                }
+                else {
+                    newReferrals.push(referrals[i])
+                }
+            }
+            setReferrals(newReferrals)
+            setEditReferralDialogState({
+                ...editReferralDialogState,
                 show: false,
             })
         }
@@ -264,14 +446,14 @@ export function ManageRoles() {
     return (
         <div className={"page-container"}>
             <RoleEditDialog
-                show={editDialogState.show}
+                show={editRoleDialogState.show}
                 title={"Edit Role"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setEditDialogState({
-                                ...editDialogState,
+                            setEditRoleDialogState({
+                                ...editRoleDialogState,
                                 show: false
                             })
                         },
@@ -279,32 +461,32 @@ export function ManageRoles() {
                     },
                     {
                         title: "Save",
-                        handler: handleEditRecruitmentStep,
+                        handler: handleEditJobRole,
                         variant: "primary"
                     }
                 ]}
-                errors={editDialogState.errors}
+                errors={editRoleDialogState.errors}
                 onTitleChange={(e) => {
-                    setEditDialogState({
-                        ...editDialogState,
+                    setEditRoleDialogState({
+                        ...editRoleDialogState,
                         title: e.target.value
                     })
                 }}
                 onExpectationsChange={(e) => {
-                    setEditDialogState({
-                        ...editDialogState,
+                    setEditRoleDialogState({
+                        ...editRoleDialogState,
                         expectations: e.target.value
                     })
                 }}
                 onBenefitsChange={(e) => {
-                    setEditDialogState({
-                        ...editDialogState,
+                    setEditRoleDialogState({
+                        ...editRoleDialogState,
                         benefits: e.target.value
                     })
                 }}
-                roleTitle={editDialogState.title}
-                expectations={editDialogState.expectations}
-                benefits={editDialogState.benefits}
+                roleTitle={editRoleDialogState.title}
+                expectations={editRoleDialogState.expectations}
+                benefits={editRoleDialogState.benefits}
             />
             <RoleEditDialog
                 show={createRoleDialogState.show}
@@ -313,7 +495,7 @@ export function ManageRoles() {
                     {
                         title: "Close",
                         handler: () => {
-                            setCreateRoleDialogState({
+                            createRole({
                                 ...createRoleDialogState,
                                 show: false
                             })
@@ -348,6 +530,56 @@ export function ManageRoles() {
                 roleTitle={createRoleDialogState.title}
                 expectations={createRoleDialogState.expectations}
                 benefits={createRoleDialogState.benefits}
+            />
+            <ReferralEditDialog
+                show={createReferralDialogState.show}
+                title={"Add Referral"}
+                actions={[
+                    {
+                        title: "Close",
+                        handler: () => {
+                            setCreateReferralDialogState({
+                                ...createReferralDialogState,
+                                show: false
+                            })
+                        },
+                        variant: "secondary"
+                    },
+                    {
+                        title: "Add Referral",
+                        handler: createReferral,
+                        variant: "primary"
+                    }
+                ]}
+                errors={createReferralDialogState.errors}
+                onNameChange={(e) => {
+                    setCreateReferralDialogState({
+                        ...createReferralDialogState,
+                        name: e.target.value
+                    })
+                }}
+                onEmailChange={(e) => {
+                    setCreateReferralDialogState({
+                        ...createReferralDialogState,
+                        email: e.target.value
+                    })
+                }}
+                onTitleChange={(e) => {
+                    setCreateReferralDialogState({
+                        ...createReferralDialogState,
+                        title: e.target.value
+                    })
+                }}
+                onDescriptionChange={(e) => {
+                    setCreateReferralDialogState({
+                        ...createReferralDialogState,
+                        description: e.target.value
+                    })
+                }}
+                name={createReferralDialogState.name}
+                email={createReferralDialogState.email}
+                title={"Add Referral: " + createReferralDialogState.title}
+                description={createReferralDialogState.description}
             />
             <div>
                 <ToolkitProvider
