@@ -32,15 +32,24 @@ export default function NavBar(props) {
                             {/* <Nav.Link href={'/jobs'}>Job Posts</Nav.Link>
                             <Nav.Link href={'/pricing'}>Pricing</Nav.Link> */}
                             <Nav.Link href={'/about'}>About Us</Nav.Link>
+                            {
+                                isAuthenticated ? <Nav.Link href={'/dashboard/home'}>Dashboard</Nav.Link>
+                                    : <div></div>}
                         </Nav>
                         <Nav>
                             {
                                 isAuthenticated ? <div>
-                                    <NavDropdown class="dev-dropdown-menu" title={<span><PersonCircle size={28} style={{marginRight: 3}}/>     Account</span>} id="collasible-nav-dropdown">
+                                    <NavDropdown class="dev-dropdown-menu" title={<span><PersonCircle size={28} style={{ marginRight: 3 }} />     Account</span>} id="collasible-nav-dropdown">
                                         <NavDropdown.Item href={'/dashboard/home'}>Dashboard</NavDropdown.Item>
-                                        <NavDropdown.Item href={'/create-company'}>Create Company</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        {/* <NavDropdown.Item href={'/create-company'}>Create Company</NavDropdown.Item> */}
                                         {/* <NavDropdown.Item href={'/job-apply'}>Apply For Job</NavDropdown.Item> */}
-                                        <NavDropdown.Item href={'/job-referral'}>Job Referral</NavDropdown.Item>
+                                        {/* <NavDropdown.Item href={'/job-referral'}>Job Referral</NavDropdown.Item> */}
+                                        <NavDropdown.Item href={'/dashboard/manage-employees'}>Employees</NavDropdown.Item>
+                                        <NavDropdown.Item href={'/dashboard/manage-jobs'}>Job Listings</NavDropdown.Item>
+                                        <NavDropdown.Item href={'/dashboard/manage-job-roles'}>Job Roles</NavDropdown.Item>
+                                        <NavDropdown.Item href={'/dashboard/manage-job-apps'}>Job Apps</NavDropdown.Item>
+                                        <NavDropdown.Item href={'/dashboard/recruitment-process'}>Recruitment Process</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item href={'/'} onClick={() => logout({ returnTo: window.location.origin })}>Log Out</NavDropdown.Item>
                                     </NavDropdown><Button id="logout-btn"
@@ -53,11 +62,11 @@ export default function NavBar(props) {
                                         })}>
                                         Log In
                                     </Button>
-                                     <Button id="signup-btn" variant="primary"
-                                         onClick={() => loginWithRedirect({
-                                             redirectUri: `${window.location.origin}/create-company`
-                                         })}
-                                     >Get Started</Button></div>
+                                    <Button id="signup-btn" variant="primary"
+                                        onClick={() => loginWithRedirect({
+                                            redirectUri: `${window.location.origin}/create-company`
+                                        })}
+                                    >Get Started</Button></div>
                             }
                             {/* {
                                 !isAuthenticated &&
