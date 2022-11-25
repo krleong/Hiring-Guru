@@ -61,5 +61,6 @@ const Dashboard = () => {
 }
 
 export default withAuthenticationRequired(Dashboard, {
-    onRedirecting: () => <LogIn />
+    onRedirecting: () => <LogIn />,
+    returnTo: window.location.origin
 });
