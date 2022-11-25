@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(
-        name = "referral"
+        name = "referrals"
 )
 public class Referral {
     @Id
