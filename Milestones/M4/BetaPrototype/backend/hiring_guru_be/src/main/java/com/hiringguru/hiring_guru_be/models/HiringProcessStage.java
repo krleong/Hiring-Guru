@@ -34,6 +34,10 @@ public class hiring_process_stage {
             cascade = {CascadeType.ALL},
             optional = false
     )
+     public String stageNumber;
+    @Column(
+            nullable = false
+    )
    @JoinColumn(
             name = "hiring_process_id",
             referencedColumnName = "id"
@@ -42,14 +46,6 @@ public class hiring_process_stage {
     public hiring_process() {
     }
  
-    public Role(String title, String expectations, String benefits, Company company) {
-        this.id = this.id;
-        this.title = title;
-        this.type = type;
-        this.description = description;
-        this.hiring_process = hiring_process;
- 
-    }
  
  
     public int getId() {
@@ -62,6 +58,9 @@ public class hiring_process_stage {
  
     public String getType() {
         return this.type;
+    }
+     public int getStageNumber() {
+        return id;
     }
  
     public String getDescription() {

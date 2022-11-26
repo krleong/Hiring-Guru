@@ -12,16 +12,16 @@ import javax.persistence.Table;
  
 @Entity
 @Table(
-        name = "hiring_process"
+        name = "hiring_processes"
 )
-public class hiring_process {
+public class hiring_processes {
     @Id
     @GeneratedValue
     private int id;
     @Column(
             nullable = false
     )
-    public String last_Updated;
+    public String LastUpdated;
     @Column(
             nullable = false
     )
