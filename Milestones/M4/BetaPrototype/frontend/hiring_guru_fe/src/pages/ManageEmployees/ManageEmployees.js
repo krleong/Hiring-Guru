@@ -12,33 +12,6 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { BASE_URL } from "../../components/configuration";
 
-const Employees = [
-    // {
-    //     title: "Farhan Haider",
-    //     job: "Software Engineer",
-    //     role: "Team Lead",
-    //     company: "Binary Brains"
-    // },
-    // {
-    //     title: "Kenny Leong",
-    //     job: "Software Engineer",
-    //     role: "Frontend Engineer",
-    //     company: "Binary Brains"
-    // },
-    // {
-    //     title: "Mamadou Bah",
-    //     job: "Software Engineer",
-    //     role: "Frontend Engineer",
-    //     company: "Binary Brains"
-    // },
-    // {
-    //     title: "Khushi Khanna",
-    //     job: "Software Engineer",
-    //     role: "Backend Engineer",
-    //     company: "Binary Brains"
-    // }
-]
-
 function EmployeeEditDialog(props) {
     return (
         <Dialog
@@ -115,16 +88,15 @@ const EmployeePageStatus = {
 
 const parseEmployees = (employees) => {
     let parsedEmployees = []
-    employees.forEach((employee) => {
-        parseEmployees.push({
-            name: employee.name,
-            email: employee.email,
-            createdAt: employee.createdAt,
-            designation: employee.designation,
-            roles: employee.roles
-
+    for(let i=0; i<employees.length; i++) {
+        parsedEmployees.push({
+            name: employees[i].user.name,
+            email: employees[i].user.email,
+            createdAt: employees[i].createdAt,
+            designation: employees[i].designation,
+            roles: employees[i].roles
         })
-    })
+    }
     return parsedEmployees
 }
 
@@ -135,6 +107,7 @@ export function ManageEmployees() {
         getEmployeeListRequestStatus: EmployeePageStatus.NotStarted,
         searchFetchError: '',
     })
+    const { SearchBar } = Search;
 
     useEffect(() => {
 
@@ -177,9 +150,6 @@ export function ManageEmployees() {
         })
     }, []);
 
-    const { SearchBar } = Search;
-    const [roles, setEmployees] = useState(Employees)
-
     const [editDialogState, setEditDialogState] = useState({
         show: false,
         title: "",
@@ -204,11 +174,14 @@ export function ManageEmployees() {
 
     const removeEmployee = (index) => {
         let newEmployees = []
-        for (let i = 0; i < roles.length; i++) {
-            i !== index && newEmployees.push(roles[i])
+        for (let i = 0; i < employeePageState.listOfEmployees.length; i++) {
+            i !== index && newEmployees.push(employeePageState.listOfEmployees[i])
         }
         appContext.closeDialog()
-        setEmployees(newEmployees)
+        setPageState({
+            ...employeePageState,
+            listOfEmployees: newEmployees
+        })
     }
 
     const createEmployee = () => {
@@ -233,15 +206,18 @@ export function ManageEmployees() {
             })
         }
         else {
-            setEmployees([
-                ...roles,
-                {
-                    title: createDialogState.title,
-                    company: createDialogState.company,
-                    job: createDialogState.job,
-                    role: createDialogState.role,
-                }
-            ])
+            setPageState({
+                ...employeePageState,
+                listOfEmployees: [
+                    ...employeePageState.listOfEmployees,
+                    {
+                        title: createDialogState.title,
+                        company: createDialogState.company,
+                        job: createDialogState.job,
+                        role: createDialogState.role,
+                    }
+                ]
+            })
             setCreateDialogState({
                 ...createDialogState,
                 show: false,
@@ -352,7 +328,7 @@ export function ManageEmployees() {
         }
         else {
             let newEmployees = []
-            for (let i = 0; i < roles.length; i++) {
+            for (let i = 0; i < employeePageState.listOfEmployees.length; i++) {
                 if (i === editDialogState.index) {
                     newEmployees.push({
                         title: editDialogState.title,
@@ -362,10 +338,13 @@ export function ManageEmployees() {
                     })
                 }
                 else {
-                    newEmployees.push(roles[i])
+                    newEmployees.push(employeePageState.listOfEmployees[i])
                 }
             }
-            setEmployees(newEmployees)
+            setPageState({
+                ...employeePageState,
+                listOfEmployees: newEmployees
+            })
             setEditDialogState({
                 ...editDialogState,
                 show: false,
@@ -477,7 +456,7 @@ export function ManageEmployees() {
             <div>
                 <ToolkitProvider
                     keyField="id"
-                    data={roles}
+                    data={employeePageState.listOfEmployees}
                     columns={columns}
                     search
                 >

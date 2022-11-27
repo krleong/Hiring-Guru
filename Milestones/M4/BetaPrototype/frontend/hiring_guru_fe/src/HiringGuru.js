@@ -100,7 +100,6 @@ function HiringGuru() {
                 <Route path='/login' element={<LogIn />} />
                 <Route path='/signup' element={<SignUp />} />
                 <Route path='/about/members/:index/detail' element={<Member />} />
-                <Route path="*" element={<Landing />} />
                 {/* Route Protection */}
                 {/*Wasn't working => now handled in invidivual pages */}
                 {/* {isAuthenticated ? : */}
