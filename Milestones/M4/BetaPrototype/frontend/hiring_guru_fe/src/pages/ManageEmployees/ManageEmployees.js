@@ -1,7 +1,7 @@
 import './ManageEmployees.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Filter } from "react-bootstrap-icons";
@@ -9,32 +9,34 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { ApplicationContext } from "../../HiringGuru";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
+import { BASE_URL } from "../../components/configuration";
 
 const Employees = [
-    {
-        title: "Farhan Haider",
-        job: "Software Engineer",
-        role: "Team Lead",
-        company: "Binary Brains"
-    },
-    {
-        title: "Kenny Leong",
-        job: "Software Engineer",
-        role: "Frontend Engineer",
-        company: "Binary Brains"
-    },
-    {
-        title: "Mamadou Bah",
-        job: "Software Engineer",
-        role: "Frontend Engineer",
-        company: "Binary Brains"
-    },
-    {
-        title: "Khushi Khanna",
-        job: "Software Engineer",
-        role: "Backend Engineer",
-        company: "Binary Brains"
-    }
+    // {
+    //     title: "Farhan Haider",
+    //     job: "Software Engineer",
+    //     role: "Team Lead",
+    //     company: "Binary Brains"
+    // },
+    // {
+    //     title: "Kenny Leong",
+    //     job: "Software Engineer",
+    //     role: "Frontend Engineer",
+    //     company: "Binary Brains"
+    // },
+    // {
+    //     title: "Mamadou Bah",
+    //     job: "Software Engineer",
+    //     role: "Frontend Engineer",
+    //     company: "Binary Brains"
+    // },
+    // {
+    //     title: "Khushi Khanna",
+    //     job: "Software Engineer",
+    //     role: "Backend Engineer",
+    //     company: "Binary Brains"
+    // }
 ]
 
 function EmployeeEditDialog(props) {
@@ -104,10 +106,80 @@ function EmployeeEditDialog(props) {
     )
 }
 
+const EmployeePageStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+
+const parseEmployees = (employees) => {
+    let parsedEmployees = []
+    employees.forEach((employee) => {
+        parseEmployees.push({
+            name: employee.name,
+            email: employee.email,
+            createdAt: employee.createdAt,
+            designation: employee.designation,
+            roles: employee.roles
+
+        })
+    })
+    return parsedEmployees
+}
 
 export function ManageEmployees() {
+    const [employeePageState, setPageState] = useState({
+        listOfEmployees: [],
+        searchString: '',
+        getEmployeeListRequestStatus: EmployeePageStatus.NotStarted,
+        searchFetchError: '',
+    })
+
+    useEffect(() => {
+
+        setPageState({
+            ...employeePageState,
+            listOfEmployees: [],
+            getEmployeeListRequestStatus: EmployeePageStatus.InProgress,
+            searchFetchError: ''
+        })
+        axios({
+            url: `${BASE_URL}/api/v1/companies/177/employees`,
+            method: 'get',
+            timeout: 10000,
+            params: {
+                query: employeePageState.searchString,
+            }
+        }).then((resp) => {
+            if (resp.status === 200) {
+                setPageState({
+                    ...employeePageState,
+                    listOfEmployees: parseEmployees(resp.data),
+                    getEmployeeListRequestStatus: EmployeePageStatus.Success,
+                })
+            }
+            else {
+                setPageState({
+                    ...employeePageState,
+                    listOfEmployees: [],
+                    getEmployeeListRequestStatus: EmployeePageStatus.Error,
+                    searchFetchError: 'There was an error fetching the list of employees. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...employeePageState,
+                listOfEmployees: [],
+                getEmployeeListRequestStatus: EmployeePageStatus.Error,
+                searchFetchError: 'There was an error fetching the list of employees. Please try again later'
+            })
+        })
+    }, []);
+
     const { SearchBar } = Search;
     const [roles, setEmployees] = useState(Employees)
+
     const [editDialogState, setEditDialogState] = useState({
         show: false,
         title: "",
@@ -179,20 +251,24 @@ export function ManageEmployees() {
 
     const columns = [
         {
-            dataField: 'title',
+            dataField: 'name',
             text: 'Name'
         },
         {
-            dataField: 'job',
-            text: 'Job Title'
+            dataField: 'email',
+            text: 'Email'
         },
         {
-            dataField: 'role',
-            text: 'Role'
+            dataField: 'createdAt',
+            text: 'Date Added'
         },
         {
-            dataField: 'company',
-            text: 'Company'
+            dataField: 'designation',
+            text: 'Designation'
+        },
+        {
+            dataField: 'roles',
+            text: 'Roles'
         },
         {
             formatter: (cell, row, index) => {

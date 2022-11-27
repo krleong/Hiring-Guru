@@ -39,7 +39,7 @@ export default function NavBar(props) {
                         <Nav>
                             {
                                 isAuthenticated ? <div>
-                                    <NavDropdown class="dev-dropdown-menu" title={<span><PersonCircle size={28} style={{ marginRight: 3 }} />     Account</span>} id="collasible-nav-dropdown">
+                                    <NavDropdown className={"dev-dropdown-menu"} title={<span><PersonCircle size={28} style={{ marginRight: 3 }} />     Account</span>} id="collasible-nav-dropdown">
                                         <NavDropdown.Item href={'/dashboard/home'}>Dashboard</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         {/* <NavDropdown.Item href={'/create-company'}>Create Company</NavDropdown.Item> */}
