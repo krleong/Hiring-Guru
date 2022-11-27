@@ -31,7 +31,7 @@ public class Job {
             nullable = false
     )
     @Enumerated(EnumType.STRING)
-    private JobType type;
+    public JobType type;
     @Column(
             nullable = false
     )

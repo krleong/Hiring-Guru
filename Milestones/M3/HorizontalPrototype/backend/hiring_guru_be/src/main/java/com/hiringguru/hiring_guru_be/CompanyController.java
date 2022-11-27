@@ -8,6 +8,8 @@ import com.hiringguru.hiring_guru_be.repositories.CompanyRepository;
 import com.hiringguru.hiring_guru_be.repositories.JobRepository;
 import com.hiringguru.hiring_guru_be.repositories.RoleRepository;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +44,9 @@ public class CompanyController {
         Company comp = new Company(title,description);
         this.comprepo.save(comp);
     }
-    @PatchMapping({"/companies/{id}"})//updates an existing company
-    public void updateJobPartially(@PathVariable int id, @RequestParam("title")String title, @RequestParam("description") String description){
-        Company comp = this.comprepo.findById(id).get();
+    @PatchMapping({"/companies/{companyid}"})//updates an existing company
+    public void updateJobPartially(@PathVariable int companyid, @RequestParam("title")String title, @RequestParam("description") String description){
+        Company comp = this.comprepo.findById(companyid).get();
         comp.title=title;
         comp.description=description;
         this.comprepo.save(comp);
@@ -57,31 +59,19 @@ public class CompanyController {
         return companies;
     }
 
-    @GetMapping({"/companies/{id}"})//gets company information that matches certain information
-    public ResponseEntity<Company> getCompanyById(@PathVariable int id) {
-        Optional<Company> company = this.comprepo.findById(id);
+    @GetMapping({"/companies/{companyid}"})//gets company information that matches certain information
+    public ResponseEntity<Company> getCompanyById(@PathVariable int companyid) {
+        Optional<Company> company = this.comprepo.findById(companyid);
         return ResponseEntity.of(company);
     }
 
-    @GetMapping({"/roles/companies/search"})//searches to see if a company exists
-    public String searchCompany(int id){
-        boolean bool= comprepo.existsById(id);
 
-        if(bool)
-            return "Found a company with a matching id!";
+    @DeleteMapping({"/companies/{companyid}"})//delete a company that matches a certain ID
+    public String deleteCompanyById(@PathVariable int companyid) {
+        comprepo.deleteCompany(companyid);
 
-        return "Unable to find a company with requested id!";
-
-    }
-
-    @DeleteMapping({"/companies/{id}"})//delete a company that matches a certain ID
-    public String deleteCompanyById(@PathVariable int id) {
-        Company company = this.comprepo.findById(id).get();
-        Role role = this.rorepo.findById(id-1).get();
-        comprepo.save(company);
-        rorepo.save(role);
-        this.rorepo.deleteById(id-1);
-       // this.comprepo.deleteById(id);
         return "Deleted Succesfully!";
+
+
     }
 }
