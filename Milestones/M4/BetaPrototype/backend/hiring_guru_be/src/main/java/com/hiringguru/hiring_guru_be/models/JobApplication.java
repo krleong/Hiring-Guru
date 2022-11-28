@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(
-        name = "job_application"
+        name = "job_applications"
 )
 public class JobApplication {
     @Id
