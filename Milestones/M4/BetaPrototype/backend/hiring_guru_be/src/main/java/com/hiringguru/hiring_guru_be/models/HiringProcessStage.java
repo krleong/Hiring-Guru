@@ -1,5 +1,5 @@
 package com.hiringguru.hiring_guru_be.models;
- 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,12 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
- 
+
+
 @Entity
 @Table(
         name = "hiring_process_stage"
 )
-public class hiring_process_stage {
+public class HiringProcessStage {
     @Id
     @GeneratedValue
     private int id;
@@ -34,40 +35,71 @@ public class hiring_process_stage {
             cascade = {CascadeType.ALL},
             optional = false
     )
-     public String stageNumber;
-    @Column(
-            nullable = false
-    )
-   @JoinColumn(
+    @JoinColumn(
             name = "hiring_process_id",
             referencedColumnName = "id"
     )
- 
-    public hiring_process() {
+    public HiringProcess hiringProcess;
+
+    @Override
+    public String toString() {
+        return "HiringProcessStage{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", hiringProcess=" + hiringProcess +
+                '}';
     }
- 
- 
- 
+
     public int getId() {
         return id;
     }
- 
-    public String getTitle(){
-        return this.title;
-  }
- 
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getType() {
-        return this.type;
+        return type;
     }
-     public int getStageNumber() {
-        return id;
+
+    public void setType(String type) {
+        this.type = type;
     }
- 
+
     public String getDescription() {
-        return this.description;
+        return description;
     }
- 
-    public hiring_process gethiring_process() {
-        return hiring_process;
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public HiringProcess getHiringProcess() {
+        return hiringProcess;
+    }
+
+    public void setHiringProcess(HiringProcess hiringProcess) {
+        this.hiringProcess = hiringProcess;
+    }
+
+    public HiringProcessStage() {
+    }
+
+    public HiringProcessStage(int id, String title, String type, String description, HiringProcess hiringProcess) {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.description = description;
+        this.hiringProcess = hiringProcess;
     }
 }
