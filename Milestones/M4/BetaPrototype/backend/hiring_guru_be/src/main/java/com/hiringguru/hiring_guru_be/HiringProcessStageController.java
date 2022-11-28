@@ -26,27 +26,29 @@ public class HiringProcessStageController {
     private HiringProcessRepository hiringProcessRepository;
     @Autowired
     private RoleRepository roleRepository;
-//    @DeleteMapping({"/stages/{stageId}"})//delete a stage that matches a certain ID
-//    public List<HiringProcessStage> deleteStageById(@PathVariable int stageId) {
-//        Role role = this.roleRepository.findById(roleid).get();
-//        comprepo.save(company);
-//        rorepo.save(role);
-//        this.rorepo.deleteById(id-1);
-//        // this.comprepo.deleteById(id);
-//        return stages;
-//    }
+
+    @PostMapping({"/stages"})
+    @ResponseBody
+    public void createStage(@PathVariable int stageId, @RequestParam("title") String title, @RequestParam("type") String type, @RequestParam("description") String description){
+        HiringProcess hiringProcess = this.hiringProcessStageRepository.findById(stageId).get().hiringProcess;
+        HiringProcessStage hiringProcessStage = new HiringProcessStage(stageId, title, type, description, hiringProcess);
+        this.hiringProcessStageRepository.save(hiringProcessStage);
+    }
+    @DeleteMapping({"/stages/{stageId}"})//delete a stage that matches a certain ID
+    public String deleteStageById(@PathVariable int stageId) {
+        hiringProcessStageRepository.deleteById(stageId);
+        return "Deleted Succesfully!";
+
+    }
     @GetMapping({"/stages"})//gets all stages information
     public List<HiringProcessStage> getHiringProcessStage() {
         List<HiringProcessStage>stages=this.hiringProcessStageRepository.queryHiringProcessStage();
         return stages;
     }
     @PatchMapping({"/stages/{stageId}"})//updates an existing stage
-    public void updateStage(@PathVariable int stageId,@PathVariable int roleid,@RequestParam("title") String title, @RequestParam("type") String type, @RequestParam("description") String description) {
-        Role role = this.roleRepository.findById(roleid).get();
-        HiringProcess hiringProcess = new HiringProcess();
-        hiringProcess.setLastUpdated(hiringProcessStageRepository.findById(stageId).get().getHiringProcess().getLastUpdated());
-        hiringProcess.setRole(hiringProcessStageRepository.findById(stageId).get().getHiringProcess().getRole());
-        HiringProcessStage hiringProcessStage = new HiringProcessStage(stageId,title, type, description, hiringProcess);
+    public void updateStage(@PathVariable int stageId,@RequestParam("title") String title, @RequestParam("type") String type, @RequestParam("description") String description) {
+        HiringProcess hiringProcess = this.hiringProcessStageRepository.findById(stageId).get().getHiringProcess();
+        HiringProcessStage hiringProcessStage = new HiringProcessStage(stageId,title,type,description,hiringProcess);
         this.hiringProcessStageRepository.save(hiringProcessStage);
     }
 
