@@ -47,6 +47,15 @@ public class JobController {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
+    
+      @RequestMapping(value = "/companies/roles", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllRoles() {
+        try {
+            return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+        }
+    }
 
     @RequestMapping(value = "/roles/{roleid}/jobs/{jobid}", method = RequestMethod.PATCH)
     public ResponseEntity<?> updateJob(@PathVariable int roleid, @PathVariable int jobid, @RequestBody JobCreateUpdateRequest job) {
