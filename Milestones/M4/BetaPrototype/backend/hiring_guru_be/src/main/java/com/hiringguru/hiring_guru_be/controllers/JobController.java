@@ -48,10 +48,10 @@ public class JobController {
         }
     }
     
-      @RequestMapping(value = "/companies/roles", method = RequestMethod.GET)
-    public ResponseEntity<?> getAllRoles() {
+      @RequestMapping(value = "/roles/jobs", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllJobs() {
         try {
-            return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
+            return new ResponseEntity<>(jobService.getAllJobs(), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
