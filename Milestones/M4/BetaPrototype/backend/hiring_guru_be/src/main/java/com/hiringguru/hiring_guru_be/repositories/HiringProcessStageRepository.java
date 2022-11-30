@@ -15,4 +15,11 @@ public interface HiringProcessStageRepository extends JpaRepository<HiringProces
             nativeQuery = true
     )
     List<HiringProcessStage> queryHiringProcessStages();
+    @Transactional
+    @Modifying()
+    @Query(value = "Delete from hiringProcess h where h.hiring_process_id=:hpId ; " +
+            " Delete from hiringProcessStage hs  where hs.id=:hpsId ",
+            nativeQuery = true
+    )
+    void deleteHiringProcessStage(Long hpsId);
 }

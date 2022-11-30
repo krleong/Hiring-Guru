@@ -4,6 +4,7 @@ import com.hiringguru.hiring_guru_be.entities.HiringProcessStageCreateUpdateRequ
 import com.hiringguru.hiring_guru_be.models.HiringProcessStage;
 import com.hiringguru.hiring_guru_be.models.HiringProcessStage;
 import com.hiringguru.hiring_guru_be.models.HiringProcess;
+import com.hiringguru.hiring_guru_be.models.Role;
 import com.hiringguru.hiring_guru_be.repositories.*;
 import com.hiringguru.hiring_guru_be.repositories.HiringProcessStageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,33 +26,25 @@ public class HiringProcessStageService {
     
     
 
-    public HiringProcessStage createHiringProcessStage(Long hiringProcessId, HiringProcessStageCreateUpdateRequest hpReq) {
+    public HiringProcessStage createHiringProcessStage(Long hiringProcessId, HiringProcessStageCreateUpdateRequest hpsReq) {
         HiringProcess hiringProcess= hiringProcessRepository.findById(hiringProcessId).get();
 
         HiringProcessStage hiringProcessStage = new HiringProcessStage();
-        hiringProcessStage.setTitle(hpReq.title);
-        hiringProcessStage.setType(hpReq.type);
-        hiringProcessStage.setDescription(hpReq.description);
+        hiringProcessStage.setTitle(hpsReq.title);
+        hiringProcessStage.setType(hpsReq.type);
+        hiringProcessStage.setDescription(hpsReq.description);
 
 
         try {
             hiringProcessStageRepository.save(hiringProcessStage);
         }
         catch (NoSuchElementException e) {
-            throw new EntityNotFoundException(String.format("No HiringProcess found with id %d",hiringProcessId));
+            throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d",hiringProcessId));
         }
 
         return hiringProcessStageRepository.save(hiringProcessStage);
     }
 
-    public HiringProcessStage getHiringProcessStageById(Long hpsId) {
-        try {
-            return hiringProcessStageRepository.findById(hpsId).get();
-        }
-        catch (NoSuchElementException e) {
-            throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d", hpsId));
-        }
-    }
 
     public HiringProcessStage updateHiringProcessStage(Long hpsId, HiringProcessStageCreateUpdateRequest hiringProcessStage) {
         HiringProcessStage existingHiringProcessStage;
@@ -70,16 +63,6 @@ public class HiringProcessStageService {
 
     }
 
-
-    public List<HiringProcessStage> getAllHiringProcessStages() {
-        try {
-            return hiringProcessStageRepository.queryHiringProcessStages();
-        } catch (NoSuchElementException e) {
-            throw new EntityNotFoundException(String.format("Unable to get HiringProcessStage information"));
-
-        }
-    }
-
     public List<HiringProcessStage> getAllHiringProcessStagesForHiringProcessId(Long hiringProcessid) {
         try {
             HiringProcess hiringProcess = hiringProcessRepository.findById(hiringProcessid).get();
@@ -88,5 +71,17 @@ public class HiringProcessStageService {
         catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No HiringProcess found with id %d", hiringProcessid));
         }
+    }
+    public void deleteHiringProcessStageById(Long id) {
+        HiringProcessStage existingHiringProcessStage;
+        try {
+            existingHiringProcessStage = hiringProcessStageRepository.findById(id).get();
+        }
+        catch (NoSuchElementException e) {
+            throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d", id));
+        }
+
+        hiringProcessStageRepository.deleteHiringProcessStage(id);
+
     }
 }
