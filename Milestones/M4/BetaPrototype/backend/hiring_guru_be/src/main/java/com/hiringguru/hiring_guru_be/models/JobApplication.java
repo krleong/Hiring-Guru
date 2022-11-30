@@ -138,8 +138,8 @@ public class JobApplication {
     public JobApplication() {
     }
 
-    public JobApplication(int id, String applicantName, String applicantEmail, String applicantResume, String applicantProfileLink, String submittedAt, String coverLetter, int phone, Job job) {
-        this.id = id;
+    public JobApplication(String applicantName, String applicantEmail, String applicantResume, String applicantProfileLink, String submittedAt, String coverLetter, int phone, Job job) {
+        this.id = this.id;
         this.applicantName = applicantName;
         this.applicantEmail = applicantEmail;
         this.applicantResume = applicantResume;
