@@ -55,7 +55,29 @@ public class Job {
         this.role = role;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setType(JobType type) {
+        this.type = type;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 
     public String getLocation() {
         return this.location;
