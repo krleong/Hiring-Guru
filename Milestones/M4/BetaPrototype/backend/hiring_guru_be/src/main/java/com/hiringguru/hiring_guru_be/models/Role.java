@@ -54,6 +54,21 @@ public class Role {
 
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setExpectations(String expectations) {
+        this.expectations = expectations;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public void setBenefits(String benefits) {
+        this.benefits = benefits;
+    }
 
     public int getId() {
         return id;
