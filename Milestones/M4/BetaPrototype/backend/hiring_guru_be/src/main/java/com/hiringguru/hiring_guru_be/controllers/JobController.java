@@ -79,12 +79,12 @@ public class JobController {
     @RequestMapping(value = "/roles/jobs/search",method=RequestMethod.GET)
     public ResponseEntity<?> searchForJobsThatMatch(@RequestParam String type, @RequestParam String keyword){
         try{
-            jobService.getAllJobsThatMatch(type,keyword);
+             return new ResponseEntity<>(jobService.getAllJobsThatMatch(type,keyword) ,HttpStatus.OK);
         }
         catch (EntityNotFoundException e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        
 
     }
 
