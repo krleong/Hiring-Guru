@@ -58,7 +58,7 @@ public class CompanyService {
             throw new EntityNotFoundException(String.format("No Company found with id %d", id));
         }
 
-        comprepo.deleteCompany(id);
+         comprepo.deleteById(id);
     }
 
     public Company getCompany(int companyid) {
