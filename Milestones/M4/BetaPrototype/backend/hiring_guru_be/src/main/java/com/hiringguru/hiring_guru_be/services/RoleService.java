@@ -87,4 +87,13 @@ public class RoleService {
             throw new EntityNotFoundException(String.format("No Company found with id %d", companyid));
         }
     }
+
+    public List<Role> getAllRoles() {
+        try {
+            return rorepo.queryRoles();
+        } catch (NoSuchElementException e) {
+            throw new EntityNotFoundException(String.format("Unable to get role information"));
+
+        }
+    }
 }

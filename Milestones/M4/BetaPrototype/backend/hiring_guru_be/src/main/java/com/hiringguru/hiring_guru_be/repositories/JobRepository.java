@@ -19,29 +19,27 @@ public interface JobRepository extends CrudRepository<Job, Integer> {
             nativeQuery = true
     )
     List<Job> queryJob();
-    @Query(
 
-            value = "select j.* " +
-                    "from (job j join role r on j.role_id=r.id) join company c on r.company_id=c.id " +
-                    "where (  LOWER(j.title) LIKE CONCAT('%', :keyword, '%') and LOWER(j.type) LIKE CONCAT('%', :jobtype, '%') OR "+
-                    " LOWER(j.description) LIKE CONCAT('%', :keyword, '%') AND LOWER(j.type) LIKE CONCAT('%', :jobtype, '%') OR " +
-                    "LOWER(j.location) LIKE CONCAT('%', :keyword, '%') AND LOWER(j.type) LIKE CONCAT('%', :jobtype, '%') OR " +
-                    "LOWER(c.title) LIKE CONCAT('%', :keyword, '%') AND LOWER(j.type) LIKE CONCAT('%', :jobtype, '%')) ",
-
-            nativeQuery = true
-    )
-    List<Job> searchJob(String jobtype,  String keyword);
 
     @Transactional
     @Modifying()
     @Query(
             value = " Delete from job j where j.id =:jobid " ,
             nativeQuery=true
-    )
-
-    void deleteJob(int jobid);
+    ) void deleteJob(int jobid);
 
     public List<Job> findByRole(Role role);
 
 
+
+    @Query(
+            value = "select j.* " +
+                    "from (job j join role r on j.role_id=r.id) join company c on r.company_id=c.id " +
+                    "where (  LOWER(j.title) LIKE CONCAT('%', :keyword, '%') and LOWER(j.type) LIKE CONCAT('%', :jobtype, '%') OR "+
+                    " LOWER(j.description) LIKE CONCAT('%', :keyword, '%') AND LOWER(j.type) LIKE CONCAT('%', :jobtype, '%') OR " +
+                    "LOWER(j.location) LIKE CONCAT('%', :keyword, '%') AND LOWER(j.type) LIKE CONCAT('%', :jobtype, '%') OR " +
+                    "LOWER(c.title) LIKE CONCAT('%', :keyword, '%') AND LOWER(j.type) LIKE CONCAT('%', :jobtype, '%')) ",
+            nativeQuery = true
+    )
+    List<Job> searchJob(String jobtype,  String keyword);
 }
