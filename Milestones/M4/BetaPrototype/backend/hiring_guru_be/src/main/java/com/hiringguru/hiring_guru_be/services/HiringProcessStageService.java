@@ -27,7 +27,7 @@ public class HiringProcessStageService {
     
 
     public HiringProcessStage createHiringProcessStage(Long hiringProcessId, HiringProcessStageCreateUpdateRequest hpsReq) {
-        HiringProcess hiringProcess= hiringProcessRepository.findById(hiringProcessId).get();
+        HiringProcess hiringProcess= this.hiringProcessRepository.findById(hiringProcessId).get();
 
         HiringProcessStage hiringProcessStage = new HiringProcessStage();
         hiringProcessStage.setTitle(hpsReq.title);

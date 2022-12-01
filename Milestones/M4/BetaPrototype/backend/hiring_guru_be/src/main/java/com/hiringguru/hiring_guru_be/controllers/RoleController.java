@@ -19,7 +19,7 @@ public class RoleController {
     RoleService roleService;
 
     @RequestMapping(value = "/companies/{companyid}/roles", method = RequestMethod.POST)
-    public ResponseEntity<?> createRole( @PathVariable int companyid,@RequestBody RoleCreateUpdateRequest role) {
+    public ResponseEntity<?> createRole(@PathVariable int companyid,@RequestBody RoleCreateUpdateRequest role) {
         try {
             return new ResponseEntity<>(roleService.createRole(companyid,role), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
