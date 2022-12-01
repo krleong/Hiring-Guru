@@ -25,7 +25,7 @@ public class CompanyService {
             throw new EntityNotFoundException(String.format("Unable to create company!"));
         }
 
-        return comprepo.save(newcomp);
+        return newcomp;
 
     }
 
@@ -57,8 +57,8 @@ public class CompanyService {
         } catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Company found with id %d", id));
         }
+           comprepo.deleteById(id);
 
-         comprepo.deleteById(id);
     }
 
     public Company getCompany(int companyid) {
@@ -68,6 +68,7 @@ public class CompanyService {
         } catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Company found with id %d", companyid));
         }
+
     }
 
     public List<Company> getAllCompanies() {
