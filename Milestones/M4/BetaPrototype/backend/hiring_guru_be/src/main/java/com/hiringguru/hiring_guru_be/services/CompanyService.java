@@ -25,7 +25,7 @@ public class CompanyService {
             throw new EntityNotFoundException(String.format("Unable to create company!"));
         }
 
-        return comprepo.save(newcomp);
+        return newcomp;
 
     }
 

@@ -44,7 +44,7 @@ public class JobService {
             throw new EntityNotFoundException(String.format("No role found with id %d", roleid));
         }
 
-        return jobrepo.save(newjob);
+        return newjob;
     }
 
     public Job getJobById(int jobid) {

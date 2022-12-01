@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
+import com.hiringguru.hiring_guru_be.repositories.JobRepository;
 import java.util.List;
 import com.hiringguru.hiring_guru_be.services.JobService;
 import java.util.NoSuchElementException;
@@ -18,6 +19,9 @@ import java.util.NoSuchElementException;
 public class JobController {
     @Autowired
     JobService jobService;
+
+    @Autowired
+    JobRepository jobrepo;
 
 
     @RequestMapping(value = "/roles/{roleid}/jobs", method = RequestMethod.POST)
@@ -76,14 +80,14 @@ public class JobController {
     }
 
     @RequestMapping(value = "/roles/jobs/search",method=RequestMethod.GET)
-    public ResponseEntity<?> searchForJobsThatMatch(@RequestParam String type, @RequestParam String keyword){
+    public ResponseEntity<?>  searchForJobsThatMatch(@RequestParam String type, @RequestParam String keyword){
         try{
-            jobService.getAllJobsThatMatch(type,keyword);
+            return new ResponseEntity<>(jobService.getAllJobsThatMatch(type,keyword) ,HttpStatus.OK);
         }
         catch (EntityNotFoundException e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(null, HttpStatus.OK);
+
 
     }
 

@@ -30,13 +30,14 @@ public class RoleService {
         newrole.setBenefits(role.benefits);
 
         try {
-            rorepo.save(newrole);
+           rorepo.save(newrole);
         }
         catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Company found with id %d", companyid));
         }
+        return newrole;
 
-        return rorepo.save(newrole);
+
     }
 
     public Role getRoleById(int roleid) {
