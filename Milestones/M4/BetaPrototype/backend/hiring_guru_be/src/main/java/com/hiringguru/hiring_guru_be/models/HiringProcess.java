@@ -22,8 +22,7 @@ public class HiringProcess {
     @LastModifiedDate
     @Column(name = "lastUpdated")
     LocalDateTime lastUpdated;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "hiringProcess")
     private Role role;
 
     @Override

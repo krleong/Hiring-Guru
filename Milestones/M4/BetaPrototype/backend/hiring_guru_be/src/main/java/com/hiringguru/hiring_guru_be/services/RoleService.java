@@ -36,6 +36,7 @@ public class RoleService {
             throw new EntityNotFoundException(String.format("No role found with id %d",roleId));
         }
 
+
         return hiringProcessRepository.save(hiringProcess);
     }
     public Role createRole(int companyid, RoleCreateUpdateRequest role) {
@@ -43,17 +44,16 @@ public class RoleService {
         newrole.setTitle(role.title);
         newrole.setExpectations(role.expectations);
         newrole.setBenefits(role.benefits);
+
         try {
             newrole.setCompany(comprepo.findById(companyid).get());
         }
         catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Company found with id %d", companyid));
         }
-        Role savedRole = rorepo.save(newrole);
 
-        createHiringProcess(savedRole.getId());
 
-        return savedRole;
+        return rorepo.save(newrole);
     }
 
     public Role getRoleById(int roleid) {

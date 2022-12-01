@@ -34,8 +34,11 @@ public class Role {
     )
     public Company company;
 
-    @OneToOne(mappedBy = "role")
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "hiring_process_id", referencedColumnName = "id")
     private HiringProcess hiringProcess;
+
 
     public HiringProcess getHiringProcess() {
         return hiringProcess;
