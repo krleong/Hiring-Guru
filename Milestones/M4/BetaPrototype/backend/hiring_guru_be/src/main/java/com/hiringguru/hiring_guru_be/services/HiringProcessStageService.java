@@ -33,13 +33,14 @@ public class HiringProcessStageService {
         hiringProcessStage.setTitle(hpsReq.title);
         hiringProcessStage.setType(hpsReq.type);
         hiringProcessStage.setDescription(hpsReq.description);
+        hiringProcessStage.setHiringProcess(hiringProcess);
 
 
         try {
             hiringProcessStageRepository.save(hiringProcessStage);
         }
         catch (NoSuchElementException e) {
-            throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d",hiringProcessId));
+            throw new EntityNotFoundException(String.format("No HiringProcess found with id %d",hiringProcessId));
         }
 
         return hiringProcessStageRepository.save(hiringProcessStage);

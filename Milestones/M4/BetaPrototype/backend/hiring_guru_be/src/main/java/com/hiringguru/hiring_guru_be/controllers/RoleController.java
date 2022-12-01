@@ -19,7 +19,7 @@ public class RoleController {
     RoleService roleService;
 
     @RequestMapping(value = "/companies/{companyid}/roles", method = RequestMethod.POST)
-    public ResponseEntity<?> createRole(@PathVariable int companyid,@RequestBody RoleCreateUpdateRequest role) {
+    public ResponseEntity<?> createRole( @PathVariable int companyid,@RequestBody RoleCreateUpdateRequest role) {
         try {
             return new ResponseEntity<>(roleService.createRole(companyid,role), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
@@ -44,15 +44,6 @@ public class RoleController {
             return new ResponseEntity<>(roleService.getAllRolesForCompanyId(companyid), HttpStatus.OK);
         }
         catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
-        }
-    }
-    
-      @RequestMapping(value = "/companies/roles", method = RequestMethod.GET)
-    public ResponseEntity<?> getAllRoles() {
-        try {
-            return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }

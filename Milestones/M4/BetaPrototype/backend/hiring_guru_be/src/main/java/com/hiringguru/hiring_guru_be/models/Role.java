@@ -42,6 +42,10 @@ public class Role {
         return hiringProcess;
     }
 
+    public void setHiringProcess(HiringProcess hiringProcess) {
+        this.hiringProcess = hiringProcess;
+    }
+
     public Role() {
     }
 

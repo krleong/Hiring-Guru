@@ -1,6 +1,7 @@
 package com.hiringguru.hiring_guru_be.services;
 
 import com.hiringguru.hiring_guru_be.entities.RoleCreateUpdateRequest;
+import com.hiringguru.hiring_guru_be.models.HiringProcess;
 import com.hiringguru.hiring_guru_be.models.Role;
 import com.hiringguru.hiring_guru_be.models.Company;
 import com.hiringguru.hiring_guru_be.repositories.CompanyRepository;
@@ -22,13 +23,11 @@ public class RoleService {
 
     public Role createRole(int companyid, RoleCreateUpdateRequest role) {
         Company comp = comprepo.findById(companyid).get();
-
         Role newrole = new Role();
         newrole.setCompany(comp);
         newrole.setTitle(role.title);
         newrole.setExpectations(role.expectations);
         newrole.setBenefits(role.benefits);
-
         try {
             rorepo.save(newrole);
         }
@@ -77,15 +76,7 @@ public class RoleService {
         rorepo.deleteRole(id);
 
     }
- public List<Role> getAllRoles() {
-        try {
-            return rorepo.queryRoles();
-        } catch (NoSuchElementException e) {
-            throw new EntityNotFoundException(String.format("Unable to get role information"));
 
-        }
-    }
-    
     public List<Role> getAllRolesForCompanyId(int companyid) {
         try {
             Company c = comprepo.findById(companyid).get();
