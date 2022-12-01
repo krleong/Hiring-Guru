@@ -20,8 +20,7 @@ public class JobController {
     @Autowired
     JobService jobService;
 
-    @Autowired
-    JobRepository jobrepo;
+
 
 
     @RequestMapping(value = "/roles/{roleid}/jobs", method = RequestMethod.POST)
