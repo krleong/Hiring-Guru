@@ -27,22 +27,20 @@ public class HiringProcessStageService {
     
 
     public HiringProcessStage createHiringProcessStage(Long hiringProcessId, HiringProcessStageCreateUpdateRequest hpsReq) {
-        HiringProcess hiringProcess= this.hiringProcessRepository.findById(hiringProcessId).get();
 
         HiringProcessStage hiringProcessStage = new HiringProcessStage();
         hiringProcessStage.setTitle(hpsReq.title);
         hiringProcessStage.setType(hpsReq.type);
         hiringProcessStage.setDescription(hpsReq.description);
-        hiringProcessStage.setHiringProcess(hiringProcess);
 
 
         try {
-            hiringProcessStageRepository.save(hiringProcessStage);
+            hiringProcessStage.setHiringProcess(hiringProcessRepository.findById(hiringProcessId).get());
         }
         catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No HiringProcess found with id %d",hiringProcessId));
         }
-
+//        HiringProcessStage savedHiringProcessStage = hiringProcessStageRepository.save(hiringProcessStage);
         return hiringProcessStageRepository.save(hiringProcessStage);
     }
 

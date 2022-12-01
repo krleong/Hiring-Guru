@@ -1,10 +1,12 @@
 package com.hiringguru.hiring_guru_be.services;
 
+import com.hiringguru.hiring_guru_be.entities.HiringProcessCreateUpdateRequest;
 import com.hiringguru.hiring_guru_be.entities.RoleCreateUpdateRequest;
 import com.hiringguru.hiring_guru_be.models.HiringProcess;
 import com.hiringguru.hiring_guru_be.models.Role;
 import com.hiringguru.hiring_guru_be.models.Company;
 import com.hiringguru.hiring_guru_be.repositories.CompanyRepository;
+import com.hiringguru.hiring_guru_be.repositories.HiringProcessRepository;
 import com.hiringguru.hiring_guru_be.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,22 +22,38 @@ public class RoleService {
 
     @Autowired
     RoleRepository rorepo;
+    @Autowired
+    HiringProcessRepository hiringProcessRepository;
 
+    public HiringProcess createHiringProcess(int roleId) {
+
+        HiringProcess hiringProcess = new HiringProcess();
+
+        try {
+            hiringProcess.setRole(this.rorepo.findById(roleId).get());
+        }
+        catch (NoSuchElementException e) {
+            throw new EntityNotFoundException(String.format("No role found with id %d",roleId));
+        }
+
+        return hiringProcessRepository.save(hiringProcess);
+    }
     public Role createRole(int companyid, RoleCreateUpdateRequest role) {
-        Company comp = comprepo.findById(companyid).get();
         Role newrole = new Role();
-        newrole.setCompany(comp);
         newrole.setTitle(role.title);
         newrole.setExpectations(role.expectations);
         newrole.setBenefits(role.benefits);
         try {
-            rorepo.save(newrole);
+            newrole.setCompany(comprepo.findById(companyid).get());
         }
         catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Company found with id %d", companyid));
         }
+        Role savedRole = rorepo.save(newrole);
 
-        return rorepo.save(newrole);
+        createHiringProcess(savedRole.getId());
+
+        return savedRole;
     }
 
     public Role getRoleById(int roleid) {

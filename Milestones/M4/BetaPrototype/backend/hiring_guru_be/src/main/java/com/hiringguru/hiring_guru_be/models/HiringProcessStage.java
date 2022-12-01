@@ -1,14 +1,6 @@
 package com.hiringguru.hiring_guru_be.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -31,6 +23,8 @@ public class HiringProcessStage {
             nullable = false
     )
     public  String description;
+
+
     @ManyToOne(
             cascade = {CascadeType.ALL},
             optional = false

@@ -1,34 +1,36 @@
 package com.hiringguru.hiring_guru_be.models;
 
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(
         name = "HiringProcesses"
 )
+@EntityListeners(AuditingEntityListener.class)
 public class HiringProcess {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "iduser", unique = true, nullable = false)
+//    private Long iduser;
     @Id
     @GeneratedValue
     private Long id;
-    @Column(
-            nullable = false
-    )
-    public String lastUpdated;
-    @OneToOne(
-            cascade = {CascadeType.ALL},
-            optional = false
-    )
-    @JoinColumn(
-            name = "role_id",
-            referencedColumnName = "id"
-    )
-    public Role role;
+    @LastModifiedDate
+    @Column(name = "lastUpdated")
+    LocalDateTime lastUpdated;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 
     @Override
     public String toString() {
         return "HiringProcess{" +
                 "id=" + id +
-                ", lastUpdated='" + lastUpdated + '\'' +
+                ", lastUpdated=" + lastUpdated +
                 ", role=" + role +
                 '}';
     }
@@ -41,11 +43,11 @@ public class HiringProcess {
         this.id = id;
     }
 
-    public String getLastUpdated() {
+    public LocalDateTime getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(String lastUpdated) {
+    public void setLastUpdated(LocalDateTime lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
@@ -60,7 +62,7 @@ public class HiringProcess {
     public HiringProcess() {
     }
 
-    public HiringProcess(String lastUpdated, Role role) {
+    public HiringProcess(LocalDateTime lastUpdated, Role role) {
         this.lastUpdated = lastUpdated;
         this.role = role;
     }
