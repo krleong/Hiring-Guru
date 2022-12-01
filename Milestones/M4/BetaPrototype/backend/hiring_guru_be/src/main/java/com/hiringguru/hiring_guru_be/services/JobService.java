@@ -94,6 +94,15 @@ public class JobService {
             throw new EntityNotFoundException(String.format("No role found with id %d", roleid));
         }
     }
+    
+      public List<Job> getAllJobs() {
+        try {
+            return jobrepo.queryJob();
+        } catch (NoSuchElementException e) {
+            throw new EntityNotFoundException(String.format("Unable to get job information"));
+
+        }
+    }
 
     public List<Job> getAllJobs() {
         try {

@@ -78,7 +78,15 @@ public class RoleService {
         rorepo.deleteRole(id);
 
     }
+ public List<Role> getAllRoles() {
+        try {
+            return rorepo.queryRoles();
+        } catch (NoSuchElementException e) {
+            throw new EntityNotFoundException(String.format("Unable to get role information"));
 
+        }
+    }
+    
     public List<Role> getAllRolesForCompanyId(int companyid) {
         try {
             Company c = comprepo.findById(companyid).get();
@@ -89,12 +97,3 @@ public class RoleService {
         }
     }
 
-    public List<Role> getAllRoles() {
-        try {
-            return rorepo.queryRoles();
-        } catch (NoSuchElementException e) {
-            throw new EntityNotFoundException(String.format("Unable to get role information"));
-
-        }
-    }
-}
