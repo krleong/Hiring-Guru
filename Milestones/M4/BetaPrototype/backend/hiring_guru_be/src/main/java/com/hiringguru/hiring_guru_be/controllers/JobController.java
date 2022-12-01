@@ -50,7 +50,8 @@ public class JobController {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
-
+    
+ @RequestMapping(value = "/roles/jobs", method = RequestMethod.GET)
     public ResponseEntity<?> getAllJobs() {
         try {
             return new ResponseEntity<>(jobService.getAllJobs(), HttpStatus.OK);
@@ -81,7 +82,7 @@ public class JobController {
     @RequestMapping(value = "/roles/jobs/search",method=RequestMethod.GET)
     public ResponseEntity<?>  searchForJobsThatMatch(@RequestParam String type, @RequestParam String keyword){
         try{
-
+            return new ResponseEntity<>(jobService.getAllJobsThatMatch(type,keyword) ,HttpStatus.OK);
         }
         catch (EntityNotFoundException e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
