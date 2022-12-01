@@ -57,9 +57,10 @@ function EmployeeEditDialog(props) {
                         Created At
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="2022-11-22T23:13:24.760Z"
+                        placeholder="Year-Month-DayTHour:Minute:Second.TimeZone"
                         value={props.createdAt}
                         onChange={props.onCreatedAtChange}
+                        disabled={true}
                     >
                     </input>
                 </div>
@@ -101,12 +102,12 @@ const parseEmployees = (employees) => {
     let parsedEmployees = []
     for (let i = 0; i < employees.length; i++) {
         parsedEmployees.push({
+            id: employees[i].id,
             name: employees[i].user.name,
             email: employees[i].user.email,
             createdAt: employees[i].createdAt,
             designation: employees[i].designation,
             roles: employees[i].roles,
-            id: employees[i].id
         })
     }
     return parsedEmployees
@@ -120,6 +121,7 @@ export function ManageEmployees() {
         getEmployeeListRequestStatus: EmployeePageStatus.NotStarted,
         searchFetchError: '',
     })
+
     const { SearchBar } = Search;
 
     useEffect(() => {
@@ -236,9 +238,9 @@ export function ManageEmployees() {
         if (!createDialogState.email || createDialogState.email.length === 0) {
             errors.push("Employee email cannot be empty")
         }
-        if (!createDialogState.createdAt || createDialogState.createdAt.length === 0) {
-            errors.push("Employee creation date cannot be empty")
-        }
+        // if (!createDialogState.createdAt || createDialogState.createdAt.length === 0) {
+        //     errors.push("Employee creation date cannot be empty")
+        // }
         if (!createDialogState.designation || createDialogState.designation.length === 0) {
             errors.push("Employee designation cannot be empty")
         }

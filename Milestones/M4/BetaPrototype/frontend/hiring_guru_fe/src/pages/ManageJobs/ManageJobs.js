@@ -1,7 +1,7 @@
 import './ManageJobs.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Filter } from "react-bootstrap-icons";
@@ -9,37 +9,9 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { ApplicationContext } from "../../HiringGuru";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
+import { BASE_URL } from "../../components/configuration";
 
-const Jobs = [
-    {
-        title: "Software Engineer",
-        location: "San Francisco",
-        employment: "Full-Time",
-        workplace: "On-site",
-        description: "An IT professional who designs, develops and maintains computer software at a company. They " +
-            "use their creativity and technical skills and apply the principles of software engineering to help " +
-            "solve new and ongoing problems for an organization."
-    },
-    {
-        title: "Product Manager",
-        location: "New York",
-        employment: "Part-Time",
-        workplace: "Remote",
-        description: "A professional who combines both product planning and marketing to manage" +
-            "the entire life cycle of one project. They're responsible for gathering customer" +
-            "requirements and defining their vision with engineering as well as overseeing product" +
-            "strategy, pricing and positioning strategies."
-    },
-    {
-        title: "Data Analyst",
-        location: "San Francisco",
-        employment: "Internship",
-        workplace: "On-site",
-        description: "Data analysts are responsible for analyzing data using statistical techniques, " +
-            "implementing and maintaining databases, gathering data from primary and secondary sources, " +
-            "identifying, analyzing and interpreting trends from the data."
-    }
-]
 
 function JobEditDialog(props) {
     return (
@@ -67,27 +39,7 @@ function JobEditDialog(props) {
                     <input className="form-control" id="recruitmentStageNameInput"
                         placeholder="Enter job title"
                         value={props.name}
-                        onChange={props.onNameChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="recruitmentStageNameInput" className="form-label">
-                        Workplace
-                    </label>
-                    <input className="form-control" id="recruitmentStageNameInput"
-                        placeholder="San Francisco, CA"
-                        value={props.workplace}
-                        onChange={props.onWorkplaceChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="recruitmentStageNameInput" className="form-label">
-                        Employment Type
-                    </label>
-                    <input className="form-control" id="recruitmentStageNameInput"
-                        placeholder="Full-Time, Part-Time, Internship"
-                        value={props.employment}
-                        onChange={props.onEmploymentChange}
+                        onChange={props.onTitleChange}
                     />
                 </div>
                 <div className="mb-3">
@@ -98,6 +50,16 @@ function JobEditDialog(props) {
                         placeholder="San Francisco, CA"
                         value={props.location}
                         onChange={props.onLocationChange}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageNameInput" className="form-label">
+                        Employment Type
+                    </label>
+                    <input className="form-control" id="recruitmentStageNameInput"
+                        placeholder="FULL_TIME / PART_TIME / INTERN"
+                        value={props.type}
+                        onChange={props.onTypeChange}
                     />
                 </div>
                 <div className="mb-3">
@@ -116,27 +78,58 @@ function JobEditDialog(props) {
     )
 }
 
+const JobPageStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+
+const parseJobs = (jobs) => {
+    let parsedJobs = []
+    for (let i = 0; i < jobs.length; i++) {
+        parsedJobs.push({
+            jobId: jobs[i].id,
+            roleId: jobs[i].role.id,
+            title: jobs[i].title,
+            location: jobs[i].location,
+            type: jobs[i].type,
+            description: jobs[i].description,
+        })
+    }
+    return parsedJobs
+}
+
 
 export function ManageJobs() {
-    const { SearchBar } = Search;
-    const [roles, setJobs] = useState(Jobs)
-    const [editDialogState, setEditDialogState] = useState({
-        show: false,
-        title: "",
-        location: "",
-        employment: "",
-        workplace: "",
-        description: "",
-        errors: [],
-        index: undefined
+    const [jobPageState, setPageState] = useState({
+        listOfJobs: [],
+        searchString: '',
+        getJobListRequestStatus: JobPageStatus.NotStarted,
+        searchFetchError: '',
     })
+
+    const { SearchBar } = Search;
+
+    useEffect(() => {
+        fetchJobs()
+    }, []);
 
     const [createDialogState, setCreateDialogState] = useState({
         show: false,
         title: "",
         location: "",
-        employment: "",
-        workplace: "",
+        type: "",
+        description: "",
+        errors: [],
+        index: undefined
+    })
+
+    const [editDialogState, setEditDialogState] = useState({
+        show: false,
+        title: "",
+        location: "",
+        type: "",
         description: "",
         errors: [],
         index: undefined
@@ -144,30 +137,95 @@ export function ManageJobs() {
 
     const appContext = useContext(ApplicationContext);
 
-    const removeJob = (index) => {
-        let newJobs = []
-        for (let i = 0; i < roles.length; i++) {
-            i !== index && newJobs.push(roles[i])
-        }
-        appContext.closeDialog()
-        setJobs(newJobs)
+    const fetchJobs = () => {
+        setPageState({
+            ...jobPageState,
+            listOfJobs: [],
+            getJobListRequestStatus: JobPageStatus.InProgress,
+            searchFetchError: ''
+        })
+
+        axios({
+            url: `${BASE_URL}/roles/jobs`,
+            method: 'get',
+            timeout: 10000,
+            params: {
+                query: jobPageState.searchString,
+            }
+        }).then((resp) => {
+            if (resp.status === 200) {
+                setPageState({
+                    ...jobPageState,
+                    listOfJobs: parseJobs(resp.data),
+                    getJobListRequestStatus: JobPageStatus.Success,
+                })
+            }
+            else {
+                setPageState({
+                    ...jobPageState,
+                    listOfJobs: [],
+                    getJobListRequestStatus: JobPageStatus.Error,
+                    searchFetchError: 'There was an error fetching the list of jobs. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...jobPageState,
+                listOfJobs: [],
+                getJobListRequestStatus: JobPageStatus.Error,
+                searchFetchError: 'There was an error fetching the list of jobs. Please try again later'
+            })
+        })
     }
 
-    const createEmployee = () => {
+    const removeJob = (index) => {
+        axios({
+            url: `${BASE_URL}/roles/` + jobPageState.listOfJobs[editDialogState.index].roleId + '/jobs/' + jobPageState.listOfJobs[editDialogState.index].jobId,
+            method: 'delete',
+            timeout: 10000,
+        }).then((resp) => {
+            if (resp.status === 200) {
+                fetchJobs()
+            }
+            else {
+                setPageState({
+                    ...jobPageState,
+                    listOfJobs: [],
+                    deleteJobListRequestStatus: JobPageStatus.Error,
+                    searchFetchError: 'There was an error deleting the employee. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...jobPageState,
+                listOfJobs: [],
+                deleteJobListRequestStatus: JobPageStatus.Error,
+                searchFetchError: 'There was an error deleting the employee. Please try again later'
+            })
+        })
+
+        let newJobs = []
+        for (let i = 0; i < jobPageState.listOfJobs.length; i++) {
+            i !== index && newJobs.push(jobPageState.listOfJobs[i])
+        }
+        appContext.closeDialog()
+        setPageState({
+            ...jobPageState,
+            listOfJobs: newJobs
+        })
+    }
+
+    const createJob = (index) => {
         let errors = []
         if (!createDialogState.title || createDialogState.title.length === 0) {
             errors.push("Job title cannot be empty")
         }
-        if (!createDialogState.workplace || createDialogState.workplace.length === 0) {
-            errors.push("Workplace type cannot be empty")
+        if (!createDialogState.location || createDialogState.location.length === 0) {
+            errors.push("Location name cannot be empty")
         }
-        if (!createDialogState.employment || createDialogState.employment.length === 0) {
+        if (!createDialogState.type || createDialogState.type.length === 0) {
             errors.push("Employment type cannot be empty")
         }
-        if (!createDialogState.location || createDialogState.location.length === 0) {
-            errors.push("Location title cannot be empty")
-        }
-
         if (!createDialogState.description || createDialogState.description.length === 0) {
             errors.push("Job description cannot be empty")
         }
@@ -179,16 +237,49 @@ export function ManageJobs() {
             })
         }
         else {
-            setJobs([
-                ...roles,
-                {
+            axios({
+                url: `${BASE_URL}/roles/` + jobPageState.listOfJobs[index].roleId + '/jobs/',
+                method: 'post',
+                timeout: 10000,
+                data: {
                     title: createDialogState.title,
                     location: createDialogState.location,
-                    employment: createDialogState.employment,
-                    workplace: createDialogState.workplace,
+                    type: createDialogState.type,
                     description: createDialogState.description,
                 }
-            ])
+            }).then((resp) => {
+                if (resp.status === 200) {
+                    fetchJobs()
+                }
+                else {
+                    setPageState({
+                        ...jobPageState,
+                        listOfJobs: [],
+                        postJobListRequestStatus: JobPageStatus.Error,
+                        searchFetchError: 'There was an error adding to the list of jobs. Please try again later'
+                    })
+                }
+            }).catch((error) => {
+                setPageState({
+                    ...jobPageState,
+                    listOfJobs: [],
+                    postJobListRequestStatus: JobPageStatus.Error,
+                    searchFetchError: 'There was an error adding to the list of jobs. Please try again later'
+                })
+            })
+
+            setPageState({
+                ...jobPageState,
+                listOfJobs: [
+                    ...jobPageState.listOfJobs,
+                    {
+                        title: createDialogState.title,
+                        location: createDialogState.location,
+                        type: createDialogState.type,
+                        description: createDialogState.description,
+                    }
+                ],
+            })
             setCreateDialogState({
                 ...createDialogState,
                 show: false,
@@ -197,21 +288,17 @@ export function ManageJobs() {
     }
 
     const columns = [
-        {   
+        {
             dataField: 'title',
             text: 'Name',
         },
         {
-            dataField: 'workplace',
-            text: 'Workplace',
-        },
-        {
-            dataField: 'employment',
-            text: 'Employment'
-        },
-        {
             dataField: 'location',
-            text: 'Location'
+            text: 'Location',
+        },
+        {
+            dataField: 'type',
+            text: 'Type'
         },
         {
             dataField: 'description',
@@ -243,8 +330,7 @@ export function ManageJobs() {
                                     index: index,
                                     title: row.title,
                                     location: row.location,
-                                    employment: row.employment,
-                                    workplace: row.workplace,
+                                    type: row.type,
                                     description: row.description,
                                 })
                             }}>Edit</DropdownItem>
@@ -271,9 +357,9 @@ export function ManageJobs() {
                 )
             },
             text: "Actions",
-            headerStyle:  () => {
-                return{width: "1%"};
-            } 
+            headerStyle: () => {
+                return { width: "1%" };
+            }
         }
     ];
 
@@ -282,16 +368,12 @@ export function ManageJobs() {
         if (!editDialogState.title || editDialogState.title.length === 0) {
             errors.push("Job title cannot be empty")
         }
-        if (!editDialogState.workplace || editDialogState.workplace.length === 0) {
-            errors.push("Workplace type cannot be empty")
+        if (!editDialogState.location || editDialogState.location.length === 0) {
+            errors.push("Location name cannot be empty")
         }
-        if (!editDialogState.employment || editDialogState.employment.length === 0) {
+        if (!editDialogState.type || editDialogState.type.length === 0) {
             errors.push("Employment type cannot be empty")
         }
-        if (!editDialogState.location || editDialogState.location.length === 0) {
-            errors.push("Location title cannot be empty")
-        }
-
         if (!editDialogState.description || editDialogState.description.length === 0) {
             errors.push("Job description cannot be empty")
         }
@@ -303,22 +385,72 @@ export function ManageJobs() {
             })
         }
         else {
+            axios({
+                url: `${BASE_URL}/roles/` + jobPageState.listOfJobs[editDialogState.index].roleId + '/jobs/' + jobPageState.listOfJobs[editDialogState.index].jobId,
+                method: 'patch',
+                timeout: 10000,
+                data: {
+                    title: editDialogState.title,
+                    location: editDialogState.location,
+                    type: editDialogState.type,
+                    description: editDialogState.description,
+                }
+            }).then((resp) => {
+                if (resp.status === 200) {
+                    fetchJobs()
+                }
+                else {
+                    setPageState({
+                        ...jobPageState,
+                        listOfJobs: [],
+                        patchJobListRequestStatus: JobPageStatus.Error,
+                        searchFetchError: 'There was an error updating the list of jobs. Please try again later'
+                    })
+                }
+            }).catch((error) => {
+                setPageState({
+                    ...jobPageState,
+                    listOfJobs: [],
+                    patchJobListRequestStatus: JobPageStatus.Error,
+                    searchFetchError: 'There was an error updating the list of jobs. Please try again later'
+                })
+            })
+
+            setPageState({
+                ...jobPageState,
+                listOfJobs: [
+                    ...jobPageState.listOfJobs,
+                    {
+                        title: editDialogState.title,
+                        location: editDialogState.location,
+                        type: editDialogState.type,
+                        description: editDialogState.description,
+                    }
+                ],
+            })
+            setEditDialogState({
+                ...editDialogState,
+                show: false,
+            })
+
             let newJobs = []
-            for (let i = 0; i < roles.length; i++) {
+            for (let i = 0; i < jobPageState.listOfJobs.length; i++) {
                 if (i === editDialogState.index) {
                     newJobs.push({
                         title: editDialogState.title,
                         location: editDialogState.location,
-                        employment: editDialogState.employment,
-                        workplace: editDialogState.workplace,
-                        description: editDialogState.description
+                        type: editDialogState.type,
+                        description: editDialogState.description,
                     })
                 }
                 else {
-                    newJobs.push(roles[i])
+                    newJobs.push(jobPageState.listOfJobs[i])
                 }
             }
-            setJobs(newJobs)
+            setPageState({
+                ...jobPageState,
+                listOfJobs: newJobs
+            })
             setEditDialogState({
                 ...editDialogState,
                 show: false,
@@ -349,29 +481,23 @@ export function ManageJobs() {
                     }
                 ]}
                 errors={editDialogState.errors}
-                onNameChange={(e) => {
+                onTitleChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
                         title: e.target.value
-                    })
-                }}
-                onWorkplaceChange={(e) => {
-                    setEditDialogState({
-                        ...editDialogState,
-                        workplace: e.target.value
-                    })
-                }}
-                
-                onEmploymentChange={(e) => {
-                    setEditDialogState({
-                        ...editDialogState,
-                        employment: e.target.value
                     })
                 }}
                 onLocationChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
                         location: e.target.value
+                    })
+                }}
+
+                onTypeChange={(e) => {
+                    setEditDialogState({
+                        ...editDialogState,
+                        type: e.target.value
                     })
                 }}
                 onDescriptionChange={(e) => {
@@ -381,9 +507,8 @@ export function ManageJobs() {
                     })
                 }}
                 name={editDialogState.title}
-                workplace={editDialogState.workplace}
-                employment={editDialogState.employment}
                 location={editDialogState.location}
+                type={editDialogState.type}
                 description={editDialogState.description}
             />
             <JobEditDialog
@@ -402,33 +527,27 @@ export function ManageJobs() {
                     },
                     {
                         title: "Create",
-                        handler: createEmployee,
+                        handler: createJob,
                         variant: "primary"
                     }
                 ]}
                 errors={createDialogState.errors}
-                onNameChange={(e) => {
+                onTitleChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
                         title: e.target.value
-                    })
-                }}
-                onWorkplaceChange={(e) => {
-                    setCreateDialogState({
-                        ...createDialogState,
-                        workplace: e.target.value
-                    })
-                }}
-                onEmploymentChange={(e) => {
-                    setCreateDialogState({
-                        ...createDialogState,
-                        employment: e.target.value
                     })
                 }}
                 onLocationChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
                         location: e.target.value
+                    })
+                }}
+                onTypeChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        type: e.target.value
                     })
                 }}
                 onDescriptionChange={(e) => {
@@ -438,15 +557,14 @@ export function ManageJobs() {
                     })
                 }}
                 name={createDialogState.title}
-                workplace={createDialogState.workplace}
-                employment={createDialogState.employment}
                 location={createDialogState.location}
+                type={createDialogState.type}
                 description={createDialogState.description}
             />
             <div>
                 <ToolkitProvider
                     keyField="id"
-                    data={roles}
+                    data={jobPageState.listOfJobs}
                     columns={columns}
                     search
                 >
