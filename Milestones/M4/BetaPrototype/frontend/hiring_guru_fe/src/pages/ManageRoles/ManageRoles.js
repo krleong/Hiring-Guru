@@ -183,12 +183,13 @@ const parseRoles = (roles) => {
     let parsedRoles = []
     for (let i = 0; i < roles.length; i++) {
         parsedRoles.push({
-            roleId: roles[i].id,
-            companyId: roles[i].company.id,
-            roleTitle: roles[i].title,
-            companyTitle: roles[i].company.title,
-            expectations: roles[i].expectations,
-            benefits: roles[i].benefits,
+            jobId: roles[i].id,
+            roleId: roles[i].role.id,
+            companyId: roles[i].role.company.id,
+            roleTitle: roles[i].role.title,
+            companyTitle: roles[i].role.company.title,
+            expectations: roles[i].role.expectations,
+            benefits: roles[i].role.benefits,
         })
     }
     return parsedRoles
@@ -196,6 +197,8 @@ const parseRoles = (roles) => {
 
 
 export function ManageRoles() {
+    const appContext = useContext(ApplicationContext);
+
     const [rolePageState, setPageState] = useState({
         listOfRoles: [],
         searchString: '',
@@ -251,8 +254,6 @@ export function ManageRoles() {
         index: undefined
     })
 
-    const appContext = useContext(ApplicationContext);
-
     const fetchRoles = () => {
         setPageState({
             ...rolePageState,
@@ -262,15 +263,15 @@ export function ManageRoles() {
         })
 
         axios({
-            // url: `${BASE_URL}companies/` + companyId + '/roles',
-            url: `${BASE_URL}/companies/` + '177' + '/roles',
+            url: `${BASE_URL}/roles/jobs`,
             method: 'get',
             timeout: 10000,
-            params: {
-                query: rolePageState.searchString,
-            }
+            // params: {
+            //     query: rolePageState.searchString,
+            // }
         }).then((resp) => {
             if (resp.status === 200) {
+                console.log(resp.data)
                 setPageState({
                     ...rolePageState,
                     listOfRoles: parseRoles(resp.data),
@@ -546,14 +547,14 @@ export function ManageRoles() {
         }
         else {
             axios({
-                url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[editRoleDialogState.index].roleId + '/jobs/' + rolePageState.listOfRoles[editRoleDialogState.index].jobId,
+                url: `${BASE_URL}/companies/` + rolePageState.listOfRoles[editRoleDialogState.index].roleId + '/jobs/' + rolePageState.listOfRoles[editRoleDialogState.index].jobId,
                 method: 'patch',
                 timeout: 10000,
                 data: {
-                    roleTitle: createRoleDialogState.roleTitle,
-                    companyTitle: createRoleDialogState.companyTitle,
-                    expectations: createRoleDialogState.expectations,
-                    benefits: createRoleDialogState.benefits,
+                    roleTitle: editRoleDialogState.roleTitle,
+                    companyTitle: editRoleDialogState.companyTitle,
+                    expectations: editRoleDialogState.expectations,
+                    benefits: editRoleDialogState.benefits,
                 }
             }).then((resp) => {
                 if (resp.status === 200) {

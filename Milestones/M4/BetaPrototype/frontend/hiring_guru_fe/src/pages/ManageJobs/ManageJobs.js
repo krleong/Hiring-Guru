@@ -102,6 +102,8 @@ const parseJobs = (jobs) => {
 
 
 export function ManageJobs() {
+    const appContext = useContext(ApplicationContext);
+
     const [jobPageState, setPageState] = useState({
         listOfJobs: [],
         searchString: '',
@@ -134,8 +136,6 @@ export function ManageJobs() {
         errors: [],
         index: undefined
     })
-
-    const appContext = useContext(ApplicationContext);
 
     const fetchJobs = () => {
         setPageState({
@@ -180,7 +180,7 @@ export function ManageJobs() {
 
     const removeJob = (index) => {
         axios({
-            url: `${BASE_URL}/roles/` + jobPageState.listOfJobs[editDialogState.index].roleId + '/jobs/' + jobPageState.listOfJobs[editDialogState.index].jobId,
+            url: `${BASE_URL}/roles/` + jobPageState.listOfJobs[index].roleId + '/jobs/' + jobPageState.listOfJobs[index].jobId,
             method: 'delete',
             timeout: 10000,
         }).then((resp) => {
@@ -192,7 +192,7 @@ export function ManageJobs() {
                     ...jobPageState,
                     listOfJobs: [],
                     deleteJobListRequestStatus: JobPageStatus.Error,
-                    searchFetchError: 'There was an error deleting the employee. Please try again later'
+                    searchFetchError: 'There was an error deleting the job. Please try again later'
                 })
             }
         }).catch((error) => {
@@ -200,7 +200,7 @@ export function ManageJobs() {
                 ...jobPageState,
                 listOfJobs: [],
                 deleteJobListRequestStatus: JobPageStatus.Error,
-                searchFetchError: 'There was an error deleting the employee. Please try again later'
+                searchFetchError: 'There was an error deleting the job. Please try again later'
             })
         })
 
@@ -215,7 +215,7 @@ export function ManageJobs() {
         })
     }
 
-    const createJob = (index) => {
+    const createJob = () => {
         let errors = []
         if (!createDialogState.title || createDialogState.title.length === 0) {
             errors.push("Job title cannot be empty")
@@ -238,7 +238,8 @@ export function ManageJobs() {
         }
         else {
             axios({
-                url: `${BASE_URL}/roles/` + jobPageState.listOfJobs[index].roleId + '/jobs/',
+                /*PROBLEM - NEEDS TO MATCH A PRE-EXISTING ROLE (THE STATE OF THAT), CAN'T GRAB WHAT DOESN'T EXIST YET - SO DO ROLE FIRST?*/
+                url: `${BASE_URL}/roles/` + jobPageState.listOfJobs[createDialogState.index].roleId + '/jobs/',
                 method: 'post',
                 timeout: 10000,
                 data: {
