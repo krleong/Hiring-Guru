@@ -95,15 +95,6 @@ public class JobService {
         }
     }
     
-      public List<Job> getAllJobs() {
-        try {
-            return jobrepo.queryJob();
-        } catch (NoSuchElementException e) {
-            throw new EntityNotFoundException(String.format("Unable to get job information"));
-
-        }
-    }
-
     public List<Job> getAllJobs() {
         try {
             return jobrepo.queryJob();
@@ -113,7 +104,6 @@ public class JobService {
         }
     }
 
-
     public List<Job> getAllJobsThatMatch(String jobtype, String keyword){
        jobtype=jobtype.toLowerCase();
         keyword=keyword.toLowerCase();
@@ -122,8 +112,4 @@ public class JobService {
 
 
     }
-
-
-
-
 }

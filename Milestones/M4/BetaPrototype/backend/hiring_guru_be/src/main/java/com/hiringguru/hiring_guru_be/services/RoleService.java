@@ -30,9 +30,8 @@ public class RoleService {
         newrole.setBenefits(role.benefits);
 
         try {
-           rorepo.save(newrole);
-        }
-        catch (NoSuchElementException e) {
+            rorepo.save(newrole);
+        } catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Company found with id %d", companyid));
         }
         return newrole;
@@ -43,8 +42,7 @@ public class RoleService {
     public Role getRoleById(int roleid) {
         try {
             return rorepo.findById(roleid).get();
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No role found with id %d", roleid));
         }
     }
@@ -53,13 +51,12 @@ public class RoleService {
         Role existingRole;
         try {
             existingRole = rorepo.findById(roleid).get();
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Role found with id %d", roleid));
         }
         if (role.title != null) existingRole.setTitle(role.title);
-        if(role.expectations!=null) existingRole.setExpectations(role.expectations);
-        if(role.benefits!=null) existingRole.setBenefits(role.benefits);
+        if (role.expectations != null) existingRole.setExpectations(role.expectations);
+        if (role.benefits != null) existingRole.setBenefits(role.benefits);
 
 
         return rorepo.save(existingRole);
@@ -70,15 +67,15 @@ public class RoleService {
         Role existingRole;
         try {
             existingRole = rorepo.findById(id).get();
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No role found with id %d", id));
         }
 
         rorepo.deleteRole(id);
 
     }
- public List<Role> getAllRoles() {
+
+    public List<Role> getAllRoles() {
         try {
             return rorepo.queryRoles();
         } catch (NoSuchElementException e) {
@@ -86,14 +83,14 @@ public class RoleService {
 
         }
     }
-    
+
     public List<Role> getAllRolesForCompanyId(int companyid) {
         try {
             Company c = comprepo.findById(companyid).get();
             return rorepo.findByCompany(c);
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Company found with id %d", companyid));
         }
     }
+}
 
