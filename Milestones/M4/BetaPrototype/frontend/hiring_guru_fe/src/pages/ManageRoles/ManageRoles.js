@@ -68,35 +68,6 @@ function ReferralEditDialog(props) {
     )
 }
 
-// REMOVE THIS WHEN BACKEND API IS IMPLEMENTED
-// const Roles = [
-//     {
-//         title: "Software Engineer",
-//         expectations: "Write and test product or system development code." +
-//             " Participate in, or lead design reviews with peers and stakeholders" +
-//             " to decide amongst available technologies. Review code developed by" +
-//             " other developers and provide feedback to ensure best practices" +
-//             " (e.g., style guidelines, checking code in, accuracy, testability," +
-//             " and efficiency). Contribute to existing documentation or educational" +
-//             " content and adapt content based on product/program updates and user " +
-//             "feedback. Triage product or system issues and debug/track/resolve" +
-//             " by analyzing the sources of issues and the impact on hardware, " +
-//             "network, or service operations and quality.",
-//         benefits: "Beyond competitive pay, you can receive incentive awards for" +
-//             " your performance. Other great perks include 401(k) match, stock" +
-//             " purchase plan, paid maternity and parental leave, PTO, multiple" +
-//             " health plans, and much more."
-//     },
-//     {
-//         title: "Software Engineer",
-//         expectations: "Participate in, or lead design reviews with peers and stakeholders" +
-//             " to decide amongst available technologies ",
-//         benefits: "Beyond competitive pay, you can receive incentive awards for your performance." +
-//             " Other great perks include 401(k) match, stock purchase plan, paid maternity and" +
-//             " parental leave, PTO, multiple health plans, and much more."
-//     }
-// ]
-
 const Referrals = [
     {
         name: "Kenny Leong",
@@ -266,9 +237,9 @@ export function ManageRoles() {
             url: `${BASE_URL}/roles/jobs`,
             method: 'get',
             timeout: 10000,
-            // params: {
-            //     query: rolePageState.searchString,
-            // }
+            params: {
+                query: rolePageState.searchString,
+            }
         }).then((resp) => {
             if (resp.status === 200) {
                 console.log(resp.data)
@@ -298,7 +269,7 @@ export function ManageRoles() {
 
     const removeRole = (index) => {
         axios({
-            url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[editRoleDialogState.index].roleId + '/jobs/' + rolePageState.listOfRoles[editRoleDialogState.index].jobId,
+            url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[index].roleId + '/jobs/' + rolePageState.listOfRoles[index].jobId,
             method: 'delete',
             timeout: 10000,
         }).then((resp) => {
@@ -309,7 +280,7 @@ export function ManageRoles() {
                 setPageState({
                     ...rolePageState,
                     listOfRoles: [],
-                    deleteJobListRequestStatus: RolePageStatus.Error,
+                    deleteRoleListRequestStatus: RolePageStatus.Error,
                     searchFetchError: 'There was an error deleting the role. Please try again later'
                 })
             }
@@ -317,7 +288,7 @@ export function ManageRoles() {
             setPageState({
                 ...rolePageState,
                 listOfRoles: [],
-                deleteJobListRequestStatus: RolePageStatus.Error,
+                deleteRoleistRequestStatus: RolePageStatus.Error,
                 searchFetchError: 'There was an error deleting the role. Please try again later'
             })
         })
@@ -356,7 +327,11 @@ export function ManageRoles() {
         }
         else {
             axios({
-                url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[index].roleId + '/jobs/',
+                /*PROBLEM - NEEDS TO MATCH A PRE-EXISTING ROLE (THE STATE OF THAT), CAN'T GRAB WHAT DOESN'T EXIST YET - SO DO ROLE FIRST?*/
+                // url: `${BASE_URL}/companies/` + rolePageState.listOfRoles[createRoleDialogState.index].companyId + '/roles/' + rolePageState.listOfRoles[createRoleDialogState.index].roleId,
+                /*TEMP FIX: ASSUME COMPANYID IS '177'*/
+                url: `${BASE_URL}/companies/` + 177 + '/roles/' + rolePageState.listOfRoles[rolePageState.index].roleId,
+
                 method: 'post',
                 timeout: 10000,
                 data: {
@@ -381,7 +356,7 @@ export function ManageRoles() {
                 setPageState({
                     ...rolePageState,
                     listOfRoles: [],
-                    postJobListRequestStatus: RolePageStatus.Error,
+                    postRoleListRequestStatus: RolePageStatus.Error,
                     searchFetchError: 'There was an error adding to the list of roles. Please try again later'
                 })
             })
@@ -482,7 +457,7 @@ export function ManageRoles() {
                                     ...editRoleDialogState,
                                     show: true,
                                     index: index,
-                                    roleTitle: row.title,
+                                    roleTitle: row.roleTitle,
                                     companyTitle: row.companyTitle,
                                     expectations: row.expectations,
                                     benefits: row.benefits,
@@ -547,7 +522,7 @@ export function ManageRoles() {
         }
         else {
             axios({
-                url: `${BASE_URL}/companies/` + rolePageState.listOfRoles[editRoleDialogState.index].roleId + '/jobs/' + rolePageState.listOfRoles[editRoleDialogState.index].jobId,
+                url: `${BASE_URL}/companies/` + rolePageState.listOfRoles[editRoleDialogState.index].companyId + '/roles/' + rolePageState.listOfRoles[editRoleDialogState.index].roleId,
                 method: 'patch',
                 timeout: 10000,
                 data: {
@@ -722,7 +697,7 @@ export function ManageRoles() {
                     {
                         title: "Close",
                         handler: () => {
-                            createRole({
+                            setCreateRoleDialogState({
                                 ...createRoleDialogState,
                                 show: false
                             })

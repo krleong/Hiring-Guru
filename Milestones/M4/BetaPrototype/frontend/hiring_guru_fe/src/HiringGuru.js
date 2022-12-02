@@ -109,8 +109,8 @@ function HiringGuru() {
                 <Route path='/recruitment-process' element={<RecruitmentProcess />} />
                 <Route path='/manage-roles' element={<ManageRoles />} />
                 <Route path='/job-apply' element={<ApplyForJob />} />
-                <Route path='/job-referral' element={<JobReferral />} />
-                <Route path='/job-referral2' element={<JobReferral2 />} />
+                {/* <Route path='/job-referral' element={<JobReferral />} />
+                <Route path='/job-referral2' element={<JobReferral2 />} /> */}
                 {/* <Route path='/dashboard/*' element={loginWithRedirect({
                     redirectUri: `${<Dashboard />}`
                   })} /> */}
