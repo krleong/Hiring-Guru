@@ -14,8 +14,11 @@ import './Dashboard.css';
 import { ManageRoles } from '../ManageRoles/ManageRoles';
 import { ManageEmployees } from '../ManageEmployees/ManageEmployees';
 import { ManageJobs } from '../ManageJobs/ManageJobs';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
+import LogIn from '../LogIn/LogIn';
 
-export default function Dashboard() {
+const Dashboard = () => {
+
     useEffect(() => {
         document.title = "Hiring Guru | Dashboard";
         // handleClick();
@@ -56,3 +59,8 @@ export default function Dashboard() {
 
     );
 }
+
+export default withAuthenticationRequired(Dashboard, {
+    onRedirecting: () => <LogIn />,
+    returnTo: window.location.origin
+});

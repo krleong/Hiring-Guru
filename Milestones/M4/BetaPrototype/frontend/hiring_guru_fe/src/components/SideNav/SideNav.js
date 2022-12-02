@@ -37,18 +37,18 @@ function SideNav() {
                                 </ul>
                             </div>
                         </li>
-                        <li className="border-top my-3"></li>
+                        {/* <li className="border-top my-3"></li>
                         <li className="mb-1">
                             <button className="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
                                 Account
                             </button>
                             <div className="collapse" id="account-collapse">
                                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a /*href="/dashboard/home"*/ className="link-dark rounded">Overview (COMING SOON)</a></li>
-                                    <li><a /*href="/dashboard/home"*/ className="link-dark rounded">Settings (COMING SOON)</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Overview (COMING SOON)</a></li>
+                                    <li><a href="/dashboard/home" className="link-dark rounded">Settings (COMING SOON)</a></li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </main>

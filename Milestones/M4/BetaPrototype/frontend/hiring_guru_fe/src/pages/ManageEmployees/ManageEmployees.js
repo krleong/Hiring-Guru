@@ -1,7 +1,7 @@
 import './ManageEmployees.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Filter } from "react-bootstrap-icons";
@@ -9,33 +9,8 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { ApplicationContext } from "../../HiringGuru";
 import Button from "react-bootstrap/Button";
-
-const Employees = [
-    {
-        title: "Farhan Haider",
-        job: "Software Engineer",
-        role: "Team Lead",
-        company: "Binary Brains"
-    },
-    {
-        title: "Kenny Leong",
-        job: "Software Engineer",
-        role: "Frontend Engineer",
-        company: "Binary Brains"
-    },
-    {
-        title: "Mamadou Bah",
-        job: "Software Engineer",
-        role: "Frontend Engineer",
-        company: "Binary Brains"
-    },
-    {
-        title: "Khushi Khanna",
-        job: "Software Engineer",
-        role: "Backend Engineer",
-        company: "Binary Brains"
-    }
-]
+import axios from "axios";
+import { BASE_URL } from "../../components/configuration";
 
 function EmployeeEditDialog(props) {
     return (
@@ -68,34 +43,46 @@ function EmployeeEditDialog(props) {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Job Title
+                        Email
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="Enter job title"
-                        value={props.job}
-                        onChange={props.onJobChange}
+                        placeholder="email@example.com"
+                        value={props.email}
+                        onChange={props.onEmailChange}
                     >
                     </input>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Role
+                        Created At
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="Enter role"
-                        value={props.role}
-                        onChange={props.onRoleChange}
+                        placeholder="Year-Month-DayTHour:Minute:Second.TimeZone"
+                        value={props.createdAt}
+                        onChange={props.onCreatedAtChange}
+                        disabled={true}
                     >
                     </input>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Company
+                        Company Designation
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
                         placeholder="Enter company name"
-                        value={props.company}
-                        onChange={props.onCompanyChange}
+                        value={props.designation}
+                        onChange={props.onDesignationChange}
+                    >
+                    </input>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Role(s)
+                    </label>
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="Enter assigned role(s)"
+                        value={props.roles}
+                        onChange={props.onRolesChange}
                     >
                     </input>
                 </div>
@@ -104,54 +91,161 @@ function EmployeeEditDialog(props) {
     )
 }
 
+const EmployeePageStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+
+const parseEmployees = (employees) => {
+    let parsedEmployees = []
+    for (let i = 0; i < employees.length; i++) {
+        parsedEmployees.push({
+            id: employees[i].id,
+            name: employees[i].user.name,
+            email: employees[i].user.email,
+            createdAt: employees[i].createdAt,
+            designation: employees[i].designation,
+            roles: employees[i].roles,
+        })
+    }
+    return parsedEmployees
+}
+
 
 export function ManageEmployees() {
+    const [employeePageState, setPageState] = useState({
+        listOfEmployees: [],
+        searchString: '',
+        getEmployeeListRequestStatus: EmployeePageStatus.NotStarted,
+        searchFetchError: '',
+    })
+
     const { SearchBar } = Search;
-    const [roles, setEmployees] = useState(Employees)
+
+    useEffect(() => {
+        fetchEmployees()
+    }, []);
+
     const [editDialogState, setEditDialogState] = useState({
         show: false,
-        title: "",
-        job: "",
-        role: "",
-        company: "",
+        name: "",
+        email: "",
+        createdAt: "",
+        designation: "",
+        roles: "",
         errors: [],
         index: undefined
     })
 
     const [createDialogState, setCreateDialogState] = useState({
         show: false,
-        title: "",
-        job: "",
-        role: "",
-        company: "",
+        name: "",
+        email: "",
+        createdAt: "",
+        designation: "",
+        roles: "",
         errors: [],
         index: undefined
     })
 
     const appContext = useContext(ApplicationContext);
 
+    const fetchEmployees = () => {
+        setPageState({
+            ...employeePageState,
+            listOfEmployees: [],
+            getEmployeeListRequestStatus: EmployeePageStatus.InProgress,
+            searchFetchError: ''
+        })
+
+        axios({
+            url: `${BASE_URL}/api/v1/companies/177/employees`,
+            method: 'get',
+            timeout: 10000,
+            params: {
+                query: employeePageState.searchString,
+            }
+        }).then((resp) => {
+            if (resp.status === 200) {
+                setPageState({
+                    ...employeePageState,
+                    listOfEmployees: parseEmployees(resp.data),
+                    getEmployeeListRequestStatus: EmployeePageStatus.Success,
+                })
+            }
+            else {
+                setPageState({
+                    ...employeePageState,
+                    listOfEmployees: [],
+                    getEmployeeListRequestStatus: EmployeePageStatus.Error,
+                    searchFetchError: 'There was an error fetching the list of employees. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...employeePageState,
+                listOfEmployees: [],
+                getEmployeeListRequestStatus: EmployeePageStatus.Error,
+                searchFetchError: 'There was an error fetching the list of employees. Please try again later'
+            })
+        })
+    }
+
     const removeEmployee = (index) => {
+        axios({
+            url: `${BASE_URL}/api/v1/companies/177/employees/` + employeePageState.listOfEmployees[index].id,
+            method: 'delete',
+            timeout: 10000,
+        }).then((resp) => {
+            if (resp.status === 200) {
+                fetchEmployees()
+            }
+            else {
+                setPageState({
+                    ...employeePageState,
+                    listOfEmployees: [],
+                    deleteEmployeeListRequestStatus: EmployeePageStatus.Error,
+                    searchFetchError: 'There was an error deleting the employee. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...employeePageState,
+                listOfEmployees: [],
+                deleteEmployeeListRequestStatus: EmployeePageStatus.Error,
+                searchFetchError: 'There was an error deleting the employee. Please try again later'
+            })
+        })
+
         let newEmployees = []
-        for (let i = 0; i < roles.length; i++) {
-            i !== index && newEmployees.push(roles[i])
+        for (let i = 0; i < employeePageState.listOfEmployees.length; i++) {
+            i !== index && newEmployees.push(employeePageState.listOfEmployees[i])
         }
         appContext.closeDialog()
-        setEmployees(newEmployees)
+        setPageState({
+            ...employeePageState,
+            listOfEmployees: newEmployees
+        })
     }
 
     const createEmployee = () => {
         let errors = []
-        if (!createDialogState.title || createDialogState.title.length === 0) {
-            errors.push("Employee title cannot be empty")
+        if (!createDialogState.name || createDialogState.name.length === 0) {
+            errors.push("Employee name cannot be empty")
         }
-        if (!createDialogState.job || createDialogState.job.length === 0) {
-            errors.push("Employee job title cannot be empty")
+        if (!createDialogState.email || createDialogState.email.length === 0) {
+            errors.push("Employee email cannot be empty")
         }
-        if (!createDialogState.role || createDialogState.role.length === 0) {
-            errors.push("Employee role cannot be empty")
+        // if (!createDialogState.createdAt || createDialogState.createdAt.length === 0) {
+        //     errors.push("Employee creation date cannot be empty")
+        // }
+        if (!createDialogState.designation || createDialogState.designation.length === 0) {
+            errors.push("Employee designation cannot be empty")
         }
-        if (!createDialogState.company || createDialogState.company.length === 0) {
-            errors.push("Employee company cannot be empty")
+        if (!createDialogState.roles || createDialogState.roles.length === 0) {
+            errors.push("Employee roles cannot be empty")
         }
         if (errors.length > 0) {
             setCreateDialogState({
@@ -161,15 +255,51 @@ export function ManageEmployees() {
             })
         }
         else {
-            setEmployees([
-                ...roles,
-                {
-                    title: createDialogState.title,
-                    company: createDialogState.company,
-                    job: createDialogState.job,
-                    role: createDialogState.role,
+            axios({
+                url: `${BASE_URL}/api/v1/companies/177/employees`,
+                method: 'post',
+                timeout: 10000,
+                data: {
+                    name: createDialogState.name,
+                    designation: createDialogState.designation,
+                    email: createDialogState.email,
+                    auth0Id: createDialogState.auth0Id,
+                    roles: createDialogState.roles,
                 }
-            ])
+            }).then((resp) => {
+                if (resp.status === 200) {
+                    fetchEmployees()
+                }
+                else {
+                    setPageState({
+                        ...employeePageState,
+                        listOfEmployees: [],
+                        postEmployeeListRequestStatus: EmployeePageStatus.Error,
+                        searchFetchError: 'There was an error adding to the list of employees. Please try again later'
+                    })
+                }
+            }).catch((error) => {
+                setPageState({
+                    ...employeePageState,
+                    listOfEmployees: [],
+                    postEmployeeListRequestStatus: EmployeePageStatus.Error,
+                    searchFetchError: 'There was an error adding to the list of employees. Please try again later'
+                })
+            })
+
+            setPageState({
+                ...employeePageState,
+                listOfEmployees: [
+                    ...employeePageState.listOfEmployees,
+                    {
+                        name: createDialogState.name,
+                        designation: createDialogState.designation,
+                        email: createDialogState.email,
+                        createdAt: createDialogState.createdAt,
+                        roles: createDialogState.roles,
+                    }
+                ],
+            })
             setCreateDialogState({
                 ...createDialogState,
                 show: false,
@@ -177,22 +307,27 @@ export function ManageEmployees() {
         }
     }
 
+
     const columns = [
         {
-            dataField: 'title',
+            dataField: 'name',
             text: 'Name'
         },
         {
-            dataField: 'job',
-            text: 'Job Title'
+            dataField: 'email',
+            text: 'Email'
         },
         {
-            dataField: 'role',
-            text: 'Role'
+            dataField: 'createdAt',
+            text: 'Date Added'
         },
         {
-            dataField: 'company',
-            text: 'Company'
+            dataField: 'designation',
+            text: 'Designation'
+        },
+        {
+            dataField: 'roles',
+            text: 'Roles'
         },
         {
             formatter: (cell, row, index) => {
@@ -207,10 +342,10 @@ export function ManageEmployees() {
                                     ...editDialogState,
                                     show: true,
                                     index: index,
-                                    title: row.title,
-                                    job: row.job,
-                                    role: row.role,
-                                    company: row.company,
+                                    name: row.name,
+                                    email: row.email,
+                                    createdAt: row.createdAt,
+                                    designation: row.company,
                                 })
                             }}>Contact</DropdownItem> */}
                             <DropdownItem onClick={() => {
@@ -218,10 +353,11 @@ export function ManageEmployees() {
                                     ...editDialogState,
                                     show: true,
                                     index: index,
-                                    title: row.title,
-                                    job: row.job,
-                                    role: row.role,
-                                    company: row.company,
+                                    name: row.name,
+                                    email: row.email,
+                                    createdAt: row.createdAt,
+                                    designation: row.designation,
+                                    roles: row.roles,
                                 })
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
@@ -255,17 +391,20 @@ export function ManageEmployees() {
 
     const handleEditEmployee = () => {
         let errors = []
-        if (!editDialogState.title || editDialogState.title.length === 0) {
+        if (!editDialogState.name || editDialogState.name.length === 0) {
             errors.push("Employee name cannot be empty")
         }
-        if (!editDialogState.job || editDialogState.job.length === 0) {
-            errors.push("Employee job title cannot be empty")
+        if (!editDialogState.email || editDialogState.email.length === 0) {
+            errors.push("Employee email cannot be empty")
         }
-        if (!editDialogState.role || editDialogState.role.length === 0) {
-            errors.push("Employee role cannot be empty")
+        if (!editDialogState.createdAt || editDialogState.createdAt.length === 0) {
+            errors.push("Employee creation date cannot be empty")
         }
-        if (!editDialogState.company || editDialogState.company.length === 0) {
-            errors.push("Employee company cannot be empty")
+        if (!editDialogState.designation || editDialogState.designation.length === 0) {
+            errors.push("Employee designation cannot be empty")
+        }
+        if (!editDialogState.roles || editDialogState.roles.length === 0) {
+            errors.push("Employee roles cannot be empty")
         }
         if (errors.length > 0) {
             setEditDialogState({
@@ -275,21 +414,75 @@ export function ManageEmployees() {
             })
         }
         else {
+            axios({
+                url: `${BASE_URL}/api/v1/companies/177/employees/` + employeePageState.listOfEmployees[editDialogState.index].id,
+                method: 'patch',
+                timeout: 10000,
+                data: {
+                    name: editDialogState.name,
+                    designation: editDialogState.designation,
+                    email: editDialogState.email,
+                    auth0Id: editDialogState.auth0Id,
+                    roles: editDialogState.roles,
+                }
+            }).then((resp) => {
+                if (resp.status === 200) {
+                    fetchEmployees()
+                }
+                else {
+                    setPageState({
+                        ...employeePageState,
+                        listOfEmployees: [],
+                        patchEmployeeListRequestStatus: EmployeePageStatus.Error,
+                        searchFetchError: 'There was an error updating the list of employees. Please try again later'
+                    })
+                }
+            }).catch((error) => {
+                setPageState({
+                    ...employeePageState,
+                    listOfEmployees: [],
+                    patchEmployeeListRequestStatus: EmployeePageStatus.Error,
+                    searchFetchError: 'There was an error updating the list of employees. Please try again later'
+                })
+            })
+
+            setPageState({
+                ...employeePageState,
+                listOfEmployees: [
+                    ...employeePageState.listOfEmployees,
+                    {
+                        name: editDialogState.name,
+                        designation: editDialogState.designation,
+                        email: editDialogState.email,
+                        createdAt: editDialogState.createdAt,
+                        roles: editDialogState.roles,
+                    }
+                ],
+            })
+            setEditDialogState({
+                ...editDialogState,
+                show: false,
+            })
+
             let newEmployees = []
-            for (let i = 0; i < roles.length; i++) {
+            for (let i = 0; i < employeePageState.listOfEmployees.length; i++) {
                 if (i === editDialogState.index) {
                     newEmployees.push({
-                        title: editDialogState.title,
-                        job: editDialogState.job,
-                        role: editDialogState.role,
-                        company: editDialogState.company
+                        name: editDialogState.name,
+                        email: editDialogState.email,
+                        createdAt: editDialogState.createdAt,
+                        designation: editDialogState.designation,
+                        roles: editDialogState.roles
                     })
                 }
                 else {
-                    newEmployees.push(roles[i])
+                    newEmployees.push(employeePageState.listOfEmployees[i])
                 }
             }
-            setEmployees(newEmployees)
+            setPageState({
+                ...employeePageState,
+                listOfEmployees: newEmployees
+            })
             setEditDialogState({
                 ...editDialogState,
                 show: false,
@@ -323,32 +516,40 @@ export function ManageEmployees() {
                 onNameChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        title: e.target.value
+                        name: e.target.value
                     })
                 }}
-                onJobChange={(e) => {
+                onEmailChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        job: e.target.value
+                        email: e.target.value
                     })
                 }}
-                onRoleChange={(e) => {
+                onCreatedAtChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        role: e.target.value
+                        createdAt: e.target.value
                     })
                 }}
-                onCompanyChange={(e) => {
+                onDesignationChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        company: e.target.value
+                        designation: e.target.value
                     })
                 }}
-                name={editDialogState.title}
-                job={editDialogState.job}
-                role={editDialogState.role}
-                company={editDialogState.company}
+                onRolesChange={(e) => {
+                    setEditDialogState({
+                        ...editDialogState,
+                        roles: e.target.value
+                    })
+                }}
+                name={editDialogState.name}
+                email={editDialogState.email}
+                createdAt={editDialogState.createdAt}
+                designation={editDialogState.designation}
+                roles={editDialogState.roles}
             />
+
             <EmployeeEditDialog
                 show={createDialogState.show}
                 title={"Add Employee"}
@@ -373,35 +574,43 @@ export function ManageEmployees() {
                 onNameChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        title: e.target.value
+                        name: e.target.value
                     })
                 }}
-                onJobChange={(e) => {
+                onEmailChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        job: e.target.value
+                        email: e.target.value
                     })
                 }}
-                onRoleChange={(e) => {
+                onCreatedAtChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        role: e.target.value
+                        createdAt: e.target.value
                     })
                 }}
-                onCompanyChange={(e) => {
+                onDesignationChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        company: e.target.value
+                        designation: e.target.value
                     })
                 }}
-                name={createDialogState.title}
-                role={createDialogState.role}
-                company={createDialogState.company}
+                onRolesChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        roles: e.target.value
+                    })
+                }}
+                name={createDialogState.name}
+                email={createDialogState.email}
+                createdAt={createDialogState.createdAt}
+                designation={createDialogState.designation}
+                roles={createDialogState.roles}
             />
             <div>
                 <ToolkitProvider
                     keyField="id"
-                    data={roles}
+                    data={employeePageState.listOfEmployees}
                     columns={columns}
                     search
                 >

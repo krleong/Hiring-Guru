@@ -156,7 +156,7 @@ export function ManageJobApps() {
         setJobApps(newJobApps)
     }
 
-    const createEmployee = () => {
+    const createJobApp = () => {
         let errors = []
         if (!createDialogState.title || createDialogState.title.length === 0) {
             errors.push("Candidate name cannot be empty")
@@ -402,7 +402,7 @@ export function ManageJobApps() {
                     },
                     {
                         title: "Create",
-                        handler: createEmployee,
+                        handler: createJobApp,
                         variant: "primary"
                     }
                 ]}

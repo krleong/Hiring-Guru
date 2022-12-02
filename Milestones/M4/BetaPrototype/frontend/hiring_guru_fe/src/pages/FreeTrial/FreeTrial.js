@@ -3,16 +3,16 @@ import Button from 'react-bootstrap/Button';
 
 function FreeTrial() {
     return (
-            <div class="grid2-container">
-                <center>
+            <div className={"grid2-container"}>
+                <center><center/>
                
-            <div class="Welcome-container">
+            <div className={"Welcome-container"}>
                 <h1>Welcome to the HiringGuru, Start your Free Trial Today</h1>
             </div>
-            <div class="Tips-container">
+            <div className={"Tips-container"}>
                 <h2>What can you do with your free trial?</h2>
             </div>
-            <div class="Info-container">
+            <div className={"Info-container"}>
                 <h5>Easily build tests and assess up to multiple candidates * 
                     Improve your interviews with a collaborative coding environment *  
                     Save and replay any interview all in a single location * 
@@ -20,7 +20,7 @@ function FreeTrial() {
                     Access the largest library of hiring questions in the world * 
                     all free for 30 days, no credit card required</h5>
             </div>
-            <div class="Submit-container1">
+            <div className={"Submit-container1"}>
             <Button href={'/free-trial'} id="free-trial-btn" variant="primary">Start Today</Button>
             </div>
                  

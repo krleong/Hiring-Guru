@@ -28,8 +28,14 @@ div.job-border-bottom {
     border-bottom: 2px dotted rgb(165, 159, 159);
 }
 
-button .button-icon-right {
-    margin-left: 10px
+.box-arrow-up-right svg {
+    margin-left: 8px;
+    margin-bottom: 4px;
+}
+
+.heart-fill svg {
+    margin-left: 8px;
+    margin-bottom: 2px;
 }
 
 .large-drop-down-button {
