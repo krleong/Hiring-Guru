@@ -12,7 +12,6 @@ import CreateCompany from './pages/CreateCompany/CreateCompany';
 // import FreeTrial from './pages/FreeTrial/FreeTrial';
 import { ManageJobs } from './pages/ManageJobs/ManageJobs';
 import ApplyForJob from './pages/ApplyForJob/ApplyForJob';
-import JobReferral2 from './pages/JobReferral2/JobReferral2';
 import Member from './components/Member/Member';
 import NavBar from './components/NavBar/NavBar.js';
 import Footer from './components/Footer/Footer.js';
@@ -20,7 +19,6 @@ import Tagline from './components/Tagline/Tagline.js';
 import RecruitmentProcess from "./pages/RecruitmentProcess/RecruitmentProcess";
 import { Dialog } from "./components/Dialog/Dialog";
 import { ManageRoles } from "./pages/ManageRoles/ManageRoles";
-import JobReferral from './pages/JobReferral/JobReferral';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export const ApplicationContext = React.createContext();

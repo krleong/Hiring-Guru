@@ -57,7 +57,7 @@ function JobEditDialog(props) {
                         Employment Type
                     </label>
                     <input className="form-control" id="recruitmentStageNameInput"
-                        placeholder="FULL_TIME / PART_TIME / INTERN"
+                        placeholder="FULL_TIME / PART_TIME"
                         value={props.type}
                         onChange={props.onTypeChange}
                     />
@@ -165,9 +165,6 @@ export function ManageJobs() {
             url: `${BASE_URL}/roles/${roleId}/jobs`,
             method: 'get',
             timeout: 10000,
-            params: {
-                query: jobPageState.searchString,
-            }
         }).then((resp) => {
             if (resp.status === 200) {
                 setPageState({
@@ -239,7 +236,7 @@ export function ManageJobs() {
             timeout: 10000,
         }).then((resp) => {
             if (resp.status === 200) {
-                fetchJobs()
+                fetchJobs(jobPageState.selectedRoleId)
             }
             else {
                 setPageState({
@@ -292,8 +289,7 @@ export function ManageJobs() {
         }
         else {
             axios({
-                /*PROBLEM - NEEDS TO MATCH A PRE-EXISTING ROLE (THE STATE OF THAT), CAN'T GRAB WHAT DOESN'T EXIST YET - SO DO ROLE FIRST?*/
-                url: `${BASE_URL}/roles/` + jobPageState.listOfJobs[createDialogState.index].roleId + '/jobs/',
+                url: `${BASE_URL}/roles/` + jobPageState.selectedRoleId + '/jobs',
                 method: 'post',
                 timeout: 10000,
                 data: {
@@ -303,8 +299,9 @@ export function ManageJobs() {
                     description: createDialogState.description,
                 }
             }).then((resp) => {
+                console.log("OK")
                 if (resp.status === 200) {
-                    fetchJobs()
+                    fetchJobs(jobPageState.selectedRoleId)
                 }
                 else {
                     setPageState({
@@ -367,17 +364,6 @@ export function ManageJobs() {
                             <Filter /> Action
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            {/* <DropdownItem onClick={() => {
-                                setEditDialogState({
-                                    ...editDialogState,
-                                    show: true,
-                                    index: index,
-                                    title: row.title,
-                                    job: row.job,
-                                    role: row.role,
-                                    company: row.company,
-                                })
-                            }}>Contact</DropdownItem> */}
                             <DropdownItem onClick={() => {
                                 setEditDialogState({
                                     ...editDialogState,
