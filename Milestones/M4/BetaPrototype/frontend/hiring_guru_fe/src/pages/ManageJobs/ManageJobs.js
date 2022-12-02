@@ -85,6 +85,13 @@ const JobPageStatus = {
     Success: "Success",
 }
 
+const RolesFetchStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+
 const parseJobs = (jobs) => {
     let parsedJobs = []
     for (let i = 0; i < jobs.length; i++) {
@@ -106,6 +113,10 @@ export function ManageJobs() {
 
     const [jobPageState, setPageState] = useState({
         listOfJobs: [],
+        listOfRoles: [],
+        selectedRoleId: undefined,
+        fetchRolesListRequestStatus: RolesFetchStatus.NotStarted,
+        rolesFetchError: '',
         searchString: '',
         getJobListRequestStatus: JobPageStatus.NotStarted,
         searchFetchError: '',
@@ -114,8 +125,12 @@ export function ManageJobs() {
     const { SearchBar } = Search;
 
     useEffect(() => {
-        fetchJobs()
-    }, []);
+        if(jobPageState.selectedRoleId) {
+            fetchJobs(jobPageState.selectedRoleId)
+        } else {
+            fetchRoles()
+        }
+    }, [jobPageState.selectedRoleId]);
 
     const [createDialogState, setCreateDialogState] = useState({
         show: false,
@@ -137,7 +152,8 @@ export function ManageJobs() {
         index: undefined
     })
 
-    const fetchJobs = () => {
+    const fetchJobs = (roleId) => {
+        console.log("Fetching jobs")
         setPageState({
             ...jobPageState,
             listOfJobs: [],
@@ -146,7 +162,7 @@ export function ManageJobs() {
         })
 
         axios({
-            url: `${BASE_URL}/roles/jobs`,
+            url: `${BASE_URL}/roles/${roleId}/jobs`,
             method: 'get',
             timeout: 10000,
             params: {
@@ -174,6 +190,44 @@ export function ManageJobs() {
                 listOfJobs: [],
                 getJobListRequestStatus: JobPageStatus.Error,
                 searchFetchError: 'There was an error fetching the list of jobs. Please try again later'
+            })
+        })
+    }
+
+    const fetchRoles = () => {
+        setPageState({
+            ...jobPageState,
+            listOfRoles: [],
+            fetchRolesListRequestStatus: RolesFetchStatus.InProgress,
+            rolesFetchError: ''
+        })
+
+        axios({
+            url: `${BASE_URL}/companies/177/roles`,
+            method: 'get',
+            timeout: 10000
+        }).then((resp) => {
+            if (resp.status === 200) {
+                setPageState({
+                    ...jobPageState,
+                    listOfRoles: resp.data,
+                    fetchRolesListRequestStatus: RolesFetchStatus.Success,
+                })
+            }
+            else {
+                setPageState({
+                    ...jobPageState,
+                    listOfRoles: [],
+                    fetchRolesListRequestStatus: RolesFetchStatus.Error,
+                    rolesFetchError: 'There was an error fetching the list of roles. Please try again.'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...jobPageState,
+                listOfRoles: [],
+                fetchRolesListRequestStatus: RolesFetchStatus.Error,
+                rolesFetchError: 'There was an error fetching the list of roles. Please try again later'
             })
         })
     }
@@ -578,25 +632,78 @@ export function ManageJobs() {
                                 </Breadcrumb>
                                 <h1>Manage Jobs</h1>
 
-                                <div className={"container-vcenter-hright"}>
+                                {
+                                    (jobPageState.fetchRolesListRequestStatus === RolesFetchStatus.InProgress) &&
+                                    <div className={'row justify-content-center'}>
+                                        <div className="spinner-border text-primary align-self-" role="status">
+                                            <span className="sr-only"></span>
+                                        </div>
+                                    </div>
+                                }
+                                {
+                                    jobPageState.rolesFetchError &&
+                                    <div className={'search-result-error'}>
+                                        {jobPageState.rolesFetchError}
+                                    </div>
+                                }
+                                {
+                                    (jobPageState.fetchRolesListRequestStatus === RolesFetchStatus.Success) &&
+                                    <div className="position-selection-control">
+                                        <div className={"position-selection-header"}>
+                                            <h5>Select a role to see the jobs opened for it:</h5>
+                                        </div>
+                                        <div className={"position-selection-dropdown"}>
+                                            <div className="input-group input-group-sm">
+                                                <Dropdown className={"input-group-text"}>
+                                                    <Dropdown.Toggle id="dropdown-basic">
+                                                        <Filter /> Select Role
+                                                    </Dropdown.Toggle>
+                                                    <Dropdown.Menu>
+                                                        {
+                                                            jobPageState.listOfRoles.map((role) => {
+                                                                return (
+                                                                    <Dropdown.Item key={role.id} onClick={(e) => {
+                                                                        setPageState({
+                                                                            ...jobPageState,
+                                                                            selectedRoleId: role.id
+                                                                        })
+                                                                    }} active={jobPageState.selectedRoleId === role.id}>
+                                                                        {role.title}
+                                                                    </Dropdown.Item>
+                                                                )
+                                                            })
+                                                        }
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
 
-                                    <SearchBar {...props.searchProps} />
+                                {
+                                    jobPageState.selectedRoleId &&
+                                    <div>
+                                        <div className={"container-vcenter-hright"}>
 
-                                    <Button variant="primary"
-                                        onClick={() => {
-                                            setCreateDialogState({
-                                                ...createDialogState,
-                                                show: true
-                                            })
-                                        }}
-                                    >Create Job</Button>
-                                </div>
-                                {/* <hr /> */}
-                                <BootstrapTable
-                                    {...props.baseProps}
-                                    striped
-                                    condensed
-                                />
+                                            <SearchBar {...props.searchProps} />
+
+                                            <Button variant="primary"
+                                                    onClick={() => {
+                                                        setCreateDialogState({
+                                                            ...createDialogState,
+                                                            show: true
+                                                        })
+                                                    }}
+                                            >Create Job</Button>
+                                        </div>
+                                        {/* <hr /> */}
+                                        <BootstrapTable
+                                            {...props.baseProps}
+                                            striped
+                                            condensed
+                                        />
+                                    </div>
+                                }
                             </div>
                         )
                     }
