@@ -686,7 +686,7 @@ export function ManageRoles() {
                         benefits: e.target.value
                     })
                 }}
-                name={editRoleDialogState.roleTitle}
+                roleTitle={editRoleDialogState.roleTitle}
                 // companyTitle={editRoleDialogState.companyTitle}
                 expectations={editRoleDialogState.expectations}
                 benefits={editRoleDialogState.benefits}
