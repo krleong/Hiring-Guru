@@ -270,8 +270,9 @@ export function ManageRoles() {
 
     const removeRole = (index) => {
         axios({
+            // TEMP FIX TO MAKE COMPANY ID 177
             // url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[index].roleId + '/jobs/' + rolePageState.listOfRoles[index].jobId,
-            url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[index].roleId,
+            url: `${BASE_URL}/companies/` +  177 + `/roles/` + rolePageState.listOfRoles[index].roleId,
             method: 'delete',
             timeout: 10000,
         }).then((resp) => {
