@@ -52,7 +52,7 @@ function JobEditDialog(props) {
                         onChange={props.onLocationChange}
                     />
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <label htmlFor="recruitmentStageNameInput" className="form-label">
                         Employment Type
                     </label>
@@ -61,6 +61,22 @@ function JobEditDialog(props) {
                         value={props.type}
                         onChange={props.onTypeChange}
                     />
+                </div> */}
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageNameInput" className="form-label">
+                        Employment Type
+                    </label>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                            value={props.type}
+                            onChange={props.onTypeChange}>
+                            Select
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">FULL_TIME</a></li>
+                            <li><a class="dropdown-item" href="#">PART_TIME</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
@@ -125,7 +141,7 @@ export function ManageJobs() {
     const { SearchBar } = Search;
 
     useEffect(() => {
-        if(jobPageState.selectedRoleId) {
+        if (jobPageState.selectedRoleId) {
             fetchJobs(jobPageState.selectedRoleId)
         } else {
             fetchRoles()
@@ -299,7 +315,6 @@ export function ManageJobs() {
                     description: createDialogState.description,
                 }
             }).then((resp) => {
-                console.log("OK")
                 if (resp.status === 200) {
                     fetchJobs(jobPageState.selectedRoleId)
                 }
@@ -674,12 +689,12 @@ export function ManageJobs() {
                                             <SearchBar {...props.searchProps} />
 
                                             <Button variant="primary"
-                                                    onClick={() => {
-                                                        setCreateDialogState({
-                                                            ...createDialogState,
-                                                            show: true
-                                                        })
-                                                    }}
+                                                onClick={() => {
+                                                    setCreateDialogState({
+                                                        ...createDialogState,
+                                                        show: true
+                                                    })
+                                                }}
                                             >Create Job</Button>
                                         </div>
                                         {/* <hr /> */}

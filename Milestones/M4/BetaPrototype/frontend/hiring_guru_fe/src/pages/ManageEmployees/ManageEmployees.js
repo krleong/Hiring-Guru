@@ -52,7 +52,7 @@ function EmployeeEditDialog(props) {
                     >
                     </input>
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
                         Created At
                     </label>
@@ -63,7 +63,7 @@ function EmployeeEditDialog(props) {
                         disabled={true}
                     >
                     </input>
-                </div>
+                </div> */}
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
                         Company Designation
@@ -132,7 +132,7 @@ export function ManageEmployees() {
         show: false,
         name: "",
         email: "",
-        createdAt: "",
+        // createdAt: "",
         designation: "",
         roles: "",
         errors: [],
@@ -143,7 +143,7 @@ export function ManageEmployees() {
         show: false,
         name: "",
         email: "",
-        createdAt: "",
+        // createdAt: "",
         designation: "",
         roles: "",
         errors: [],
@@ -294,7 +294,7 @@ export function ManageEmployees() {
                         name: createDialogState.name,
                         designation: createDialogState.designation,
                         email: createDialogState.email,
-                        createdAt: createDialogState.createdAt,
+                        // createdAt: createDialogState.createdAt,
                         roles: createDialogState.roles,
                     }
                 ],
@@ -354,7 +354,7 @@ export function ManageEmployees() {
                                     index: index,
                                     name: row.name,
                                     email: row.email,
-                                    createdAt: row.createdAt,
+                                    // createdAt: row.createdAt,
                                     designation: row.designation,
                                     roles: row.roles,
                                 })
@@ -396,9 +396,9 @@ export function ManageEmployees() {
         if (!editDialogState.email || editDialogState.email.length === 0) {
             errors.push("Employee email cannot be empty")
         }
-        if (!editDialogState.createdAt || editDialogState.createdAt.length === 0) {
-            errors.push("Employee creation date cannot be empty")
-        }
+        // if (!editDialogState.createdAt || editDialogState.createdAt.length === 0) {
+        //     errors.push("Employee creation date cannot be empty")
+        // }
         if (!editDialogState.designation || editDialogState.designation.length === 0) {
             errors.push("Employee designation cannot be empty")
         }
@@ -414,7 +414,9 @@ export function ManageEmployees() {
         }
         else {
             axios({
-                url: `${BASE_URL}/api/v1/companies/177/employees/` + employeePageState.listOfEmployees[editDialogState.index].id,
+                // TEMPORARY FIX:
+                // url: `${BASE_URL}/api/v1/companies/177/employees/` + employeePageState.listOfEmployees[editDialogState.index].id,
+                url: `${BASE_URL}/api/v1/companies/` + 177 + `/employees/` + employeePageState.listOfEmployees[editDialogState.index].id,
                 method: 'patch',
                 timeout: 10000,
                 data: {
@@ -524,12 +526,12 @@ export function ManageEmployees() {
                         email: e.target.value
                     })
                 }}
-                onCreatedAtChange={(e) => {
-                    setEditDialogState({
-                        ...editDialogState,
-                        createdAt: e.target.value
-                    })
-                }}
+                // onCreatedAtChange={(e) => {
+                //     setEditDialogState({
+                //         ...editDialogState,
+                //         createdAt: e.target.value
+                //     })
+                // }}
                 onDesignationChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
@@ -544,7 +546,7 @@ export function ManageEmployees() {
                 }}
                 name={editDialogState.name}
                 email={editDialogState.email}
-                createdAt={editDialogState.createdAt}
+                // createdAt={editDialogState.createdAt}
                 designation={editDialogState.designation}
                 roles={editDialogState.roles}
             />
@@ -582,12 +584,12 @@ export function ManageEmployees() {
                         email: e.target.value
                     })
                 }}
-                onCreatedAtChange={(e) => {
-                    setCreateDialogState({
-                        ...createDialogState,
-                        createdAt: e.target.value
-                    })
-                }}
+                // onCreatedAtChange={(e) => {
+                //     setCreateDialogState({
+                //         ...createDialogState,
+                //         createdAt: e.target.value
+                //     })
+                // }}
                 onDesignationChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
@@ -602,7 +604,7 @@ export function ManageEmployees() {
                 }}
                 name={createDialogState.name}
                 email={createDialogState.email}
-                createdAt={createDialogState.createdAt}
+                // createdAt={createDialogState.createdAt}
                 designation={createDialogState.designation}
                 roles={createDialogState.roles}
             />
