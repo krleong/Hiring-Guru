@@ -163,12 +163,9 @@ export function ManageEmployees() {
         axios({
             // url: `${BASE_URL}/api/v1/companies/177/employees`,
             // TEMP FIX: GET ALL EMPLOYEES FOR COMPANY ID 177
-            url: `${BASE_URL}/companies/` + 177 + `/employees`,
+            url: `${BASE_URL}/api/v1/companies/` + 177 + `/employees`,
             method: 'get',
             timeout: 10000,
-            params: {
-                query: employeePageState.searchString,
-            }
         }).then((resp) => {
             if (resp.status === 200) {
                 setPageState({
