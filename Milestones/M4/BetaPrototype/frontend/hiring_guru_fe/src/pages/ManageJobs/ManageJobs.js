@@ -68,13 +68,11 @@ function JobEditDialog(props) {
                     </label>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                            value={props.type}
-                            onChange={props.onTypeChange}>
-                            Select
+                            value={props.onTypeChange}>                            Select
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">FULL_TIME</a></li>
-                            <li><a class="dropdown-item" href="#">PART_TIME</a></li>
+                            <li><a class="dropdown-item" value={"FULL_TIME"} onClick={props.onTypeChange}>Full-Time</a></li>
+                            <li><a class="dropdown-item" value={"PART_TIME"} onClick={props.onTypeChange}>Part-Time</a></li>
                         </ul>
                     </div>
                 </div>
@@ -290,8 +288,9 @@ export function ManageJobs() {
         if (!createDialogState.location || createDialogState.location.length === 0) {
             errors.push("Location name cannot be empty")
         }
-        if (!createDialogState.type || createDialogState.type.length === 0) {
-            errors.push("Employment type cannot be empty")
+        if (!createDialogState.type || createDialogState.type.valueOf == "Select") {
+            errors.push("Select an employment type")
+            console.log(createDialogState.type.valueOf)
         }
         if (!createDialogState.description || createDialogState.description.length === 0) {
             errors.push("Job description cannot be empty")
