@@ -11,6 +11,7 @@ import java.util.List;
 import com.hiringguru.hiring_guru_be.services.CompanyService;
 import java.util.NoSuchElementException;
 
+
 @RestController
 public class CompanyController {
     @Autowired
@@ -35,7 +36,7 @@ public class CompanyController {
         }
     }
 
-   @RequestMapping(value = "/companies", method = RequestMethod.GET)
+    @RequestMapping(value = "/companies", method = RequestMethod.GET)
     public ResponseEntity<?> getAllCompanies() {
         try {
             return new ResponseEntity<>(companyService.getAllCompanies(), HttpStatus.OK);
@@ -62,5 +63,8 @@ public class CompanyController {
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
-
 }
+
+
+
+

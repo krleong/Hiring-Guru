@@ -23,17 +23,6 @@ public interface JobRepository extends CrudRepository<Job, Integer> {
     List<Job> queryJob();
 
 
-    @Transactional
-    @Modifying()
-    @Query(
-            value = " Delete from job j where j.id =:jobid " ,
-            nativeQuery=true
-    )
-    void deleteJob(int jobid);
-
-
-
-
     @Query(value = "select j.* " +
             "from (job j join role r on j.role_id=r.id) join company c on r.company_id=c.id " +
             "where (  LOWER(j.title) LIKE CONCAT('%', :keyword, '%') and LOWER(j.type) LIKE CONCAT('%', :jobtype, '%') OR "+
@@ -42,8 +31,6 @@ public interface JobRepository extends CrudRepository<Job, Integer> {
                     "LOWER(c.title) LIKE CONCAT('%', :keyword, '%') AND LOWER(j.type) LIKE CONCAT('%', :jobtype, '%')) ",
 
             nativeQuery = true)
-
-
     List<Job> searchJob(String jobtype,  String keyword);
 
 

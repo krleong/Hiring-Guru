@@ -15,19 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Integer> {
+    public List<Role> findByCompany(Company company);
     @Query(
             value = " select * from Role  ",
             nativeQuery = true
     )
     List<Role> queryRoles();
 
-    public List<Role> findByCompany(Company company);
-
-    @Transactional
-    @Modifying()
-    @Query(value = "Delete from job j where j.role_id=:roleid ; " +
-            " Delete from role r  where r.id=:roleid ",
-            nativeQuery = true
-    )
-    void deleteRole(int roleid);
 }

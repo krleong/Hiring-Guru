@@ -37,7 +37,7 @@ public class Job {
     )
     public String description;
     @ManyToOne(
-            cascade = {CascadeType.ALL},
+            cascade = {CascadeType.DETACH},
             optional = false
     )
     @JoinColumn(

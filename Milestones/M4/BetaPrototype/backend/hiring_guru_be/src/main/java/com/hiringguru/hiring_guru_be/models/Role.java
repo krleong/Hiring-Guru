@@ -33,7 +33,7 @@ public class Role {
     )
     public  String benefits;
     @ManyToOne(
-            cascade = {CascadeType.ALL},
+            cascade = {CascadeType.DETACH},
             optional = false
     )
     @JoinColumn(
