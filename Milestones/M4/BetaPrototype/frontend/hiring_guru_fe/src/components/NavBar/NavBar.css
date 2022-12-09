@@ -29,11 +29,18 @@
 span PersonIcon {
     font-size: 5em;
 }
-/* FOR LARGE (NON-MOBILE) SCREENS */
-@media only screen and (max-width: 65em) {
 
-    /* #signup-btn {
-        margin-top: 1em;
-        margin-left: 0em;
-    } */
+/* FOR LARGE (NON-MOBILE) SCREENS */
+@media only screen and (max-width: 62em) {
+    #login-btn {
+        width: 100%;
+        margin: auto;
+        margin-top: 0.5em;
+    }
+
+    #signup-btn {
+        width: 100%;
+        margin: auto;
+        margin-top: 0.5em;
+    }
 }

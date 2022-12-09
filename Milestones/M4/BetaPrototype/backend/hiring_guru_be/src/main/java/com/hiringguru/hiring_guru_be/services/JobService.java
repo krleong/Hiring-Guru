@@ -44,7 +44,7 @@ public class JobService {
             throw new EntityNotFoundException(String.format("No role found with id %d", roleid));
         }
 
-        return jobrepo.save(newjob);
+        return newjob;
     }
 
     public Job getJobById(int jobid) {
@@ -95,7 +95,7 @@ public class JobService {
         }
     }
     
-      public List<Job> getAllJobs() {
+    public List<Job> getAllJobs() {
         try {
             return jobrepo.queryJob();
         } catch (NoSuchElementException e) {
@@ -104,19 +104,12 @@ public class JobService {
         }
     }
 
-
     public List<Job> getAllJobsThatMatch(String jobtype, String keyword){
-        try{
-            jobtype=jobtype.toLowerCase();
-            keyword=keyword.toLowerCase();
-            return jobrepo.searchJob(jobtype,keyword);
-        }
-        catch (NoSuchElementException e) {
-            throw new EntityNotFoundException(String.format("No jobs found that matches those keywords"));
-        }
+       jobtype=jobtype.toLowerCase();
+        keyword=keyword.toLowerCase();
+        List<Job> jobs =this.jobrepo.searchJob(jobtype,keyword);
+        return jobs;
+
+
     }
-
-
-
-
 }
