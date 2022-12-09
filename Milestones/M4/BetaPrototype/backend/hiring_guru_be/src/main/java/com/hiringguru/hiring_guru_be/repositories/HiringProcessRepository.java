@@ -5,9 +5,10 @@ import com.hiringguru.hiring_guru_be.models.Employee;
 import com.hiringguru.hiring_guru_be.models.HiringProcess;
 import com.hiringguru.hiring_guru_be.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-public interface HiringProcessRepository extends JpaRepository<HiringProcess, Long> {
-    public List<HiringProcess> findByRole(Role role);
+@Repository
+public interface HiringProcessRepository extends CrudRepository<HiringProcess, Long> {
 }

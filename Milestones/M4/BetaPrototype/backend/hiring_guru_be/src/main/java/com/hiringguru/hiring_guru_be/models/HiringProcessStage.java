@@ -36,7 +36,7 @@ public class HiringProcessStage {
             optional = false
     )
     @JoinColumn(
-            name = "hiring_process_id",
+            name = "hp_id",
             referencedColumnName = "id"
     )
     public HiringProcess hiringProcess;

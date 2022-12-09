@@ -33,11 +33,10 @@ public class HiringProcessStageService {
         hiringProcessStage.setTitle(hpsReq.title);
         hiringProcessStage.setType(hpsReq.type);
         hiringProcessStage.setDescription(hpsReq.description);
-        hiringProcessStage.setHiringProcess(hiringProcess);
 
 
         try {
-            hiringProcessStageRepository.save(hiringProcessStage);
+            hiringProcessStage.setHiringProcess(hiringProcess);
         }
         catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No HiringProcess found with id %d",hiringProcessId));
@@ -47,17 +46,17 @@ public class HiringProcessStageService {
     }
 
 
-    public HiringProcessStage updateHiringProcessStage(Long hpsId, HiringProcessStageCreateUpdateRequest hiringProcessStage) {
+    public HiringProcessStage updateHiringProcessStage(Long hiringProcessStageId, HiringProcessStageCreateUpdateRequest hiringProcessStage) {
         HiringProcessStage existingHiringProcessStage;
         try {
-            existingHiringProcessStage = hiringProcessStageRepository.findById(hpsId).get();
+            existingHiringProcessStage = hiringProcessStageRepository.findById(hiringProcessStageId).get();
         }
         catch (NoSuchElementException e) {
-            throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d", hpsId));
+            throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d", hiringProcessStageId));
         }
         if (hiringProcessStage.title != null) existingHiringProcessStage.setTitle(hiringProcessStage.title);
         if(hiringProcessStage.type!=null) existingHiringProcessStage.setType(hiringProcessStage.type);
-        if(hiringProcessStage.description!=null) existingHiringProcessStage.setDescription(hiringProcessStage.description );
+        if(hiringProcessStage.description!=null) existingHiringProcessStage.setDescription(hiringProcessStage.description);
 
 
         return hiringProcessStageRepository.save(existingHiringProcessStage);

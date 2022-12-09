@@ -33,10 +33,13 @@ public class Role {
             referencedColumnName = "id"
     )
     public Company company;
-
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "hiring_process_id", referencedColumnName = "id")
-    private HiringProcess hiringProcess;
+    @JoinColumn(
+            name = "hp_id",
+            referencedColumnName = "id"
+    )
+
+    public HiringProcess hiringProcess;
 
     public HiringProcess getHiringProcess() {
         return hiringProcess;

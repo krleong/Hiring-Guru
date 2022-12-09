@@ -1,35 +1,33 @@
 package com.hiringguru.hiring_guru_be.models;
 
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(
-        name = "HiringProcesses"
+        name = "hiring_processes"
 )
+@EntityListeners(AuditingEntityListener.class)
 public class HiringProcess {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
     private Long id;
     @Column(
             nullable = false
     )
-    public String lastUpdated;
-    @OneToOne(
-            cascade = {CascadeType.ALL},
-            optional = false
-    )
-    @JoinColumn(
-            name = "role_id",
-            referencedColumnName = "id"
-    )
-    public Role role;
+    @LastModifiedDate
+    private LocalDateTime lastUpdated;
+
 
     @Override
     public String toString() {
         return "HiringProcess{" +
                 "id=" + id +
                 ", lastUpdated='" + lastUpdated + '\'' +
-                ", role=" + role +
                 '}';
     }
 
@@ -41,27 +39,19 @@ public class HiringProcess {
         this.id = id;
     }
 
-    public String getLastUpdated() {
+    public LocalDateTime getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(String lastUpdated) {
+    public void setLastUpdated(LocalDateTime lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     public HiringProcess() {
     }
 
-    public HiringProcess(String lastUpdated, Role role) {
+    public HiringProcess(LocalDateTime lastUpdated, Role role) {
         this.lastUpdated = lastUpdated;
-        this.role = role;
     }
 }

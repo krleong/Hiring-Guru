@@ -2,21 +2,20 @@ package com.hiringguru.hiring_guru_be;
 
 import com.hiringguru.hiring_guru_be.entities.RoleCreateUpdateRequest;
 import com.hiringguru.hiring_guru_be.entities.ErrorResponse;
-import com.hiringguru.hiring_guru_be.models.Company;
-import com.hiringguru.hiring_guru_be.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
+
 import com.hiringguru.hiring_guru_be.services.RoleService;
-import java.util.NoSuchElementException;
 
 @RestController
 public class RoleController {
     @Autowired
     RoleService roleService;
+
+
 
     @RequestMapping(value = "/companies/{companyid}/roles", method = RequestMethod.POST)
     public ResponseEntity<?> createRole( @PathVariable int companyid,@RequestBody RoleCreateUpdateRequest role) {
