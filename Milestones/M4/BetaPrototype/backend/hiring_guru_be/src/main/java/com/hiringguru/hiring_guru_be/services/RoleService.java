@@ -75,6 +75,7 @@ public class RoleService {
         catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No role found with id %d", id));
         }
+
         rorepo.delete(existingRole);
 
     }

@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 @Table(
@@ -23,6 +26,16 @@ public class Company {
     )
     public String description;
 
+    @OneToMany(
+            cascade = {CascadeType.DETACH},orphanRemoval=true,mappedBy="company"
+    )
+    private List<Role> role;
+    @OneToMany(
+            cascade = {CascadeType.DETACH},orphanRemoval=true,mappedBy="company"
+    )
+    private List<Employee> employee;
+
+
     public Company(String title, String description) {
         this.id = this.id;
         this.title = title;
@@ -36,6 +49,7 @@ public class Company {
     public void setTitle(String title) {
         this.title = title;
     }
+
 
     public int getId() {
         return id;

@@ -33,6 +33,4 @@ public interface JobRepository extends CrudRepository<Job, Integer> {
             nativeQuery = true)
     List<Job> searchJob(String jobtype,  String keyword);
 
-
-
 }

@@ -82,7 +82,6 @@ public class JobService {
         catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No job found with id %d", id));
         }
-
        jobrepo.delete(existingJob);
 
     }

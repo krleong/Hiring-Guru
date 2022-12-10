@@ -18,12 +18,4 @@ public interface JobAppRepository extends JpaRepository<JobApplication, Integer>
 
     public List<JobApplication> findByJob(Job job);
 
-
-    @Transactional
-    @Modifying()
-    @Query(value = "Delete from job_applications j where j.id =:jobappid ",
-            nativeQuery = true
-    )
-    void deleteJobApplication(int jobappid);
-
 }

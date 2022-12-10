@@ -57,6 +57,7 @@ public class CompanyService {
         } catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Company found with id %d", id));
         }
+
            comprepo.delete(existingCompany);
 
     }

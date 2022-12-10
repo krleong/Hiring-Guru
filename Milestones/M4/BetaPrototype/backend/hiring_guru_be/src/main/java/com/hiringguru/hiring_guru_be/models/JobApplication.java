@@ -39,7 +39,7 @@ public class JobApplication {
     )
     public String phone;
     @ManyToOne(
-            cascade = {CascadeType.DETACH},
+            cascade = {CascadeType.ALL},
             optional = false
     )
     @JoinColumn(
@@ -120,20 +120,8 @@ public class JobApplication {
         this.submitted_at = submitted_at;
     }
 
-    @Override
-    public String toString() {
-        return "JobApplication{" +
-                "id=" + id +
-                ", applicantName='" + applicant_name + '\'' +
-                ", applicantEmail='" + applicant_email + '\'' +
-                ", applicantResume='" + applicant_resume + '\'' +
-                ", applicantProfileLink='" + applicant_profile_link + '\'' +
-                ", submittedAt='" + submitted_at + '\'' +
-                ", coverLetter='" + cover_letter + '\'' +
-                ", phone=" + phone +
-                ", job=" + job +
-                '}';
-    }
+
+
 
     public JobApplication() {
     }

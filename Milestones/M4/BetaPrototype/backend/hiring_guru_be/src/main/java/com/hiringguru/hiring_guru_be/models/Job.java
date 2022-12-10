@@ -9,7 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.ForeignKey;
 import javax.persistence.Table;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import java.util.List;
+
 
 @Entity
 @Table(
@@ -35,9 +41,10 @@ public class Job {
     @Column(
             nullable = false
     )
+
     public String description;
     @ManyToOne(
-            cascade = {CascadeType.DETACH},
+            cascade = {CascadeType.ALL},
             optional = false
     )
     @JoinColumn(
@@ -45,6 +52,12 @@ public class Job {
             referencedColumnName = "id"
     )
     private Role role;
+
+    @OneToMany(
+            cascade = {CascadeType.DETACH},orphanRemoval=true,mappedBy="job"
+    )
+    private List<JobApplication> jobapp;
+
 
     public Job(String title, String location, JobType type, String description, Role role) {
         this.id = this.id;
