@@ -20,6 +20,7 @@ public class RoleService {
     @Autowired
     RoleRepository rorepo;
 
+
     public Role createRole(int companyid, RoleCreateUpdateRequest role) {
         Company comp = comprepo.findById(companyid).get();
 
@@ -71,7 +72,7 @@ public class RoleService {
             throw new EntityNotFoundException(String.format("No role found with id %d", id));
         }
 
-        rorepo.deleteRole(id);
+        rorepo.delete(existingRole);
 
     }
 

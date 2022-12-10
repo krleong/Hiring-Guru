@@ -73,6 +73,7 @@ public class JobService {
         return jobrepo.save(existingJob);
 
     }
+
     public void deleteJobById(int id) {
         Job existingJob;
         try {
@@ -81,8 +82,7 @@ public class JobService {
         catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No job found with id %d", id));
         }
-
-        jobrepo.deleteJob(id);
+       jobrepo.delete(existingJob);
 
     }
     public List<Job> getAllJobsForRoleId(int roleid) {

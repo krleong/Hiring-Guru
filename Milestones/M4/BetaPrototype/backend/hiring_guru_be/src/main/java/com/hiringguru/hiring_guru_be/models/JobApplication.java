@@ -13,31 +13,31 @@ public class JobApplication {
     @Column(
             nullable = false
     )
-    public String applicantName;
+    public String applicant_name;
     @Column(
             nullable = false
     )
-    public String applicantEmail;
+    public String applicant_email;
     @Column(
             nullable = false
     )
-    public String applicantResume;
+    public String applicant_resume;
     @Column(
             nullable = false
     )
-    public String applicantProfileLink;
+    public String applicant_profile_link;
     @Column(
             nullable = false
     )
-    public String submittedAt;
+    public String submitted_at;
     @Column(
             nullable = false
     )
-    public String coverLetter;
+    public String cover_letter;
     @Column(
             nullable = false
     )
-    public int phone;
+    public String phone;
     @ManyToOne(
             cascade = {CascadeType.ALL},
             optional = false
@@ -52,100 +52,88 @@ public class JobApplication {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getApplicantName() {
-        return applicantName;
-    }
-
-    public void setApplicantName(String applicantName) {
-        this.applicantName = applicantName;
+    public Job getJob() {
+        return job;
     }
 
     public String getApplicantEmail() {
-        return applicantEmail;
+        return applicant_email;
     }
 
-    public void setApplicantEmail(String applicantEmail) {
-        this.applicantEmail = applicantEmail;
-    }
-
-    public String getApplicantResume() {
-        return applicantResume;
-    }
-
-    public void setApplicantResume(String applicantResume) {
-        this.applicantResume = applicantResume;
+    public String getApplicantName() {
+        return applicant_name;
     }
 
     public String getApplicantProfileLink() {
-        return applicantProfileLink;
+        return applicant_profile_link;
     }
 
-    public void setApplicantProfileLink(String applicantProfileLink) {
-        this.applicantProfileLink = applicantProfileLink;
-    }
-
-    public String getSubmittedAt() {
-        return submittedAt;
-    }
-
-    public void setSubmittedAt(String submittedAt) {
-        this.submittedAt = submittedAt;
+    public String getApplicantResume() {
+        return applicant_resume;
     }
 
     public String getCoverLetter() {
-        return coverLetter;
+        return cover_letter;
     }
 
-    public void setCoverLetter(String coverLetter) {
-        this.coverLetter = coverLetter;
-    }
-
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
-        this.phone = phone;
+    public String getSubmittedAt() {
+        return submitted_at;
     }
 
-    public Job getJob() {
-        return job;
+    public void setApplicantEmail(String applicant_email) {
+        this.applicant_email = applicant_email;
+    }
+
+    public void setApplicantName(String applicant_name) {
+        this.applicant_name = applicant_name;
+    }
+
+    public void setApplicantProfileLink(String applicant_profile_link) {
+        this.applicant_profile_link = applicant_profile_link;
+    }
+
+    public void setApplicantResume(String applicant_resume) {
+        this.applicant_resume = applicant_resume;
+    }
+
+    public void setCoverLetter(String cover_letter) {
+        this.cover_letter = cover_letter;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setJob(Job job) {
         this.job = job;
     }
 
-    @Override
-    public String toString() {
-        return "JobApplication{" +
-                "id=" + id +
-                ", applicantName='" + applicantName + '\'' +
-                ", applicantEmail='" + applicantEmail + '\'' +
-                ", applicantResume='" + applicantResume + '\'' +
-                ", applicantProfileLink='" + applicantProfileLink + '\'' +
-                ", submittedAt='" + submittedAt + '\'' +
-                ", coverLetter='" + coverLetter + '\'' +
-                ", phone=" + phone +
-                ", job=" + job +
-                '}';
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
+
+    public void setSubmittedAt(String submitted_at) {
+        this.submitted_at = submitted_at;
+    }
+
+
+
 
     public JobApplication() {
     }
 
-    public JobApplication(int id, String applicantName, String applicantEmail, String applicantResume, String applicantProfileLink, String submittedAt, String coverLetter, int phone, Job job) {
+    public JobApplication(String applicantName, String applicantEmail, String applicantResume, String applicantProfileLink, String submittedAt, String coverLetter, String phone, Job job) {
         this.id = id;
-        this.applicantName = applicantName;
-        this.applicantEmail = applicantEmail;
-        this.applicantResume = applicantResume;
-        this.applicantProfileLink = applicantProfileLink;
-        this.submittedAt = submittedAt;
-        this.coverLetter = coverLetter;
+        this.applicant_name = applicantName;
+        this.applicant_email = applicantEmail;
+        this.applicant_resume = applicantResume;
+        this.applicant_profile_link = applicantProfileLink;
+        this.submitted_at = submittedAt;
+        this.cover_letter = coverLetter;
         this.phone = phone;
         this.job = job;
     }
