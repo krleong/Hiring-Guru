@@ -9,15 +9,14 @@ import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 
 
-var handleClick= "something";
+var handleClick = "something";
 function HomeButton() {
     const navigate = useNavigate();
-  
+
     function handleClick() {
-      navigate("/job-apply");
+        navigate("/job-apply");
     }
-  }
-  
+}
 
 const JobSearchStatus = {
     NotStarted: "NotStarted",
@@ -69,6 +68,14 @@ const filterJobs = (jobs, keyword, type) => {
 
 
 function JobSearch() {
+    const navigate = useNavigate();
+
+    {/* TODO: Make open in new tab*/}
+    const toApplyForJob = (jobTitle, jobCompany, jobLocation) => {
+        navigate('/job-apply', { state: { jobTitle: jobTitle, jobCompany: jobCompany, jobLocation: jobLocation } })
+
+    }
+
     const [searchState, setSearchState] = useState({
         listOfJobs: [],
         searchString: '',
@@ -205,16 +212,16 @@ function JobSearch() {
                     {
                         (searchState.searchStatus === JobSearchStatus.Success) &&
                         (
-                            searchState.searchString.length === 0?
+                            searchState.searchString.length === 0 ?
                                 <h4>
                                     Please enter a keyword.
-                                </h4>: (searchState.listOfJobs.length === 0?
-                                <h4>
-                                    We could not find any result for "{searchState.searchString}". Please try with a different keyword.
-                                </h4>:
-                                <h4>
-                                    We found {searchState.listOfJobs.length} results for "{searchState.searchString}"
-                                </h4>)
+                                </h4> : (searchState.listOfJobs.length === 0 ?
+                                    <h4>
+                                        We could not find any result for "{searchState.searchString}". Please try with a different keyword.
+                                    </h4> :
+                                    <h4>
+                                        We found {searchState.listOfJobs.length} results for "{searchState.searchString}"
+                                    </h4>)
                         )
                     }
                     {
@@ -227,7 +234,7 @@ function JobSearch() {
                     }
                 </div>
                 <div className={'search-results container'}>
-                    
+
                     <div className={'search-results-data row'}>
                         {searchState.searchString.length > 0 && searchState.listOfJobs.map((job, index) => {
                             return (
@@ -247,10 +254,10 @@ function JobSearch() {
                                             </div>
                                         </div>
                                         <div className={'job-controls inline-buttons'}>
-                                            <div className={'learn-more-button'}>  
+                                            <div className={'learn-more-button'}>
                                             </div>
-                                            <Button href={'/job-apply'} target={"_blank"} id={"free-trial-btn"} variant="primary">Apply for this Job
-                                            <span className={'button-icon-right box-arrow-up-right'}><BoxArrowUpRight /></span></Button>
+                                            <Button id={"free-trial-btn"} onClick={() => { toApplyForJob(job.role.title, job.role.company.title, job.location) }} variant="primary">Apply for this Job
+                                                <span className={'button-icon-right box-arrow-up-right'}><BoxArrowUpRight /></span></Button>
 
                                             <div className={'like-button'} onClick={() => { alert("Not implemented yet") }}>
                                                 <button type="button" className="btn btn-outline-primary">

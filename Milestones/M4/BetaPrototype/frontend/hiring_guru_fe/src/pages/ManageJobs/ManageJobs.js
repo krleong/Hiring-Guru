@@ -62,10 +62,40 @@ function JobEditDialog(props) {
                         onChange={props.onTypeChange}
                     />
                 </div> */}
+                
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageNameInput" className="form-label">
                         Employment Type
                     </label>
+
+
+                    {/* TODO: Implement dropdown menu for employment type*/}
+                    {/* <div className={"position-selection-dropdown"}>
+                        <div className="input-group input-group-sm">
+                            <Dropdown className={"input-group-text"}>
+                                <Dropdown.Menu>
+                                    {
+                                        Object.keys(JobType).map((jobType) => {
+                                            const jobTypeValue = JobType[jobType]
+                                            return (
+                                                <Dropdown.Item key={jobTypeValue.ui} onClick={(e) => {
+                                                    setPageState({
+                                                        ...jobPageState,
+                                                        selectedJobType: jobTypeValue
+                                                    })
+                                                }} active={jobPageState.selectedJobType === jobTypeValue ? true : false}>
+                                                    {jobTypeValue.ui}
+                                                </Dropdown.Item>
+                                            )
+                                        })
+                                    }
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
+                    </div> */}
+
+
+
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                             value={props.onTypeChange}>                            Select
@@ -104,6 +134,21 @@ const RolesFetchStatus = {
     InProgress: "InProgress",
     Error: "Error",
     Success: "Success",
+}
+
+const JobType = {
+    All: {
+        ui: 'All',
+        server: 'ALL'
+    },
+    FullTime: {
+        ui: 'Full Time',
+        server: 'FULL_TIME'
+    },
+    PartTime: {
+        ui: 'Part Time',
+        server: 'PART_TIME'
+    },
 }
 
 const parseJobs = (jobs) => {
