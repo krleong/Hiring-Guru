@@ -1,14 +1,7 @@
 package com.hiringguru.hiring_guru_be.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.*;
 
 @Entity
 @Table(
@@ -41,6 +34,19 @@ public class Role {
             referencedColumnName = "id"
     )
     public Company company;
+
+    public HiringProcess getHiringProcess() {
+        return hiringProcess;
+    }
+
+    public void setHiringProcess(HiringProcess hiringProcess) {
+        this.hiringProcess = hiringProcess;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "hiring_process_id", referencedColumnName = "id")
+    @JsonIgnore
+    private HiringProcess hiringProcess;
 
     public Role() {
     }
