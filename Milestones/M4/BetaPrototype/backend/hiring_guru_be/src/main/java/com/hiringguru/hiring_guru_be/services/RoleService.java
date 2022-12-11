@@ -77,7 +77,7 @@ public class RoleService {
             throw new EntityNotFoundException(String.format("No role found with id %d", id));
         }
 
-        rorepo.deleteRole(id);
+        rorepo.delete(existingRole);
 
     }
 
