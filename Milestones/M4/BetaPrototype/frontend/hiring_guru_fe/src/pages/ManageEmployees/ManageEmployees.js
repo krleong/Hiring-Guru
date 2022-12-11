@@ -620,7 +620,7 @@ export function ManageEmployees() {
                             <div className={"employees-container"}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                                    <Breadcrumb.Item active>Recruitment: Employees</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>People: Employees</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Manage Employees</h1>
 

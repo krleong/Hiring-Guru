@@ -673,7 +673,7 @@ export function ManageJobs() {
                             <div className={"employees-container"}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                                    <Breadcrumb.Item active>Recruitment: Jobs</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>Open Positions: Jobs</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Manage Jobs</h1>
 
