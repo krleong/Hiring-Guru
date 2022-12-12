@@ -102,8 +102,8 @@ function RoleEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageTitleInput"
                         placeholder="Enter role"
-                        value={props.title}
-                        onChange={props.onTitleChange}
+                        value={props.roleTitle}
+                        onChange={props.onRoleTitleChange}
                     />
                 </div>
                 {/* <div className="mb-3">
@@ -154,13 +154,16 @@ const parseRoles = (roles) => {
     let parsedRoles = []
     for (let i = 0; i < roles.length; i++) {
         parsedRoles.push({
-            jobId: roles[i].id,
-            roleId: roles[i].role.id,
-            companyId: roles[i].role.company.id,
-            title: roles[i].role.title,
-            companyTitle: roles[i].role.company.title,
-            expectations: roles[i].role.expectations,
-            benefits: roles[i].role.benefits,
+            // jobId: roles[i].id,
+            roleId: roles[i].id,
+            companyId: roles[i].company.id,
+            // roleTitle: roles[i].role.title,
+            companyTitle: roles[i].company.title,
+            // expectations: roles[i].role.expectations,
+            roleTitle: roles[i].title,
+            expectations: roles[i].expectations,
+            // benefits: roles[i].role.benefits,
+            benefits: roles[i].benefits,
         })
     }
     return parsedRoles
@@ -187,7 +190,7 @@ export function ManageRoles() {
 
     const [createRoleDialogState, setCreateRoleDialogState] = useState({
         show: false,
-        title: "",
+        roleTitle: "",
         // companyTitle: "",
         expectations: "",
         benefits: "",
@@ -197,7 +200,7 @@ export function ManageRoles() {
 
     const [editRoleDialogState, setEditRoleDialogState] = useState({
         show: false,
-        title: "",
+        roleTitle: "",
         // companyTitle: "",
         expectations: "",
         benefits: "",
@@ -234,12 +237,13 @@ export function ManageRoles() {
         })
 
         axios({
-            url: `${BASE_URL}/roles/jobs`,
+            // url: `${BASE_URL}/roles/jobs`,
+            // TEMP FIX: GET ALL ROLES FOR COMPANY ID 177
+            url: `${BASE_URL}/companies/` + 177 + `/roles`,
             method: 'get',
             timeout: 10000,
         }).then((resp) => {
             if (resp.status === 200) {
-                console.log(resp.data)
                 setPageState({
                     ...rolePageState,
                     listOfRoles: parseRoles(resp.data),
@@ -266,7 +270,9 @@ export function ManageRoles() {
 
     const removeRole = (index) => {
         axios({
-            url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[index].roleId + '/jobs/' + rolePageState.listOfRoles[index].jobId,
+            // TEMP FIX TO MAKE COMPANY ID 177
+            // url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[index].roleId + '/jobs/' + rolePageState.listOfRoles[index].jobId,
+            url: `${BASE_URL}/companies/` +  177 + `/roles/` + rolePageState.listOfRoles[index].roleId,
             method: 'delete',
             timeout: 10000,
         }).then((resp) => {
@@ -292,7 +298,7 @@ export function ManageRoles() {
 
         let newRoles = []
         for (let i = 0; i < rolePageState.listOfRoles.length; i++) {
-            i !== index && newRoles.push(rolePageState.listOfRoles.roles[i])
+            i !== index && newRoles.push(rolePageState.listOfRoles[i])
         }
         appContext.closeDialog()
         setPageState({
@@ -303,7 +309,7 @@ export function ManageRoles() {
 
     const createRole = (index) => {
         let errors = []
-        if (!createRoleDialogState.title || createRoleDialogState.title.length === 0) {
+        if (!createRoleDialogState.roleTitle || createRoleDialogState.roleTitle.length === 0) {
             errors.push("Role title cannot be empty")
         }
         // if (!createRoleDialogState.companyTitle || createRoleDialogState.companyTitle.length === 0) {
@@ -331,7 +337,7 @@ export function ManageRoles() {
                 method: 'post',
                 timeout: 10000,
                 data: {
-                    title: createRoleDialogState.title,
+                    title: createRoleDialogState.roleTitle,
                     // companyTitle: createRoleDialogState.companyTitle,
                     expectations: createRoleDialogState.expectations,
                     benefits: createRoleDialogState.benefits,
@@ -362,7 +368,7 @@ export function ManageRoles() {
                 listOfRoles: [
                     ...rolePageState.listOfRoles,
                     {
-                        title: createRoleDialogState.title,
+                        roleTitle: createRoleDialogState.roleTitle,
                         // companyTitle: createRoleDialogState.companyTitle,
                         expectations: createRoleDialogState.expectations,
                         benefits: createRoleDialogState.benefits,
@@ -425,7 +431,7 @@ export function ManageRoles() {
 
     const columns = [
         {
-            dataField: 'title',
+            dataField: 'roleTitle',
             text: 'Title'
         },
         {
@@ -453,7 +459,7 @@ export function ManageRoles() {
                                     ...editRoleDialogState,
                                     show: true,
                                     index: index,
-                                    title: row.title,
+                                    roleTitle: row.roleTitle,
                                     // companyTitle: row.companyTitle,
                                     expectations: row.expectations,
                                     benefits: row.benefits,
@@ -497,7 +503,7 @@ export function ManageRoles() {
 
     const handleEditJobRole = () => {
         let errors = []
-        if (!editRoleDialogState.title || editRoleDialogState.title.length === 0) {
+        if (!editRoleDialogState.roleTitle || editRoleDialogState.roleTitle.length === 0) {
             errors.push("Role title cannot be empty")
         }
         // if (!editRoleDialogState.companyTitle || editRoleDialogState.companyTitle.length === 0) {
@@ -522,7 +528,7 @@ export function ManageRoles() {
                 method: 'patch',
                 timeout: 10000,
                 data: {
-                    title: editRoleDialogState.title,
+                    roleTitle: editRoleDialogState.roleTitle,
                     // companyTitle: editRoleDialogState.companyTitle,
                     expectations: editRoleDialogState.expectations,
                     benefits: editRoleDialogState.benefits,
@@ -553,7 +559,7 @@ export function ManageRoles() {
                 listOfRoles: [
                     ...rolePageState.listOfRoles,
                     {
-                        title: editRoleDialogState.title,
+                        roleTitle: editRoleDialogState.roleTitle,
                         // companyTitle: editRoleDialogState.companyTitle,
                         expectations: editRoleDialogState.expectations,
                         benefits: editRoleDialogState.benefits,
@@ -569,7 +575,7 @@ export function ManageRoles() {
             for (let i = 0; i < rolePageState.listOfRoles.length; i++) {
                 if (i === editRoleDialogState.index) {
                     newRoles.push({
-                        title: editRoleDialogState.title,
+                        roleTitle: editRoleDialogState.roleTitle,
                         // companyTitle: editRoleDialogState.companyTitle,
                         expectations: editRoleDialogState.expectations,
                         benefits: editRoleDialogState.benefits,
@@ -657,16 +663,16 @@ export function ManageRoles() {
                     }
                 ]}
                 errors={editRoleDialogState.errors}
-                onTitleChange={(e) => {
+                onRoleTitleChange={(e) => {
                     setEditRoleDialogState({
                         ...editRoleDialogState,
-                        title: e.target.value
+                        roleTitle: e.target.value
                     })
                 }}
                 // onCompanyTitleChange={(e) => {
                 //     setEditRoleDialogState({
                 //         ...editRoleDialogState,
-                //         companyTitle: e.target.value
+                //         companyroleTitle: e.target.value
                 //     })
                 // }}
                 onExpectationsChange={(e) => {
@@ -681,7 +687,7 @@ export function ManageRoles() {
                         benefits: e.target.value
                     })
                 }}
-                title={editRoleDialogState.title}
+                roleTitle={editRoleDialogState.roleTitle}
                 // companyTitle={editRoleDialogState.companyTitle}
                 expectations={editRoleDialogState.expectations}
                 benefits={editRoleDialogState.benefits}
@@ -707,16 +713,16 @@ export function ManageRoles() {
                     }
                 ]}
                 errors={createRoleDialogState.errors}
-                onTitleChange={(e) => {
+                onRoleTitleChange={(e) => {
                     setCreateRoleDialogState({
                         ...createRoleDialogState,
-                        title: e.target.value
+                        roleTitle: e.target.value
                     })
                 }}
                 // onCompanyTitleChange={(e) => {
                 //     setCreateRoleDialogState({
                 //         ...createRoleDialogState,
-                //         companyTitle: e.target.value
+                //         companyroleTitle: e.target.value
                 //     })
                 // }}
                 onExpectationsChange={(e) => {
@@ -731,7 +737,7 @@ export function ManageRoles() {
                         benefits: e.target.value
                     })
                 }}
-                title={createRoleDialogState.title}
+                roleTitle={createRoleDialogState.roleTitle}
                 // companyTitle={createRoleDialogState.companyTitle}
                 expectations={createRoleDialogState.expectations}
                 benefits={createRoleDialogState.benefits}
@@ -769,10 +775,10 @@ export function ManageRoles() {
                         email: e.target.value
                     })
                 }}
-                onTitleChange={(e) => {
+                onRoleTitleChange={(e) => {
                     setCreateReferralDialogState({
                         ...createReferralDialogState,
-                        title: e.target.value
+                        roleTitle: e.target.value
                     })
                 }}
                 onDescriptionChange={(e) => {
@@ -798,7 +804,7 @@ export function ManageRoles() {
                             <div className={"job-roles-container"}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                                    <Breadcrumb.Item active>Recruitment: Job Roles</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>Open Positions: Job Roles</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Manage Job Roles</h1>
 

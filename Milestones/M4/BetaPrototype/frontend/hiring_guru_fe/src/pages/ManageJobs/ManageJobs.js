@@ -52,7 +52,7 @@ function JobEditDialog(props) {
                         onChange={props.onLocationChange}
                     />
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <label htmlFor="recruitmentStageNameInput" className="form-label">
                         Employment Type
                     </label>
@@ -61,6 +61,50 @@ function JobEditDialog(props) {
                         value={props.type}
                         onChange={props.onTypeChange}
                     />
+                </div> */}
+                
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageNameInput" className="form-label">
+                        Employment Type
+                    </label>
+
+
+                    {/* TODO: Implement dropdown menu for employment type*/}
+                    {/* <div className={"position-selection-dropdown"}>
+                        <div className="input-group input-group-sm">
+                            <Dropdown className={"input-group-text"}>
+                                <Dropdown.Menu>
+                                    {
+                                        Object.keys(JobType).map((jobType) => {
+                                            const jobTypeValue = JobType[jobType]
+                                            return (
+                                                <Dropdown.Item key={jobTypeValue.ui} onClick={(e) => {
+                                                    setPageState({
+                                                        ...jobPageState,
+                                                        selectedJobType: jobTypeValue
+                                                    })
+                                                }} active={jobPageState.selectedJobType === jobTypeValue ? true : false}>
+                                                    {jobTypeValue.ui}
+                                                </Dropdown.Item>
+                                            )
+                                        })
+                                    }
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
+                    </div> */}
+
+
+
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                            value={props.onTypeChange}>                            Select
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" value={"FULL_TIME"} onClick={props.onTypeChange}>Full-Time</a></li>
+                            <li><a class="dropdown-item" value={"PART_TIME"} onClick={props.onTypeChange}>Part-Time</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
@@ -90,6 +134,21 @@ const RolesFetchStatus = {
     InProgress: "InProgress",
     Error: "Error",
     Success: "Success",
+}
+
+const JobType = {
+    All: {
+        ui: 'All',
+        server: 'ALL'
+    },
+    FullTime: {
+        ui: 'Full Time',
+        server: 'FULL_TIME'
+    },
+    PartTime: {
+        ui: 'Part Time',
+        server: 'PART_TIME'
+    },
 }
 
 const parseJobs = (jobs) => {
@@ -125,7 +184,7 @@ export function ManageJobs() {
     const { SearchBar } = Search;
 
     useEffect(() => {
-        if(jobPageState.selectedRoleId) {
+        if (jobPageState.selectedRoleId) {
             fetchJobs(jobPageState.selectedRoleId)
         } else {
             fetchRoles()
@@ -274,8 +333,9 @@ export function ManageJobs() {
         if (!createDialogState.location || createDialogState.location.length === 0) {
             errors.push("Location name cannot be empty")
         }
-        if (!createDialogState.type || createDialogState.type.length === 0) {
-            errors.push("Employment type cannot be empty")
+        if (!createDialogState.type || createDialogState.type.valueOf == "Select") {
+            errors.push("Select an employment type")
+            console.log(createDialogState.type.valueOf)
         }
         if (!createDialogState.description || createDialogState.description.length === 0) {
             errors.push("Job description cannot be empty")
@@ -299,7 +359,6 @@ export function ManageJobs() {
                     description: createDialogState.description,
                 }
             }).then((resp) => {
-                console.log("OK")
                 if (resp.status === 200) {
                     fetchJobs(jobPageState.selectedRoleId)
                 }
@@ -614,7 +673,7 @@ export function ManageJobs() {
                             <div className={"employees-container"}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                                    <Breadcrumb.Item active>Recruitment: Jobs</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>Open Positions: Jobs</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Manage Jobs</h1>
 
@@ -674,12 +733,12 @@ export function ManageJobs() {
                                             <SearchBar {...props.searchProps} />
 
                                             <Button variant="primary"
-                                                    onClick={() => {
-                                                        setCreateDialogState({
-                                                            ...createDialogState,
-                                                            show: true
-                                                        })
-                                                    }}
+                                                onClick={() => {
+                                                    setCreateDialogState({
+                                                        ...createDialogState,
+                                                        show: true
+                                                    })
+                                                }}
                                             >Create Job</Button>
                                         </div>
                                         {/* <hr /> */}

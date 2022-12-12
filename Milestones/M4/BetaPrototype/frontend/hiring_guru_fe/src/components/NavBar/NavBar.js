@@ -49,7 +49,7 @@ export default function NavBar(props) {
                                         <NavDropdown.Item href={'/dashboard/manage-jobs'}>Job Listings</NavDropdown.Item>
                                         <NavDropdown.Item href={'/dashboard/manage-job-roles'}>Job Roles</NavDropdown.Item>
                                         <NavDropdown.Item href={'/dashboard/manage-job-apps'}>Job Apps</NavDropdown.Item>
-                                        <NavDropdown.Item href={'/dashboard/recruitment-process'}>Recruitment Process</NavDropdown.Item>
+                                        <NavDropdown.Item href={'/dashboard/recruitment-process'}>Hiring Pipeline</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item href={'/'} onClick={() => logout({ returnTo: window.location.origin })}>Log Out</NavDropdown.Item>
                                     </NavDropdown><Button id="logout-btn"

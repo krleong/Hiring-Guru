@@ -105,6 +105,12 @@ function JobAppsEditDialog(props) {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Application Documents (PDF only)
+                    </label>
+                    <input type="file" className="form-control" id="inputGroupFile02" accept="application/pdf" />
+                </div>
+                {/* <div className="mb-3">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
                         Date and Time Submitted
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
@@ -113,7 +119,7 @@ function JobAppsEditDialog(props) {
                         onChange={props.onTimestampChange}
                     >
                     </input>
-                </div>
+                </div> */}
             </div>
         </Dialog>
     )
@@ -129,7 +135,7 @@ export function ManageJobApps() {
         job: "",
         role: "",
         company: "",
-        timestamp: "",
+        // timestamp: "",
         errors: [],
         index: undefined
     })
@@ -140,7 +146,7 @@ export function ManageJobApps() {
         job: "",
         role: "",
         company: "",
-        timestamp: "",
+        // timestamp: "",
         errors: [],
         index: undefined
     })
@@ -170,9 +176,9 @@ export function ManageJobApps() {
         if (!createDialogState.company || createDialogState.company.length === 0) {
             errors.push("Prospective company cannot be empty")
         }
-        if (!createDialogState.timestamp || createDialogState.timestamp.length === 0) {
-            errors.push("Submission timestamp cannot be empty")
-        }
+        // if (!createDialogState.timestamp || createDialogState.timestamp.length === 0) {
+        //     errors.push("Submission timestamp cannot be empty")
+        // }
         if (errors.length > 0) {
             setCreateDialogState({
                 ...createDialogState,
@@ -188,7 +194,7 @@ export function ManageJobApps() {
                     company: createDialogState.company,
                     job: createDialogState.job,
                     role: createDialogState.role,
-                    timestamp: createDialogState.timestamp,
+                    // timestamp: createDialogState.timestamp,
                 }
             ])
             setCreateDialogState({
@@ -247,7 +253,7 @@ export function ManageJobApps() {
                                     job: row.job,
                                     role: row.role,
                                     company: row.company,
-                                    timestamp: row.timestamp,
+                                    // timestamp: row.timestamp,
                                 })
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
@@ -293,9 +299,9 @@ export function ManageJobApps() {
         if (!editDialogState.company || editDialogState.company.length === 0) {
             errors.push("Prospective company cannot be empty")
         }
-        if (!editDialogState.timestamp || editDialogState.timestamp.length === 0) {
-            errors.push("Submission timestamp cannot be empty")
-        }
+        // if (!editDialogState.timestamp || editDialogState.timestamp.length === 0) {
+        //     errors.push("Submission timestamp cannot be empty")
+        // }
         if (errors.length > 0) {
             setEditDialogState({
                 ...editDialogState,
@@ -312,7 +318,7 @@ export function ManageJobApps() {
                         job: editDialogState.job,
                         role: editDialogState.role,
                         company: editDialogState.company,
-                        timestamp: editDialogState.timestamp
+                        // timestamp: editDialogState.timestamp
                     })
                 }
                 else {
@@ -374,17 +380,17 @@ export function ManageJobApps() {
                         company: e.target.value
                     })
                 }}
-                onTimestampChange={(e) => {
-                    setEditDialogState({
-                        ...editDialogState,
-                        timestamp: e.target.value
-                    })
-                }}
+                // onTimestampChange={(e) => {
+                //     setEditDialogState({
+                //         ...editDialogState,
+                //         timestamp: e.target.value
+                //     })
+                // }}
                 name={editDialogState.title}
                 job={editDialogState.job}
                 role={editDialogState.role}
                 company={editDialogState.company}
-                timestamp={editDialogState.timestamp}
+            // timestamp={editDialogState.timestamp}
             />
             <JobAppsEditDialog
                 show={createDialogState.show}
@@ -431,16 +437,16 @@ export function ManageJobApps() {
                         company: e.target.value
                     })
                 }}
-                onTimestampChange={(e) => {
-                    setCreateDialogState({
-                        ...createDialogState,
-                        timestamp: e.target.value
-                    })
-                }}
+                // onTimestampChange={(e) => {
+                //     setCreateDialogState({
+                //         ...createDialogState,
+                //         timestamp: e.target.value
+                //     })
+                // }}
                 name={createDialogState.title}
                 role={createDialogState.role}
                 company={createDialogState.company}
-                timestamp={createDialogState.timestamp}
+            // timestamp={createDialogState.timestamp}
             />
             <div>
                 <ToolkitProvider

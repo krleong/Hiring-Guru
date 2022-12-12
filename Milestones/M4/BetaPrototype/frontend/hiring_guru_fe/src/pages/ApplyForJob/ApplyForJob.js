@@ -1,6 +1,7 @@
 import './ApplyForJob.css';
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react'
+import {useLocation} from 'react-router-dom';
 
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -8,6 +9,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
 export default function ApplyJob() {
+    const location = useLocation();
+
     const [validated, setValidated] = useState(false);
 
     const handleSubmit = (event) => {
@@ -31,7 +34,7 @@ export default function ApplyJob() {
 
     return (
         <div className="job-apply-container">
-            <h1>Apply for Job</h1>
+            <h1>Apply for Job: {location.state.jobTitle} - {location.state.jobCompany} ({location.state.jobLocation})</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="6" controlId="validationCustom01">
