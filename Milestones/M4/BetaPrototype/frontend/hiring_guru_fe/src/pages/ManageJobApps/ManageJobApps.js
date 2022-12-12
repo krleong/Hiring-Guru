@@ -9,37 +9,40 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { ApplicationContext } from "../../HiringGuru";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
+import { BASE_URL } from "../../components/configuration";
 
-const JobApps = [
-    {
-        title: "Farhan Haider",
-        job: "Software Engineer",
-        role: "Team Lead",
-        company: "Binary Brains",
-        timestamp: "11/10/2022 at 9:00 AM"
-    },
-    {
-        title: "Kenny Leong",
-        job: "Software Engineer",
-        role: "Frontend Engineer",
-        company: "Binary Brains",
-        timestamp: "11/10/2022 at 9:00 AM"
-    },
-    {
-        title: "Mamadou Bah",
-        job: "Software Engineer",
-        role: "Frontend Engineer",
-        company: "Binary Brains",
-        timestamp: "11/10/2022 at 9:00 AM"
-    },
-    {
-        title: "Khushi Khanna",
-        job: "Software Engineer",
-        role: "Backend Engineer",
-        company: "Binary Brains",
-        timestamp: "11/10/2022 at 9:00 AM"
-    }
-]
+
+// const JobApps = [
+//     {
+//         title: "Farhan Haider",
+//         job: "Software Engineer",
+//         role: "Team Lead",
+//         company: "Binary Brains",
+//         timestamp: "11/10/2022 at 9:00 AM"
+//     },
+//     {
+//         title: "Kenny Leong",
+//         job: "Software Engineer",
+//         role: "Frontend Engineer",
+//         company: "Binary Brains",
+//         timestamp: "11/10/2022 at 9:00 AM"
+//     },
+//     {
+//         title: "Mamadou Bah",
+//         job: "Software Engineer",
+//         role: "Frontend Engineer",
+//         company: "Binary Brains",
+//         timestamp: "11/10/2022 at 9:00 AM"
+//     },
+//     {
+//         title: "Khushi Khanna",
+//         job: "Software Engineer",
+//         role: "Backend Engineer",
+//         company: "Binary Brains",
+//         timestamp: "11/10/2022 at 9:00 AM"
+//     }
+// ]
 
 function JobAppsEditDialog(props) {
     return (
@@ -124,11 +127,39 @@ function JobAppsEditDialog(props) {
         </Dialog>
     )
 }
-
+const JobAppPageStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+const parseJobApps = (jobApps) => {
+    let parsedjobApps = []
+    for (let i = 0; i < jobApps.length; i++) {
+        parsedjobApps.push({
+            id: jobApps[i].id,
+            name: jobApps[i].user.name,
+            email: jobApps[i].user.email,
+            createdAt: jobApps[i].createdAt,
+            designation: jobApps[i].designation,
+            roles: jobApps[i].roles,
+        })
+    }
+    return parsedEmployees
+}
 
 export function ManageJobApps() {
+    const [jobAppPageState, setPageState] = useState({
+        listOfJobApps: [],
+        searchString: '',
+        getJobAppListRequestStatus: JobAppPageStatus.NotStarted,
+        searchFetchError: '',
+    })
     const { SearchBar } = Search;
-    const [roles, setJobApps] = useState(JobApps)
+    useEffect(() => {
+        fetchJobApps()
+    }, []);
+
     const [editDialogState, setEditDialogState] = useState({
         show: false,
         title: "",
@@ -152,8 +183,71 @@ export function ManageJobApps() {
     })
 
     const appContext = useContext(ApplicationContext);
+    
+    const fetchJobApps = () => {
+        setPageState({
+            ...jobAppPageState,
+            listOfJobApps: [],
+            getJobAppListRequestStatus: JobAppPageStatus.InProgress,
+            searchFetchError: ''
+        })
+        axios({
+            // url: `${BASE_URL}/api/v1/companies/177/employees`,
+            // TEMP FIX: GET ALL EMPLOYEES FOR COMPANY ID 177
+            url: `${BASE_URL}/jobs/jobapps`,
+            method: 'get',
+            timeout: 10000,
+        }).then((resp) => {
+            if (resp.status === 200) {
+                setPageState({
+                    ...jobappPageState,
+                    listOfJobApps: parseJobApps(resp.data),
+                    getJobAppListRequestStatus: JobAppPageStatus.Success,
+                })
+            }
+            else {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobApp: [],
+                    getJobAppListRequestStatus: JobAppPageStatus.Error,
+                    searchFetchError: 'There was an error fetching the list of job applications. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...jobAppPageState,
+                listOfJobApps: [],
+                getJobAppListRequestStatus: JobAppPageStatus.Error,
+                searchFetchError: 'There was an error fetching the list of job applications. Please try again later'
+            })
+        })
+    }
 
     const removeJobApp = (index) => {
+        axios({
+            url: `${BASE_URL}jobs/jobID/jobapps/jobAppID` + jobAppPageState.listOfJobApps[index].id,
+            method: 'delete',
+            timeout: 10000,
+        }).then((resp) => {
+            if (resp.status === 200) {
+                fetchJobApps()
+            }
+            else {
+                setPageState({
+                    ...JobAppPageState,
+                    listOfJobApps: [],
+                    deleteJobAppListRequestStatus: JobAppPageStatus.Error,
+                    searchFetchError: 'There was an error deleting the job application. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...jobAppPageState,
+                listOfJobApp: [],
+                deleteJobAppListRequestStatus: JobAppPageStatus.Error,
+                searchFetchError: 'There was an error deleting the job applications. Please try again later'
+            })
+        })
         let newJobApps = []
         for (let i = 0; i < roles.length; i++) {
             i !== index && newJobApps.push(roles[i])
@@ -187,6 +281,37 @@ export function ManageJobApps() {
             })
         }
         else {
+            axios({
+                url: `${BASE_URL}/jobs/jobID/jobapps`,
+                method: 'post',
+                timeout: 10000,
+                data: {
+                    name: createDialogState.name,
+                    designation: createDialogState.designation,
+                    email: createDialogState.email,
+                    auth0Id: createDialogState.auth0Id,
+                    roles: createDialogState.roles,
+                }
+            }).then((resp) => {
+                if (resp.status === 200) {
+                    fetchJobApps()
+                }
+                else {
+                    setPageState({
+                        ...jobappsPageState,
+                        listOfJobApps: [],
+                        postJobAppListRequestStatus: JobAppPageStatus.Error,
+                        searchFetchError: 'There was an error adding to the list of job applications. Please try again later'
+                    })
+                }
+            }).catch((error) => {
+                setPageState({
+                    ...jobappsPageState,
+                    listOfJobApps: [],
+                    postJobAppsListRequestStatus: JobAppPageStatus.Error,
+                    searchFetchError: 'There was an error adding to the list of job applications. Please try again later'
+                })
+            })
             setJobApps([
                 ...roles,
                 {
@@ -310,6 +435,57 @@ export function ManageJobApps() {
             })
         }
         else {
+            axios({
+                // TEMPORARY FIX:
+                // url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobappPageState.listOfJobApps[editDialogState.index].id,
+                url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobappPageState.listOfJobApps[editDialogState.index].id,
+                method: 'patch',
+                timeout: 10000,
+                data: {
+                    name: editDialogState.name,
+                    designation: editDialogState.designation,
+                    email: editDialogState.email,
+                    auth0Id: editDialogState.auth0Id,
+                    roles: editDialogState.roles,
+                }
+            }).then((resp) => {
+                if (resp.status === 200) {
+                    fetchJobApps()
+                }
+                else {
+                    setPageState({
+                        ...jobappsPageState,
+                        listOfjobapps: [],
+                        patchJobAppListRequestStatus: JobAppPageStatus.Error,
+                        searchFetchError: 'There was an error updating the list of job application. Please try again later'
+                    })
+                }
+            }).catch((error) => {
+                setPageState({
+                    ...jobappsPageState,
+                    listOfJobApps: [],
+                    patchJobAppsListRequestStatus: JobAppsPageStatus.Error,
+                    searchFetchError: 'There was an error updating the list of job applications. Please try again later'
+                })
+            })
+
+            setPageState({
+                ...jobappsPageState,
+                listOfJobApps: [
+                    ...jobappsPageState.listOfJobApps,
+                    {
+                        name: editDialogState.name,
+                        designation: editDialogState.designation,
+                        email: editDialogState.email,
+                        createdAt: editDialogState.createdAt,
+                        roles: editDialogState.roles,
+                    }
+                ],
+            })
+            setEditDialogState({
+                ...editDialogState,
+                show: false,
+            })
             let newJobApps = []
             for (let i = 0; i < roles.length; i++) {
                 if (i === editDialogState.index) {
@@ -331,6 +507,7 @@ export function ManageJobApps() {
                 show: false,
             })
         }
+        
     }
 
     return (
