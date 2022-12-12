@@ -1,7 +1,7 @@
 import './ManageJobApps.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Filter } from "react-bootstrap-icons";
@@ -137,16 +137,18 @@ const parseJobApps = (jobApps) => {
     let parsedjobApps = []
     for (let i = 0; i < jobApps.length; i++) {
         parsedjobApps.push({
-            id: jobApps[i].id,
-            name: jobApps[i].user.name,
-            email: jobApps[i].user.email,
-            createdAt: jobApps[i].createdAt,
-            designation: jobApps[i].designation,
-            roles: jobApps[i].roles,
+            jobAppId: jobApps[i].id,
+            applicantName: jobApps[i].applicant_name,
+            applicantEmail: jobApps[i].applicant_email,
+            jobTitle: jobApps[i].job.title,
+            roleTitle: jobApps[i].job.role.title,
+            company: jobApps[i].job.role.company.title,
+            submittedAt: jobApps[i].submitted_at,
         })
     }
-    return parsedEmployees
+    return parsedjobApps
 }
+
 
 export function ManageJobApps() {
     const [jobAppPageState, setPageState] = useState({
@@ -162,22 +164,26 @@ export function ManageJobApps() {
 
     const [editDialogState, setEditDialogState] = useState({
         show: false,
-        title: "",
-        job: "",
-        role: "",
+        jobAppId: "",
+        applicantName: "",
+        applicantEmail: "",
+        jobTitle: "",
+        roleTitle: "",
         company: "",
-        // timestamp: "",
+        submittedAt: "",
         errors: [],
         index: undefined
     })
 
     const [createDialogState, setCreateDialogState] = useState({
         show: false,
-        title: "",
-        job: "",
-        role: "",
-        company: "",
-        // timestamp: "",
+        jobAppId: "",
+        applicantName: "",
+        applicantEmail: "",
+        jobTitle: "",
+        roleTitle: "",
+        company:"",
+        submittedAt: "",
         errors: [],
         index: undefined
     })
@@ -198,9 +204,10 @@ export function ManageJobApps() {
             method: 'get',
             timeout: 10000,
         }).then((resp) => {
-            if (resp.status === 200) {
+           console.log(resp.data) ;
+           if (resp.status === 200) {
                 setPageState({
-                    ...jobappPageState,
+                    ...jobAppPageState,
                     listOfJobApps: parseJobApps(resp.data),
                     getJobAppListRequestStatus: JobAppPageStatus.Success,
                 })
@@ -234,7 +241,7 @@ export function ManageJobApps() {
             }
             else {
                 setPageState({
-                    ...JobAppPageState,
+                    ...jobAppPageState,
                     listOfJobApps: [],
                     deleteJobAppListRequestStatus: JobAppPageStatus.Error,
                     searchFetchError: 'There was an error deleting the job application. Please try again later'
@@ -249,30 +256,34 @@ export function ManageJobApps() {
             })
         })
         let newJobApps = []
-        for (let i = 0; i < roles.length; i++) {
-            i !== index && newJobApps.push(roles[i])
+        for (let i = 0; i < jobAppPageState.listOfJobApps.length; i++) {
+            i !== index && newJobApps.push(jobAppPageState.listOfJobApps[i])
         }
         appContext.closeDialog()
-        setJobApps(newJobApps)
+        setPageState({
+            ...jobAppPageState,
+            listOfJobApps: newJobApps
+        })
     }
 
     const createJobApp = () => {
         let errors = []
-        if (!createDialogState.title || createDialogState.title.length === 0) {
-            errors.push("Candidate name cannot be empty")
+        if (!createDialogState.applicantName || createDialogState.applicantName.length === 0) {
+            errors.push("Applicant name cannot be empty")
         }
-        if (!createDialogState.job || createDialogState.job.length === 0) {
+        if (!createDialogState.applicantEmail || createDialogState.applicantEmail.length === 0) {
+            errors.push("Applicant email cannot be empty")
+        }
+        if (!createDialogState.jobAppId || createDialogState.jobAppId.length === 0) {
             errors.push("Prospective job title cannot be empty")
         }
-        if (!createDialogState.role || createDialogState.role.length === 0) {
+        if (!createDialogState.roleTitle || createDialogState.roleTitle.length === 0) {
             errors.push("Prospective job role cannot be empty")
         }
         if (!createDialogState.company || createDialogState.company.length === 0) {
-            errors.push("Prospective company cannot be empty")
+            errors.push("Company title cannot be empty")
         }
-        // if (!createDialogState.timestamp || createDialogState.timestamp.length === 0) {
-        //     errors.push("Submission timestamp cannot be empty")
-        // }
+
         if (errors.length > 0) {
             setCreateDialogState({
                 ...createDialogState,
@@ -286,11 +297,13 @@ export function ManageJobApps() {
                 method: 'post',
                 timeout: 10000,
                 data: {
-                    name: createDialogState.name,
-                    designation: createDialogState.designation,
-                    email: createDialogState.email,
-                    auth0Id: createDialogState.auth0Id,
-                    roles: createDialogState.roles,
+                    jobAppId: createDialogState.jobAppId,
+                    applicantName: createDialogState.applicantName,
+                    applicantEmail: createDialogState.applicantEmail,
+                    jobTitle: createDialogState.jobTitle,
+                    roleTitle: createDialogState.roleTitle,
+                    company: createDialogState.company,
+                    submittedAt: createDialogState.submittedAt,
                 }
             }).then((resp) => {
                 if (resp.status === 200) {
@@ -298,7 +311,7 @@ export function ManageJobApps() {
                 }
                 else {
                     setPageState({
-                        ...jobappsPageState,
+                        ...jobAppPageState,
                         listOfJobApps: [],
                         postJobAppListRequestStatus: JobAppPageStatus.Error,
                         searchFetchError: 'There was an error adding to the list of job applications. Please try again later'
@@ -306,22 +319,27 @@ export function ManageJobApps() {
                 }
             }).catch((error) => {
                 setPageState({
-                    ...jobappsPageState,
+                    ...jobAppPageState,
                     listOfJobApps: [],
                     postJobAppsListRequestStatus: JobAppPageStatus.Error,
                     searchFetchError: 'There was an error adding to the list of job applications. Please try again later'
                 })
             })
-            setJobApps([
-                ...roles,
-                {
-                    title: createDialogState.title,
-                    company: createDialogState.company,
-                    job: createDialogState.job,
-                    role: createDialogState.role,
-                    // timestamp: createDialogState.timestamp,
-                }
-            ])
+            setPageState({
+                ...jobAppPageState,
+                listOfjobApps: [
+                    ...jobAppPageState.listOfJobApps,
+                    {
+                        jobAppId: createDialogState.jobAppId,
+                        applicantName: createDialogState.applicantName,
+                        applicantEmail: createDialogState.applicantEmail,
+                        jobTitle: createDialogState.jobTitle,
+                        roleTitle: createDialogState.roleTitle,
+                        company: createDialogState.company,
+                        submittedAt: createDialogState.submittedAt,
+                    }
+                ],
+            })
             setCreateDialogState({
                 ...createDialogState,
                 show: false,
@@ -331,15 +349,19 @@ export function ManageJobApps() {
 
     const columns = [
         {
-            dataField: 'title',
+            dataField: 'applicantName',
             text: 'Name'
         },
         {
-            dataField: 'job',
+            dataField: 'applicantEmail',
+            text: 'Email'
+        },
+        {
+            dataField: 'jobTitle',
             text: 'Job Title'
         },
         {
-            dataField: 'role',
+            dataField: 'roleTitle',
             text: 'Role'
         },
         {
@@ -347,7 +369,7 @@ export function ManageJobApps() {
             text: 'Company'
         },
         {
-            dataField: 'timestamp',
+            dataField: 'submittedAt',
             text: 'Timestamp'
         },
         {
@@ -374,11 +396,12 @@ export function ManageJobApps() {
                                     ...editDialogState,
                                     show: true,
                                     index: index,
-                                    title: row.title,
-                                    job: row.job,
-                                    role: row.role,
+                                    applicantName: row.applicantName,
+                                    applicantEmail: row.applicantEmail,
+                                    jobTitle: row.jobTitle,
+                                    roleTitle:row.roleTitle,
                                     company: row.company,
-                                    // timestamp: row.timestamp,
+                                    submittedAt: row.submittedAt
                                 })
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
@@ -438,7 +461,7 @@ export function ManageJobApps() {
             axios({
                 // TEMPORARY FIX:
                 // url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobappPageState.listOfJobApps[editDialogState.index].id,
-                url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobappPageState.listOfJobApps[editDialogState.index].id,
+                url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobAppPageState.listOfJobApps[editDialogState.index].id,
                 method: 'patch',
                 timeout: 10000,
                 data: {
@@ -454,7 +477,7 @@ export function ManageJobApps() {
                 }
                 else {
                     setPageState({
-                        ...jobappsPageState,
+                        ...jobAppPageState,
                         listOfjobapps: [],
                         patchJobAppListRequestStatus: JobAppPageStatus.Error,
                         searchFetchError: 'There was an error updating the list of job application. Please try again later'
@@ -462,17 +485,17 @@ export function ManageJobApps() {
                 }
             }).catch((error) => {
                 setPageState({
-                    ...jobappsPageState,
+                    ...jobAppPageState,
                     listOfJobApps: [],
-                    patchJobAppsListRequestStatus: JobAppsPageStatus.Error,
+                    patchJobAppsListRequestStatus: JobAppPageStatus.Error,
                     searchFetchError: 'There was an error updating the list of job applications. Please try again later'
                 })
             })
 
             setPageState({
-                ...jobappsPageState,
+                ...jobAppPageState,
                 listOfJobApps: [
-                    ...jobappsPageState.listOfJobApps,
+                    ...jobAppPageState.listOfJobApps,
                     {
                         name: editDialogState.name,
                         designation: editDialogState.designation,
@@ -487,21 +510,24 @@ export function ManageJobApps() {
                 show: false,
             })
             let newJobApps = []
-            for (let i = 0; i < roles.length; i++) {
+            for (let i = 0; i < jobAppPageState.listOfJobApps.length; i++) {
                 if (i === editDialogState.index) {
                     newJobApps.push({
-                        title: editDialogState.title,
-                        job: editDialogState.job,
-                        role: editDialogState.role,
-                        company: editDialogState.company,
-                        // timestamp: editDialogState.timestamp
+                        name: editDialogState.name,
+                        email: editDialogState.email,
+                        createdAt: editDialogState.createdAt,
+                        designation: editDialogState.designation,
+                        roles: editDialogState.roles
                     })
                 }
                 else {
-                    newJobApps.push(roles[i])
+                    newJobApps.push(jobAppPageState.listOfJobApps[i])
                 }
             }
-            setJobApps(newJobApps)
+            setPageState({
+                ...jobAppPageState,
+                listOfJobApps: newJobApps
+            })
             setEditDialogState({
                 ...editDialogState,
                 show: false,
@@ -626,9 +652,9 @@ export function ManageJobApps() {
             // timestamp={createDialogState.timestamp}
             />
             <div>
-                <ToolkitProvider
+             <ToolkitProvider
                     keyField="id"
-                    data={roles}
+                    data={jobAppPageState.listOfJobApps}
                     columns={columns}
                     search
                 >
