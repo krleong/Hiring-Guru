@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import java.util.List;
+
 
 @Entity
 @Table(
@@ -33,7 +36,7 @@ public class Role {
     )
     public  String benefits;
     @ManyToOne(
-            cascade = {CascadeType.ALL},
+            cascade = {CascadeType.DETACH},
             optional = false
     )
     @JoinColumn(
@@ -41,6 +44,11 @@ public class Role {
             referencedColumnName = "id"
     )
     public Company company;
+
+    @OneToMany(
+            cascade = {CascadeType.DETACH},orphanRemoval=true,mappedBy="role"
+    )
+    private List<Job> job;
 
     public Role() {
     }
@@ -54,6 +62,21 @@ public class Role {
 
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setExpectations(String expectations) {
+        this.expectations = expectations;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public void setBenefits(String benefits) {
+        this.benefits = benefits;
+    }
 
     public int getId() {
         return id;
