@@ -1,17 +1,6 @@
 package com.hiringguru.hiring_guru_be.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.OneToMany;
-import java.util.List;
-
+import javax.persistence.*;
 
 @Entity
 @Table(
@@ -36,7 +25,7 @@ public class Role {
     )
     public  String benefits;
     @ManyToOne(
-            cascade = {CascadeType.DETACH},
+            cascade = {CascadeType.ALL},
             optional = false
     )
     @JoinColumn(
@@ -44,11 +33,21 @@ public class Role {
             referencedColumnName = "id"
     )
     public Company company;
-
-    @OneToMany(
-            cascade = {CascadeType.DETACH},orphanRemoval=true,mappedBy="role"
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "hp_id",
+            referencedColumnName = "id"
     )
-    private List<Job> job;
+
+    public HiringProcess hiringProcess;
+
+    public HiringProcess getHiringProcess() {
+        return hiringProcess;
+    }
+
+    public void setHiringProcess(HiringProcess hiringProcess) {
+        this.hiringProcess = hiringProcess;
+    }
 
     public Role() {
     }
@@ -84,7 +83,7 @@ public class Role {
 
     public String getTitle(){
         return this.title;
-  }
+    }
 
     public String getExpectations() {
         return this.expectations;

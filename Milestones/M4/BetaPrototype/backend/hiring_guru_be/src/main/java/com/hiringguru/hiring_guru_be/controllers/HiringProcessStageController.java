@@ -44,9 +44,9 @@ public class HiringProcessStageController {
     }
 
     @RequestMapping(value = "/stages/{stageId}", method = RequestMethod.PATCH)
-    public ResponseEntity<?> updateRole(@PathVariable int roleId, @PathVariable int stageId,  @RequestBody HiringProcessStageCreateUpdateRequest hps) {
+    public ResponseEntity<?> updateHiringProcessStage(@PathVariable int roleId, @PathVariable Long stageId ,@RequestBody HiringProcessStageCreateUpdateRequest hps) {
         try {
-            return new ResponseEntity<>(hiringProcessStageService.updateHiringProcessStage(roleRepository.findById(roleId).get().getHiringProcess().getId(),hps), HttpStatus.OK);
+            return new ResponseEntity<>(hiringProcessStageService.updateHiringProcessStage(stageId,hps), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }

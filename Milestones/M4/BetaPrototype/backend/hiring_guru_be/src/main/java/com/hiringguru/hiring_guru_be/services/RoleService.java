@@ -1,9 +1,11 @@
 package com.hiringguru.hiring_guru_be.services;
 
 import com.hiringguru.hiring_guru_be.entities.RoleCreateUpdateRequest;
+import com.hiringguru.hiring_guru_be.models.HiringProcess;
 import com.hiringguru.hiring_guru_be.models.Role;
 import com.hiringguru.hiring_guru_be.models.Company;
 import com.hiringguru.hiring_guru_be.repositories.CompanyRepository;
+import com.hiringguru.hiring_guru_be.repositories.HiringProcessRepository;
 import com.hiringguru.hiring_guru_be.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,22 +22,28 @@ public class RoleService {
     @Autowired
     RoleRepository rorepo;
 
+    @Autowired
+    HiringProcessRepository hirepo;
+
 
     public Role createRole(int companyid, RoleCreateUpdateRequest role) {
         Company comp = comprepo.findById(companyid).get();
 
+        HiringProcess hiringProcess = new HiringProcess();
+        hirepo.save(hiringProcess);
+
         Role newrole = new Role();
-        newrole.setCompany(comp);
         newrole.setTitle(role.title);
         newrole.setExpectations(role.expectations);
         newrole.setBenefits(role.benefits);
 
         try {
-            rorepo.save(newrole);
+            newrole.setCompany(comp);
+            newrole.setHiringProcess(hiringProcess);
         } catch (NoSuchElementException e) {
             throw new EntityNotFoundException(String.format("No Company found with id %d", companyid));
         }
-        return newrole;
+        return rorepo.save(newrole);
 
 
     }

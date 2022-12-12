@@ -1,4 +1,4 @@
-package com.hiringguru.hiring_guru_be;
+package com.hiringguru.hiring_guru_be.controllers;
 
 import com.hiringguru.hiring_guru_be.entities.RoleCreateUpdateRequest;
 import com.hiringguru.hiring_guru_be.entities.ErrorResponse;
