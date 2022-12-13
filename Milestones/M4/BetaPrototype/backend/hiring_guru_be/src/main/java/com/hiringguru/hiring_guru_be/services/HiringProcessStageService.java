@@ -81,7 +81,7 @@ public class HiringProcessStageService {
             throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d", id));
         }
 
-        hiringProcessStageRepository.deleteHiringProcessStage(id);
+        hiringProcessStageRepository.delete(existingHiringProcessStage);
 
     }
 }

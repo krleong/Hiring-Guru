@@ -5,6 +5,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(
@@ -22,7 +23,10 @@ public class HiringProcess {
     @LastModifiedDate
     private LocalDateTime lastUpdated;
 
-
+    @OneToMany(
+            cascade = {CascadeType.DETACH},orphanRemoval=true,mappedBy="hiringProcess"
+    )
+    private List<HiringProcessStage> hiringProcessStages;
     @Override
     public String toString() {
         return "HiringProcess{" +

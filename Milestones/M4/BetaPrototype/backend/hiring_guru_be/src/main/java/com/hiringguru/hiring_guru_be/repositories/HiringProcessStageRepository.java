@@ -10,16 +10,5 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 public interface HiringProcessStageRepository extends JpaRepository<HiringProcessStage, Long> {
     public List<HiringProcessStage> findByHiringProcess(HiringProcess hiringProcess);
-    @Query(
-            value = " select * from HiringProcessStage  ",
-            nativeQuery = true
-    )
-    List<HiringProcessStage> queryHiringProcessStages();
-    @Transactional
-    @Modifying()
-    @Query(value = "Delete from hiringProcess h where h.hiring_process_id=:hpId ; " +
-            " Delete from hiringProcessStage hs  where hs.id=:hpsId ",
-            nativeQuery = true
-    )
-    void deleteHiringProcessStage(Long hpsId);
+
 }
