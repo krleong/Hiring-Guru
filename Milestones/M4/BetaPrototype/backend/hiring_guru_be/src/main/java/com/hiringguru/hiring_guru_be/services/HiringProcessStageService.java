@@ -50,7 +50,7 @@ public class HiringProcessStageService {
        if (hiringProcessStage.title != null) existingHiringProcessStage.setTitle(hiringProcessStage.title);
        if(hiringProcessStage.type!=null) existingHiringProcessStage.setType(hiringProcessStage.type);
         if(hiringProcessStage.description!=null) existingHiringProcessStage.setDescription(hiringProcessStage.description );
-
+        if(hiringProcessStage.index!=null) existingHiringProcessStage.setIndex(hiringProcessStage.index);
 
         return hiringProcessStageRepository.save(existingHiringProcessStage);
 
@@ -77,4 +77,14 @@ public class HiringProcessStageService {
       hiringProcessStageRepository.delete(existingHiringProcessStage);
 
   }
+
+    public HiringProcessStage getHiringProcessStageById(Long hpstageid) {
+        try {
+            return hiringProcessStageRepository.findById(hpstageid).get();
+        }
+        catch (NoSuchElementException e) {
+            throw new EntityNotFoundException(String.format("No Hiring Process Stage found with id %d", hpstageid));
+        }
+    }
+
 }

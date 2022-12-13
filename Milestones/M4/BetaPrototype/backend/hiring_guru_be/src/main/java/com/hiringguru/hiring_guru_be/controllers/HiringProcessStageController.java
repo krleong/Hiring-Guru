@@ -38,7 +38,7 @@ public class HiringProcessStageController {
     }
 
     @RequestMapping(value = "/stages", method = RequestMethod.GET)
-    public ResponseEntity<?> getAllHiringProcessStages(@PathVariable int roleId) {
+    public ResponseEntity<?> getAllHiringProcessStagesForRole(@PathVariable int roleId) {
         try {
             return new ResponseEntity<>(
                     hiringProcessStageService.getAllHiringProcessStagesForRoleId(
@@ -50,6 +50,16 @@ public class HiringProcessStageController {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
+
+    @RequestMapping(value = "/stages/{hpstageid}", method = RequestMethod.GET)
+    public ResponseEntity<?> getHiringProcess(@PathVariable Long hpstageid) {
+        try {
+            return new ResponseEntity<>(hiringProcessStageService.getHiringProcessStageById(hpstageid), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+        }
+    }
+    
     @RequestMapping(value = "/stages/{hpstageid}", method = RequestMethod.PATCH)
     public ResponseEntity<?> updateHiringProcessStage(@PathVariable int roleId, @PathVariable Long hpstageid, @RequestBody HiringProcessStageCreateUpdateRequest hpsReq  ) {
         try {

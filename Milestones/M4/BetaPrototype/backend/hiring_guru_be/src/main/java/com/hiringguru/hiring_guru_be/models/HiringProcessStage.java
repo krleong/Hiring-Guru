@@ -85,6 +85,7 @@ public class HiringProcessStage {
         this.type = type;
     }
 
+
     public String getDescription() {
         return description;
     }
@@ -104,7 +105,7 @@ public class HiringProcessStage {
     public HiringProcessStage() {
     }
 
-    public HiringProcessStage(Long id, String title, HiringProcessStageType type, String description, HiringProcess hiringProcess) {
+    public HiringProcessStage(Long id, String title, HiringProcessStageType type, String description,  HiringProcess hiringProcess) {
         this.id = id;
         this.title = title;
         this.type = type;
