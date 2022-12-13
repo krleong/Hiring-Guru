@@ -37,8 +37,8 @@ function JobAppsEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageNameInput"
                         placeholder="First name Last name"
-                        value={props.name}
-                        onChange={props.onNameChange}
+                        value={props.applicantName}
+                        onChange={props.onApplicantNameChange}
                     />
                 </div>
                 <div className="mb-3">
@@ -46,9 +46,9 @@ function JobAppsEditDialog(props) {
                         Applicant Email
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="Enter job title"
-                        value={props.job}
-                        onChange={props.onJobChange}
+                        placeholder="HirnigGuru@example.com"
+                        value={props.applicantEmail}
+                        onChange={props.onApplicantEmailChange}
                     >
                     </input>
                 </div>
@@ -57,9 +57,9 @@ function JobAppsEditDialog(props) {
                         Prospective Job
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="Enter role"
-                        value={props.role}
-                        onChange={props.onRoleChange}
+                        placeholder="Enter job"
+                        value={props.jobTitle}
+                        onChange={props.onJobChange}
                     >
                     </input>
                 </div>
@@ -69,7 +69,7 @@ function JobAppsEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
                         placeholder="Enter role"
-                        value={props.role}
+                        value={props.roleTitle}
                         onChange={props.onRoleChange}
                     >
                     </input>
@@ -84,12 +84,6 @@ function JobAppsEditDialog(props) {
                         onChange={props.onCompanyChange}
                     >
                     </input>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Application Documents (PDF only)
-                    </label>
-                    <input type="file" className="form-control" id="inputGroupFile02" accept="application/pdf" />
                 </div>
                 {/* <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
@@ -161,7 +155,7 @@ export function ManageJobApps() {
         applicantEmail: "",
         jobTitle: "",
         roleTitle: "",
-        company:"",
+        company: "",
         submittedAt: "",
         errors: [],
         index: undefined
@@ -253,7 +247,7 @@ export function ManageJobApps() {
         if (!createDialogState.applicantEmail || createDialogState.applicantEmail.length === 0) {
             errors.push("Applicant email cannot be empty")
         }
-        if (!createDialogState.jobAppId || createDialogState.jobAppId.length === 0) {
+        if (!createDialogState.jobTitle || createDialogState.jobTitle.length === 0) {
             errors.push("Prospective job title cannot be empty")
         }
         if (!createDialogState.roleTitle || createDialogState.roleTitle.length === 0) {
@@ -420,7 +414,7 @@ export function ManageJobApps() {
         if (!editDialogState.applicantEmail || editDialogState.applicantEmail.length === 0) {
             errors.push("Applicant email cannot be empty")
         }
-        if (!editDialogState.jobAppId || editDialogState.jobAppId.length === 0) {
+        if (!editDialogState.jobTitle || editDialogState.jobTitle.length === 0) {
             errors.push("Prospective job cannot be empty")
         }
         if (!editDialogState.roleTitle || editDialogState.roleTitle.length === 0) {
@@ -547,22 +541,28 @@ export function ManageJobApps() {
                     }
                 ]}
                 errors={editDialogState.errors}
-                onNameChange={(e) => {
+                onApplicantNameChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        title: e.target.value
+                        applicantName: e.target.value
+                    })
+                }}
+                onApplicantEmailChange={(e) => {
+                    setEditDialogState({
+                        ...editDialogState,
+                        applicantEmail: e.target.value
                     })
                 }}
                 onJobChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        job: e.target.value
+                        jobTitle: e.target.value
                     })
                 }}
                 onRoleChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        role: e.target.value
+                        roleTitle: e.target.value
                     })
                 }}
                 onCompanyChange={(e) => {
@@ -571,12 +571,7 @@ export function ManageJobApps() {
                         company: e.target.value
                     })
                 }}
-                // onTimestampChange={(e) => {
-                //     setEditDialogState({
-                //         ...editDialogState,
-                //         timestamp: e.target.value
-                //     })
-                // }}
+                
 
                 jobAppId={editDialogState.jobAppId}
                 applicantName={editDialogState.applicantName}
@@ -608,22 +603,28 @@ export function ManageJobApps() {
                     }
                 ]}
                 errors={createDialogState.errors}
-                onNameChange={(e) => {
+                onApplicantNameChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        title: e.target.value
+                        applicantName: e.target.value
+                    })
+                }}
+                onApplicantEmailChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        applicantEmail: e.target.value
                     })
                 }}
                 onJobChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        job: e.target.value
+                        jobTitle: e.target.value
                     })
                 }}
                 onRoleChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        role: e.target.value
+                        roleTitle: e.target.value
                     })
                 }}
                 onCompanyChange={(e) => {
@@ -632,20 +633,13 @@ export function ManageJobApps() {
                         company: e.target.value
                     })
                 }}
-                // onTimestampChange={(e) => {
-                //     setCreateDialogState({
-                //         ...createDialogState,
-                //         timestamp: e.target.value
-                //     })
-                // }}
                 jobAppId={createDialogState.jobAppId}
                 applicantName={createDialogState.applicantName}
                 applicantEmail={createDialogState.applicantEmail}
                 jobTitle={createDialogState.jobTitle}
                 roleTitle={createDialogState.roleTitle}
-                company={createDialogState.company}
+                company={createDialogState.company}       
                 submittedAt={createDialogState.submittedAt}
-            // timestamp={createDialogState.timestamp}
             />
             <div>
              <ToolkitProvider
