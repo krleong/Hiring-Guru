@@ -12,38 +12,6 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { BASE_URL } from "../../components/configuration";
 
-
-// const JobApps = [
-//     {
-//         title: "Farhan Haider",
-//         job: "Software Engineer",
-//         role: "Team Lead",
-//         company: "Binary Brains",
-//         timestamp: "11/10/2022 at 9:00 AM"
-//     },
-//     {
-//         title: "Kenny Leong",
-//         job: "Software Engineer",
-//         role: "Frontend Engineer",
-//         company: "Binary Brains",
-//         timestamp: "11/10/2022 at 9:00 AM"
-//     },
-//     {
-//         title: "Mamadou Bah",
-//         job: "Software Engineer",
-//         role: "Frontend Engineer",
-//         company: "Binary Brains",
-//         timestamp: "11/10/2022 at 9:00 AM"
-//     },
-//     {
-//         title: "Khushi Khanna",
-//         job: "Software Engineer",
-//         role: "Backend Engineer",
-//         company: "Binary Brains",
-//         timestamp: "11/10/2022 at 9:00 AM"
-//     }
-// ]
-
 function JobAppsEditDialog(props) {
     return (
         <Dialog
@@ -65,7 +33,7 @@ function JobAppsEditDialog(props) {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageNameInput" className="form-label">
-                        Candidate Name
+                        Applicant Name
                     </label>
                     <input className="form-control" id="recruitmentStageNameInput"
                         placeholder="First name Last name"
@@ -75,12 +43,23 @@ function JobAppsEditDialog(props) {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Prospective Job Title
+                        Applicant Email
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
                         placeholder="Enter job title"
                         value={props.job}
                         onChange={props.onJobChange}
+                    >
+                    </input>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Prospective Job
+                    </label>
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="Enter role"
+                        value={props.role}
+                        onChange={props.onRoleChange}
                     >
                     </input>
                 </div>
