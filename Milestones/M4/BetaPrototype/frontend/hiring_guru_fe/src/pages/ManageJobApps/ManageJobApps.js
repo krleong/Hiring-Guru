@@ -435,17 +435,20 @@ export function ManageJobApps() {
 
     const handleEditJobApp = () => {
         let errors = []
-        if (!editDialogState.title || editDialogState.title.length === 0) {
-            errors.push("Candidate name cannot be empty")
+        if (!editDialogState.applicantName || editDialogState.applicantName.length === 0) {
+            errors.push("Applicant name cannot be empty")
         }
-        if (!editDialogState.job || editDialogState.job.length === 0) {
-            errors.push("Prospective job title cannot be empty")
+        if (!editDialogState.applicantEmail || editDialogState.applicantEmail.length === 0) {
+            errors.push("Applicant email cannot be empty")
         }
-        if (!editDialogState.role || editDialogState.role.length === 0) {
+        if (!editDialogState.jobAppId || editDialogState.jobAppId.length === 0) {
+            errors.push("Prospective job cannot be empty")
+        }
+        if (!editDialogState.roleTitle || editDialogState.roleTitle.length === 0) {
             errors.push("Prospective job role cannot be empty")
         }
         if (!editDialogState.company || editDialogState.company.length === 0) {
-            errors.push("Prospective company cannot be empty")
+            errors.push("Company title cannot be empty")
         }
         // if (!editDialogState.timestamp || editDialogState.timestamp.length === 0) {
         //     errors.push("Submission timestamp cannot be empty")
@@ -465,11 +468,13 @@ export function ManageJobApps() {
                 method: 'patch',
                 timeout: 10000,
                 data: {
-                    name: editDialogState.name,
-                    designation: editDialogState.designation,
-                    email: editDialogState.email,
-                    auth0Id: editDialogState.auth0Id,
-                    roles: editDialogState.roles,
+                    jobAppId: editDialogState.jobAppId,
+                    applicantName: editDialogState.applicantName,
+                    applicantEmail: editDialogState.applicantEmail,
+                    jobTitle: editDialogState.jobTitle,
+                    roleTitle: editDialogState.roleTitle,
+                    company: editDialogState.company,
+                    submittedAt: editDialogState.submittedAt,
                 }
             }).then((resp) => {
                 if (resp.status === 200) {
@@ -480,7 +485,7 @@ export function ManageJobApps() {
                         ...jobAppPageState,
                         listOfjobapps: [],
                         patchJobAppListRequestStatus: JobAppPageStatus.Error,
-                        searchFetchError: 'There was an error updating the list of job application. Please try again later'
+                        searchFetchError: 'There was an error updating the list of job applications. Please try again later'
                     })
                 }
             }).catch((error) => {
@@ -497,11 +502,13 @@ export function ManageJobApps() {
                 listOfJobApps: [
                     ...jobAppPageState.listOfJobApps,
                     {
-                        name: editDialogState.name,
-                        designation: editDialogState.designation,
-                        email: editDialogState.email,
-                        createdAt: editDialogState.createdAt,
-                        roles: editDialogState.roles,
+                        jobAppId: editDialogState.jobAppId,
+                        applicantName: editDialogState.applicantName,
+                        applicantEmail: editDialogState.applicantEmail,
+                        jobTitle: editDialogState.jobTitle,
+                        roleTitle: editDialogState.roleTitle,
+                        company: editDialogState.company,
+                        submittedAt: editDialogState.submittedAt,
                     }
                 ],
             })
@@ -513,11 +520,13 @@ export function ManageJobApps() {
             for (let i = 0; i < jobAppPageState.listOfJobApps.length; i++) {
                 if (i === editDialogState.index) {
                     newJobApps.push({
-                        name: editDialogState.name,
-                        email: editDialogState.email,
-                        createdAt: editDialogState.createdAt,
-                        designation: editDialogState.designation,
-                        roles: editDialogState.roles
+                        jobAppId: editDialogState.jobAppId,
+                        applicantName: editDialogState.applicantName,
+                        applicantEmail: editDialogState.applicantEmail,
+                        jobTitle: editDialogState.jobTitle,
+                        roleTitle: editDialogState.roleTitle,
+                        company: editDialogState.company,
+                        submittedAt: editDialogState.submittedAt,
                     })
                 }
                 else {
@@ -589,10 +598,14 @@ export function ManageJobApps() {
                 //         timestamp: e.target.value
                 //     })
                 // }}
-                name={editDialogState.title}
-                job={editDialogState.job}
-                role={editDialogState.role}
+
+                jobAppId={editDialogState.jobAppId}
+                applicantName={editDialogState.applicantName}
+                applicantEmail={editDialogState.applicantEmail}
+                jobTitle={editDialogState.jobTitle}
+                roleTitle={editDialogState.roleTitle}
                 company={editDialogState.company}
+                submittedAt={editDialogState.submittedAt}
             // timestamp={editDialogState.timestamp}
             />
             <JobAppsEditDialog
@@ -646,9 +659,13 @@ export function ManageJobApps() {
                 //         timestamp: e.target.value
                 //     })
                 // }}
-                name={createDialogState.title}
-                role={createDialogState.role}
+                jobAppId={createDialogState.jobAppId}
+                applicantName={createDialogState.applicantName}
+                applicantEmail={createDialogState.applicantEmail}
+                jobTitle={createDialogState.jobTitle}
+                roleTitle={createDialogState.roleTitle}
                 company={createDialogState.company}
+                submittedAt={createDialogState.submittedAt}
             // timestamp={createDialogState.timestamp}
             />
             <div>
