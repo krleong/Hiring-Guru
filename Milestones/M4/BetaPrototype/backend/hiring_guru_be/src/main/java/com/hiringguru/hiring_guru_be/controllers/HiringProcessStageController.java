@@ -50,4 +50,22 @@ public class HiringProcessStageController {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
+    @RequestMapping(value = "/stages/{hpstageid}", method = RequestMethod.PATCH)
+    public ResponseEntity<?> updateHiringProcessStage(@PathVariable int roleId, @PathVariable Long hpstageid, @RequestBody HiringProcessStageCreateUpdateRequest hpsReq  ) {
+        try {
+            return new ResponseEntity<>(hiringProcessStageService.updateHiringProcessStage(hpstageid, hpsReq), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = "/stages/{hpstageid}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteHiringProcessStage(@PathVariable Long hpstageid) {
+        try {
+            hiringProcessStageService. deleteHiringProcessStageById(hpstageid);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 }

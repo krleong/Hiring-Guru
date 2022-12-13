@@ -21,7 +21,7 @@ public class HiringProcessStageService {
     @Autowired
     HiringProcessRepository hiringProcessRepository;
 
-    public HiringProcessStage createHiringProcessStage(Integer roleId, HiringProcessStageCreateUpdateRequest hpsReq) {
+    public HiringProcessStage createHiringProcessStage(int roleId, HiringProcessStageCreateUpdateRequest hpsReq) {
 
         HiringProcessStage hiringProcessStage = new HiringProcessStage();
         hiringProcessStage.setTitle(hpsReq.title);
@@ -39,24 +39,24 @@ public class HiringProcessStageService {
     }
 
 
-//    public HiringProcessStage updateHiringProcessStage(Long hpsId, HiringProcessStageCreateUpdateRequest hiringProcessStage) {
-//        HiringProcessStage existingHiringProcessStage;
-//        try {
-//            existingHiringProcessStage = hiringProcessStageRepository.findById(hpsId).get();
-//        }
-//        catch (NoSuchElementException e) {
-//            throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d", hpsId));
-//        }
-//        if (hiringProcessStage.title != null) existingHiringProcessStage.setTitle(hiringProcessStage.title);
-//        if(hiringProcessStage.type!=null) existingHiringProcessStage.setType(hiringProcessStage.type);
-//        if(hiringProcessStage.description!=null) existingHiringProcessStage.setDescription(hiringProcessStage.description );
-//
-//
-//        return hiringProcessStageRepository.save(existingHiringProcessStage);
-//
-//    }
-//
-    public List<HiringProcessStage> getAllHiringProcessStagesForRoleId(Integer roleId) {
+    public HiringProcessStage updateHiringProcessStage(Long hpsId, HiringProcessStageCreateUpdateRequest hiringProcessStage) {
+       HiringProcessStage existingHiringProcessStage;
+       try {
+           existingHiringProcessStage = hiringProcessStageRepository.findById(hpsId).get();
+        }
+        catch (NoSuchElementException e) {
+           throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d", hpsId));
+       }
+       if (hiringProcessStage.title != null) existingHiringProcessStage.setTitle(hiringProcessStage.title);
+       if(hiringProcessStage.type!=null) existingHiringProcessStage.setType(hiringProcessStage.type);
+        if(hiringProcessStage.description!=null) existingHiringProcessStage.setDescription(hiringProcessStage.description );
+
+
+        return hiringProcessStageRepository.save(existingHiringProcessStage);
+
+    }
+
+    public List<HiringProcessStage> getAllHiringProcessStagesForRoleId(int roleId) {
         try {
             return hiringProcessStageRepository.findByHiringProcessRoleIdOrderByIndex(roleId);
         }
@@ -65,16 +65,16 @@ public class HiringProcessStageService {
         }
     }
 
-//    public void deleteHiringProcessStageById(Long id) {
-//        HiringProcessStage existingHiringProcessStage;
-//        try {
-//            existingHiringProcessStage = hiringProcessStageRepository.findById(id).get();
-//        }
-//        catch (NoSuchElementException e) {
-//            throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d", id));
-//        }
-//
-//        hiringProcessStageRepository.deleteHiringProcessStage(id);
-//
-//    }
+    public void deleteHiringProcessStageById(Long id) {
+       HiringProcessStage existingHiringProcessStage;
+        try {
+           existingHiringProcessStage = hiringProcessStageRepository.findById(id).get();
+       }
+       catch (NoSuchElementException e) {
+           throw new EntityNotFoundException(String.format("No HiringProcessStage found with id %d", id));
+       }
+
+      hiringProcessStageRepository.delete(existingHiringProcessStage);
+
+  }
 }
