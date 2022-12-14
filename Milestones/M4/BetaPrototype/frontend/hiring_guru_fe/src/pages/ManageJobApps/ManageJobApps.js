@@ -171,7 +171,7 @@ export function ManageJobApps() {
             searchFetchError: ''
         })
         axios({
-            // url: `${BASE_URL}/api/v1/companies/177/employees`,
+            // url: `${BASE_URL}/jobs/jobApps`,
             // TEMP FIX: GET ALL EMPLOYEES FOR COMPANY ID 177
             url: `${BASE_URL}/jobs/jobapps`,
             method: 'get',
