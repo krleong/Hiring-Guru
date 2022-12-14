@@ -1,7 +1,7 @@
 import './ManageJobApps.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Filter } from "react-bootstrap-icons";
@@ -106,6 +106,14 @@ const JobAppPageStatus = {
     Error: "Error",
     Success: "Success",
 }
+
+const JobsFetchStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+
 const parseJobApps = (jobApps) => {
     let parsedjobApps = []
     for (let i = 0; i < jobApps.length; i++) {
@@ -126,14 +134,24 @@ const parseJobApps = (jobApps) => {
 export function ManageJobApps() {
     const [jobAppPageState, setPageState] = useState({
         listOfJobApps: [],
+        listOfJobs: [],
+        selectedJobId: undefined,
+        getJobsListRequestStatus: JobsFetchStatus.NotStarted,
+        jobsFetchError: '',
         searchString: '',
         getJobAppListRequestStatus: JobAppPageStatus.NotStarted,
         searchFetchError: '',
     })
+
     const { SearchBar } = Search;
+
     useEffect(() => {
-        fetchJobApps()
-    }, []);
+        if (jobAppPageState.selectedJobId) {
+            fetchJobApps(jobAppPageState.selectedJobId)
+        } else {
+            fetchJobs()
+        }
+    }, [jobAppPageState.selectedJobId]);
 
     const [editDialogState, setEditDialogState] = useState({
         show: false,
@@ -162,7 +180,7 @@ export function ManageJobApps() {
     })
 
     const appContext = useContext(ApplicationContext);
-    
+
     const fetchJobApps = () => {
         setPageState({
             ...jobAppPageState,
@@ -177,8 +195,8 @@ export function ManageJobApps() {
             method: 'get',
             timeout: 10000,
         }).then((resp) => {
-           console.log(resp.data) ;
-           if (resp.status === 200) {
+            console.log(resp.data);
+            if (resp.status === 200) {
                 setPageState({
                     ...jobAppPageState,
                     listOfJobApps: parseJobApps(resp.data),
@@ -199,6 +217,44 @@ export function ManageJobApps() {
                 listOfJobApps: [],
                 getJobAppListRequestStatus: JobAppPageStatus.Error,
                 searchFetchError: 'There was an error fetching the list of job applications. Please try again later'
+            })
+        })
+    }
+
+    const fetchJobs = (roleId) => {
+        setPageState({
+            ...jobAppPageState,
+            listOfJobs: [],
+            getJobsListRequestStatus: JobsFetchStatus.InProgress,
+            jobsFetchError: ''
+        })
+
+        axios({
+            url: `${BASE_URL}/roles/${roleId}/jobs`,
+            method: 'get',
+            timeout: 10000,
+        }).then((resp) => {
+            if (resp.status === 200) {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobs: resp.data,
+                    getJobsListRequestStatus: JobsFetchStatus.Success,
+                })
+            }
+            else {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobs: [],
+                    getJobsListRequestStatus: JobsFetchStatus.Error,
+                    jobsFetchError: 'There was an error fetching the list of jobs. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...jobAppPageState,
+                listOfJobs: [],
+                getJobsListRequestStatus: JobsFetchStatus.Error,
+                jobsFetchError: 'There was an error fetching the list of jobs. Please try again later'
             })
         })
     }
@@ -372,7 +428,7 @@ export function ManageJobApps() {
                                     applicantName: row.applicantName,
                                     applicantEmail: row.applicantEmail,
                                     jobTitle: row.jobTitle,
-                                    roleTitle:row.roleTitle,
+                                    roleTitle: row.roleTitle,
                                     company: row.company,
                                     submittedAt: row.submittedAt
                                 })
@@ -515,7 +571,7 @@ export function ManageJobApps() {
                 show: false,
             })
         }
-        
+
     }
 
     return (
@@ -571,7 +627,7 @@ export function ManageJobApps() {
                         company: e.target.value
                     })
                 }}
-                
+
 
                 jobAppId={editDialogState.jobAppId}
                 applicantName={editDialogState.applicantName}
@@ -638,11 +694,11 @@ export function ManageJobApps() {
                 applicantEmail={createDialogState.applicantEmail}
                 jobTitle={createDialogState.jobTitle}
                 roleTitle={createDialogState.roleTitle}
-                company={createDialogState.company}       
+                company={createDialogState.company}
                 submittedAt={createDialogState.submittedAt}
             />
             <div>
-             <ToolkitProvider
+                <ToolkitProvider
                     keyField="id"
                     data={jobAppPageState.listOfJobApps}
                     columns={columns}
@@ -656,26 +712,77 @@ export function ManageJobApps() {
                                     <Breadcrumb.Item active>Recruitment: Job Apps</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Manage Job Apps</h1>
+                                {
+                                    (jobAppPageState.getJobsListRequestStatus === JobsFetchStatus.InProgress) &&
+                                    <div className={'row justify-content-center'}>
+                                        <div className="spinner-border text-primary align-self-" role="status">
+                                            <span className="sr-only"></span>
+                                        </div>
+                                    </div>
+                                }
+                                {
+                                    jobAppPageState.jobsFetchError &&
+                                    <div className={'search-result-error'}>
+                                        {jobAppPageState.jobsFetchError}
+                                    </div>
+                                }
+                                {
+                                    (jobAppPageState.getJobsListRequestStatus === JobsFetchStatus.Success) &&
+                                    <div className="position-selection-control">
+                                        <div className={"position-selection-header"}>
+                                            <h5>Select a job to see the applications submitted for it:</h5>
+                                        </div>
+                                        <div className={"position-selection-dropdown"}>
+                                            <div className="input-group input-group-sm">
+                                                <Dropdown className={"input-group-text"}>
+                                                    <Dropdown.Toggle id="dropdown-basic">
+                                                        <Filter /> Select Job
+                                                    </Dropdown.Toggle>
+                                                    <Dropdown.Menu>
+                                                        {
+                                                            jobAppPageState.listOfjobApps.map((job) => {
+                                                                return (
+                                                                    <Dropdown.Item key={job.id} onClick={(e) => {
+                                                                        setPageState({
+                                                                            ...jobAppPageState,
+                                                                            selectedJobId: job.id
+                                                                        })
+                                                                    }} active={jobAppPageState.selectedJobId === job.id}>
+                                                                        {job.title}
+                                                                    </Dropdown.Item>
+                                                                )
+                                                            })
+                                                        }
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                {
+                                    jobAppPageState.selectedJobId &&
+                                    <div>
+                                        <div className={"container-vcenter-hright"}>
 
-                                <div className={"container-vcenter-hright"}>
+                                            <SearchBar {...props.searchProps} />
 
-                                    <SearchBar {...props.searchProps} />
-
-                                    <Button variant="primary"
-                                        onClick={() => {
-                                            setCreateDialogState({
-                                                ...createDialogState,
-                                                show: true
-                                            })
-                                        }}
-                                    >Add Submission</Button>
-                                </div>
-                                {/* <hr /> */}
-                                <BootstrapTable
-                                    {...props.baseProps}
-                                    striped
-                                    condensed
-                                />
+                                            <Button variant="primary"
+                                                onClick={() => {
+                                                    setCreateDialogState({
+                                                        ...createDialogState,
+                                                        show: true
+                                                    })
+                                                }}
+                                            >Add Submission</Button>
+                                        </div>
+                                        {/* <hr /> */}
+                                        <BootstrapTable
+                                            {...props.baseProps}
+                                            striped
+                                            condensed
+                                        />
+                                    </div>
+                                }
                             </div>
                         )
                     }
