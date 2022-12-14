@@ -122,7 +122,7 @@ function JobEditDialog(props) {
     )
 }
 
-const JobPageStatus = {
+const JobsPageStatus = {
     NotStarted: "NotStarted",
     InProgress: "InProgress",
     Error: "Error",
@@ -174,10 +174,10 @@ export function ManageJobs() {
         listOfJobs: [],
         listOfRoles: [],
         selectedRoleId: undefined,
-        fetchRolesListRequestStatus: RolesFetchStatus.NotStarted,
+        getRolesListRequestStatus: RolesFetchStatus.NotStarted,
         rolesFetchError: '',
         searchString: '',
-        getJobListRequestStatus: JobPageStatus.NotStarted,
+        getJobListRequestStatus: JobsPageStatus.NotStarted,
         searchFetchError: '',
     })
 
@@ -216,7 +216,7 @@ export function ManageJobs() {
         setPageState({
             ...jobPageState,
             listOfJobs: [],
-            getJobListRequestStatus: JobPageStatus.InProgress,
+            getJobListRequestStatus: JobsPageStatus.InProgress,
             searchFetchError: ''
         })
 
@@ -229,14 +229,14 @@ export function ManageJobs() {
                 setPageState({
                     ...jobPageState,
                     listOfJobs: parseJobs(resp.data),
-                    getJobListRequestStatus: JobPageStatus.Success,
+                    getJobListRequestStatus: JobsPageStatus.Success,
                 })
             }
             else {
                 setPageState({
                     ...jobPageState,
                     listOfJobs: [],
-                    getJobListRequestStatus: JobPageStatus.Error,
+                    getJobListRequestStatus: JobsPageStatus.Error,
                     searchFetchError: 'There was an error fetching the list of jobs. Please try again later'
                 })
             }
@@ -244,7 +244,7 @@ export function ManageJobs() {
             setPageState({
                 ...jobPageState,
                 listOfJobs: [],
-                getJobListRequestStatus: JobPageStatus.Error,
+                getJobListRequestStatus: JobsPageStatus.Error,
                 searchFetchError: 'There was an error fetching the list of jobs. Please try again later'
             })
         })
@@ -254,7 +254,7 @@ export function ManageJobs() {
         setPageState({
             ...jobPageState,
             listOfRoles: [],
-            fetchRolesListRequestStatus: RolesFetchStatus.InProgress,
+            getRolesListRequestStatus: RolesFetchStatus.InProgress,
             rolesFetchError: ''
         })
 
@@ -267,14 +267,14 @@ export function ManageJobs() {
                 setPageState({
                     ...jobPageState,
                     listOfRoles: resp.data,
-                    fetchRolesListRequestStatus: RolesFetchStatus.Success,
+                    getRolesListRequestStatus: RolesFetchStatus.Success,
                 })
             }
             else {
                 setPageState({
                     ...jobPageState,
                     listOfRoles: [],
-                    fetchRolesListRequestStatus: RolesFetchStatus.Error,
+                    getRolesListRequestStatus: RolesFetchStatus.Error,
                     rolesFetchError: 'There was an error fetching the list of roles. Please try again.'
                 })
             }
@@ -282,7 +282,7 @@ export function ManageJobs() {
             setPageState({
                 ...jobPageState,
                 listOfRoles: [],
-                fetchRolesListRequestStatus: RolesFetchStatus.Error,
+                getRolesListRequestStatus: RolesFetchStatus.Error,
                 rolesFetchError: 'There was an error fetching the list of roles. Please try again later'
             })
         })
@@ -301,7 +301,7 @@ export function ManageJobs() {
                 setPageState({
                     ...jobPageState,
                     listOfJobs: [],
-                    deleteJobListRequestStatus: JobPageStatus.Error,
+                    deleteJobListRequestStatus: JobsPageStatus.Error,
                     searchFetchError: 'There was an error deleting the job. Please try again later'
                 })
             }
@@ -309,7 +309,7 @@ export function ManageJobs() {
             setPageState({
                 ...jobPageState,
                 listOfJobs: [],
-                deleteJobListRequestStatus: JobPageStatus.Error,
+                deleteJobListRequestStatus: JobsPageStatus.Error,
                 searchFetchError: 'There was an error deleting the job. Please try again later'
             })
         })
@@ -366,7 +366,7 @@ export function ManageJobs() {
                     setPageState({
                         ...jobPageState,
                         listOfJobs: [],
-                        postJobListRequestStatus: JobPageStatus.Error,
+                        postJobListRequestStatus: JobsPageStatus.Error,
                         searchFetchError: 'There was an error adding to the list of jobs. Please try again later'
                     })
                 }
@@ -374,7 +374,7 @@ export function ManageJobs() {
                 setPageState({
                     ...jobPageState,
                     listOfJobs: [],
-                    postJobListRequestStatus: JobPageStatus.Error,
+                    postJobListRequestStatus: JobsPageStatus.Error,
                     searchFetchError: 'There was an error adding to the list of jobs. Please try again later'
                 })
             })
@@ -503,7 +503,7 @@ export function ManageJobs() {
                     setPageState({
                         ...jobPageState,
                         listOfJobs: [],
-                        patchJobListRequestStatus: JobPageStatus.Error,
+                        patchJobListRequestStatus: JobsPageStatus.Error,
                         searchFetchError: 'There was an error updating the list of jobs. Please try again later'
                     })
                 }
@@ -511,7 +511,7 @@ export function ManageJobs() {
                 setPageState({
                     ...jobPageState,
                     listOfJobs: [],
-                    patchJobListRequestStatus: JobPageStatus.Error,
+                    patchJobListRequestStatus: JobsPageStatus.Error,
                     searchFetchError: 'There was an error updating the list of jobs. Please try again later'
                 })
             })
@@ -678,7 +678,7 @@ export function ManageJobs() {
                                 <h1>Manage Jobs</h1>
 
                                 {
-                                    (jobPageState.fetchRolesListRequestStatus === RolesFetchStatus.InProgress) &&
+                                    (jobPageState.getRolesListRequestStatus === RolesFetchStatus.InProgress) &&
                                     <div className={'row justify-content-center'}>
                                         <div className="spinner-border text-primary align-self-" role="status">
                                             <span className="sr-only"></span>
@@ -692,7 +692,7 @@ export function ManageJobs() {
                                     </div>
                                 }
                                 {
-                                    (jobPageState.fetchRolesListRequestStatus === RolesFetchStatus.Success) &&
+                                    (jobPageState.getRolesListRequestStatus === RolesFetchStatus.Success) &&
                                     <div className="position-selection-control">
                                         <div className={"position-selection-header"}>
                                             <h5>Select a role to see the jobs opened for it:</h5>
