@@ -1,9 +1,11 @@
 package com.hiringguru.hiring_guru_be.services;
 
 import com.hiringguru.hiring_guru_be.entities.RoleCreateUpdateRequest;
+import com.hiringguru.hiring_guru_be.models.HiringProcess;
 import com.hiringguru.hiring_guru_be.models.Role;
 import com.hiringguru.hiring_guru_be.models.Company;
 import com.hiringguru.hiring_guru_be.repositories.CompanyRepository;
+import com.hiringguru.hiring_guru_be.repositories.HiringProcessRepository;
 import com.hiringguru.hiring_guru_be.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ public class RoleService {
     @Autowired
     RoleRepository rorepo;
 
+    @Autowired
+    HiringProcessRepository hiringProcessRepository;
 
     public Role createRole(int companyid, RoleCreateUpdateRequest role) {
         Company comp = comprepo.findById(companyid).get();
@@ -29,6 +33,7 @@ public class RoleService {
         newrole.setTitle(role.title);
         newrole.setExpectations(role.expectations);
         newrole.setBenefits(role.benefits);
+        newrole.setHiringProcess(new HiringProcess());
 
         try {
             rorepo.save(newrole);
