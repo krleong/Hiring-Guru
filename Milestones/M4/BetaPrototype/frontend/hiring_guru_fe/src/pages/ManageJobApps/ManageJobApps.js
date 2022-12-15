@@ -37,7 +37,7 @@ function JobAppsEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageNameInput"
                         placeholder="First name Last name"
-                        value={props.applicantName}
+                        value={props.name}
                         onChange={props.onApplicantNameChange}
                     />
                 </div>
@@ -47,7 +47,7 @@ function JobAppsEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
                         placeholder="HirnigGuru@example.com"
-                        value={props.applicantEmail}
+                        value={props.email}
                         onChange={props.onApplicantEmailChange}
                     >
                     </input>
@@ -58,7 +58,7 @@ function JobAppsEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
                         placeholder="Enter job"
-                        value={props.jobTitle}
+                        value={props.resume}
                         onChange={props.onJobChange}
                     >
                     </input>
@@ -69,7 +69,7 @@ function JobAppsEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
                         placeholder="Enter role"
-                        value={props.roleTitle}
+                        value={props.profileLink}
                         onChange={props.onRoleChange}
                     >
                     </input>
@@ -79,8 +79,8 @@ function JobAppsEditDialog(props) {
                         Prospective Company
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="Enter company name"
-                        value={props.company}
+                        placeholder="Enter coverLetter name"
+                        value={props.coverLetter}
                         onChange={props.onCompanyChange}
                     >
                     </input>
@@ -118,12 +118,13 @@ const parseJobApps = (jobApps) => {
     let parsedjobApps = []
     for (let i = 0; i < jobApps.length; i++) {
         parsedjobApps.push({
+            jobId: jobApps[i].id,
             jobAppId: jobApps[i].id,
             applicantName: jobApps[i].applicant_name,
             applicantEmail: jobApps[i].applicant_email,
             jobTitle: jobApps[i].job.title,
             roleTitle: jobApps[i].job.role.title,
-            company: jobApps[i].job.role.company.title,
+            company: jobApps[i].job.company,
             submittedAt: jobApps[i].submitted_at,
         })
     }
@@ -181,7 +182,7 @@ export function ManageJobApps() {
 
     const appContext = useContext(ApplicationContext);
 
-    const fetchJobApps = () => {
+    const fetchJobApps = (jobID) => {
         setPageState({
             ...jobAppPageState,
             listOfJobApps: [],
@@ -189,9 +190,9 @@ export function ManageJobApps() {
             searchFetchError: ''
         })
         axios({
-            // url: `${BASE_URL}/api/v1/companies/177/employees`,
-            // TEMP FIX: GET ALL EMPLOYEES FOR COMPANY ID 177
-            url: `${BASE_URL}/jobs/jobapps`,
+            // url: `${BASE_URL}/jobs/jobApps`,
+            // TEMP FIX: GET ALL EMPLOYEES FOR coverLetter ID 177
+            url: `${BASE_URL}/jobs/${jobID}/jobapps`,
             method: 'get',
             timeout: 10000,
         }).then((resp) => {
@@ -221,7 +222,7 @@ export function ManageJobApps() {
         })
     }
 
-    const fetchJobs = (roleId) => {
+    const fetchJobs = () => {
         setPageState({
             ...jobAppPageState,
             listOfJobs: [],
@@ -230,7 +231,7 @@ export function ManageJobApps() {
         })
 
         axios({
-            url: `${BASE_URL}/roles/${roleId}/jobs`,
+            url: `${BASE_URL}/roles/jobs`,
             method: 'get',
             timeout: 10000,
         }).then((resp) => {
@@ -261,7 +262,7 @@ export function ManageJobApps() {
 
     const removeJobApp = (index) => {
         axios({
-            url: `${BASE_URL}jobs/jobID/jobapps/jobAppID` + jobAppPageState.listOfJobApps[index].id,
+            url: `${BASE_URL}/jobs/` + jobAppPageState.listOfJobApps[index].roleId + '/jobapps/' + jobAppPageState.listOfJobApps[index].jobId,           
             method: 'delete',
             timeout: 10000,
         }).then((resp) => {
@@ -310,8 +311,9 @@ export function ManageJobApps() {
             errors.push("Prospective job role cannot be empty")
         }
         if (!createDialogState.company || createDialogState.company.length === 0) {
-            errors.push("Company title cannot be empty")
+            errors.push(" Company cannot be empty")
         }
+       
 
         if (errors.length > 0) {
             setCreateDialogState({
@@ -322,7 +324,7 @@ export function ManageJobApps() {
         }
         else {
             axios({
-                url: `${BASE_URL}/jobs/jobID/jobapps`,
+                url: `${BASE_URL}/jobs/` + jobAppPageState.selectedJobId + '/jobapps',
                 method: 'post',
                 timeout: 10000,
                 data: {
@@ -331,8 +333,9 @@ export function ManageJobApps() {
                     applicantEmail: createDialogState.applicantEmail,
                     jobTitle: createDialogState.jobTitle,
                     roleTitle: createDialogState.roleTitle,
-                    company: createDialogState.company,
+                    company:createDialogState.company,
                     submittedAt: createDialogState.submittedAt,
+
                 }
             }).then((resp) => {
                 if (resp.status === 200) {
@@ -364,7 +367,7 @@ export function ManageJobApps() {
                         applicantEmail: createDialogState.applicantEmail,
                         jobTitle: createDialogState.jobTitle,
                         roleTitle: createDialogState.roleTitle,
-                        company: createDialogState.company,
+                        company:createDialogState.company,
                         submittedAt: createDialogState.submittedAt,
                     }
                 ],
@@ -417,7 +420,7 @@ export function ManageJobApps() {
                                     title: row.title,
                                     job: row.job,
                                     role: row.role,
-                                    company: row.company,
+                                    coverLetter: row.coverLetter,
                                 })
                             }}>Contact</DropdownItem> */}
                             <DropdownItem onClick={() => {
@@ -464,7 +467,7 @@ export function ManageJobApps() {
 
     const handleEditJobApp = () => {
         let errors = []
-        if (!editDialogState.applicantName || editDialogState.applicantName.length === 0) {
+        if (!editDialogState.applicantName || editDialogState.applicanttName.length === 0) {
             errors.push("Applicant name cannot be empty")
         }
         if (!editDialogState.applicantEmail || editDialogState.applicantEmail.length === 0) {
@@ -477,7 +480,7 @@ export function ManageJobApps() {
             errors.push("Prospective job role cannot be empty")
         }
         if (!editDialogState.company || editDialogState.company.length === 0) {
-            errors.push("Company title cannot be empty")
+            errors.push("Company cannot be empty")
         }
         // if (!editDialogState.timestamp || editDialogState.timestamp.length === 0) {
         //     errors.push("Submission timestamp cannot be empty")
@@ -493,7 +496,7 @@ export function ManageJobApps() {
             axios({
                 // TEMPORARY FIX:
                 // url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobappPageState.listOfJobApps[editDialogState.index].id,
-                url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobAppPageState.listOfJobApps[editDialogState.index].id,
+                url: `${BASE_URL}/jobs/` + jobAppPageState.listOfJobApps[editDialogState.index].jobId + '/jobapps/' + jobAppPageState.listOfJobApps[editDialogState.index].jobappId,
                 method: 'patch',
                 timeout: 10000,
                 data: {
@@ -550,7 +553,7 @@ export function ManageJobApps() {
                 if (i === editDialogState.index) {
                     newJobApps.push({
                         jobAppId: editDialogState.jobAppId,
-                        applicantName: editDialogState.applicantName,
+                         applicantName: editDialogState.applicantName,
                         applicantEmail: editDialogState.applicantEmail,
                         jobTitle: editDialogState.jobTitle,
                         roleTitle: editDialogState.roleTitle,
@@ -740,7 +743,7 @@ export function ManageJobApps() {
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu>
                                                         {
-                                                            jobAppPageState.listOfjobApps.map((job) => {
+                                                            jobAppPageState.listOfJobs.map((job) => {
                                                                 return (
                                                                     <Dropdown.Item key={job.id} onClick={(e) => {
                                                                         setPageState({
