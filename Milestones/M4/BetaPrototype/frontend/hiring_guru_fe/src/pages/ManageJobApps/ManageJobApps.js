@@ -118,6 +118,7 @@ const parseJobApps = (jobApps) => {
     let parsedjobApps = []
     for (let i = 0; i < jobApps.length; i++) {
         parsedjobApps.push({
+            jobId: jobApps[i].id,
             jobAppId: jobApps[i].id,
             applicantName: jobApps[i].applicant_name,
             applicantEmail: jobApps[i].applicant_email,
@@ -181,7 +182,7 @@ export function ManageJobApps() {
 
     const appContext = useContext(ApplicationContext);
 
-    const fetchJobApps = () => {
+    const fetchJobApps = (jobID) => {
         setPageState({
             ...jobAppPageState,
             listOfJobApps: [],
@@ -191,7 +192,7 @@ export function ManageJobApps() {
         axios({
             // url: `${BASE_URL}/jobs/jobApps`,
             // TEMP FIX: GET ALL EMPLOYEES FOR COMPANY ID 177
-            url: `${BASE_URL}/jobs/jobapps`,
+            url: `${BASE_URL}/jobs/${jobID}/jobapp`,
             method: 'get',
             timeout: 10000,
         }).then((resp) => {
@@ -221,7 +222,7 @@ export function ManageJobApps() {
         })
     }
 
-    const fetchJobs = (roleId) => {
+    const fetchJobs = () => {
         setPageState({
             ...jobAppPageState,
             listOfJobs: [],
@@ -230,7 +231,7 @@ export function ManageJobApps() {
         })
 
         axios({
-            url: `${BASE_URL}/roles/${roleId}/jobs`,
+            url: `${BASE_URL}/roles/jobs`,
             method: 'get',
             timeout: 10000,
         }).then((resp) => {
@@ -261,7 +262,7 @@ export function ManageJobApps() {
 
     const removeJobApp = (index) => {
         axios({
-            url: `${BASE_URL}jobs/jobID/jobapps/jobAppID` + jobAppPageState.listOfJobApps[index].id,
+            url: `${BASE_URL}/jobs/` + jobAppPageState.listOfJobApps[index].roleId + '/jobapps/' + jobAppPageState.listOfJobApps[index].jobId,           
             method: 'delete',
             timeout: 10000,
         }).then((resp) => {
@@ -322,7 +323,7 @@ export function ManageJobApps() {
         }
         else {
             axios({
-                url: `${BASE_URL}/jobs/jobID/jobapps`,
+                url: `${BASE_URL}/jobs/` + jobAppPageState.selectedJobId + '/jobapps',
                 method: 'post',
                 timeout: 10000,
                 data: {
@@ -493,7 +494,7 @@ export function ManageJobApps() {
             axios({
                 // TEMPORARY FIX:
                 // url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobappPageState.listOfJobApps[editDialogState.index].id,
-                url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobAppPageState.listOfJobApps[editDialogState.index].id,
+                url: `${BASE_URL}/jobs/` + jobAppPageState.listOfJobApps[editDialogState.index].jobId + '/jobapps/' + jobAppPageState.listOfJobApps[editDialogState.index].jobappId,
                 method: 'patch',
                 timeout: 10000,
                 data: {
@@ -740,7 +741,7 @@ export function ManageJobApps() {
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu>
                                                         {
-                                                            jobAppPageState.listOfjobApps.map((job) => {
+                                                            jobAppPageState.listOfJobs.map((job) => {
                                                                 return (
                                                                     <Dropdown.Item key={job.id} onClick={(e) => {
                                                                         setPageState({

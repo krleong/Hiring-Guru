@@ -10,9 +10,9 @@ const CreateCompany = () => {
             <h1 className="heading1">Create your company today!</h1>
             <div className="CompanyName-container">
                 <Form>
-                    <Form.Group className="CompanyName" controlId="exampleForm.ControlInput1"> </Form.Group>
+                    <Form.Group className="CompanyName" controlId="exampleForm.ControlInput1" > </Form.Group>
                     <Form.Label>Company Name</Form.Label>
-                    <Form.Control type="email" placeholder="Hiring Guru" />
+                    <Form.Control type="email" placeholder="Hiring Guru"  />
                 </Form>
             </div>
             <div className="CompanySite-container">
@@ -92,7 +92,7 @@ const CreateCompany = () => {
                 </Form.Group>
             </div>
             <div className="Submit-container">
-                <Button id="free-trial-btn" variant="primary">Create Company</Button>
+                <Button href="/dashboard/home" variant="primary">Create Company</Button>
             </div>
         </div>
     );
