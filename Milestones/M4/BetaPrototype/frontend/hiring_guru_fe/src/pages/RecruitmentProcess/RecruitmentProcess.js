@@ -12,76 +12,78 @@ import {
     PencilFill,
     Trash3Fill
 } from "react-bootstrap-icons";
-import React, { useContext, /*useEffect,*/ useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { ApplicationContext } from "../../HiringGuru";
 import { Dialog } from "../../components/Dialog/Dialog";
+import axios from "axios";
+import { BASE_URL } from "../../components/configuration";
 
-const jobPositions = [
-    {
-        ui: 'Software Engineer',
-        server: 'SOFTWARE_ENGINEER'
-    },
-    {
-        ui: 'CEO',
-        server: 'CEO'
-    },
-]
+// const jobRoles = [
+//     {
+//         ui: 'Software Engineer',
+//         server: 'SOFTWARE_ENGINEER'
+//     },
+//     {
+//         ui: 'CEO',
+//         server: 'CEO'
+//     },
+// ]
 
 const RecruitmentStepType = {
     Interview: {
         ui: 'Interview',
-        server: 'INTERVIEW'
+        server: 'Interview'
     },
     ProgrammingTest: {
         ui: 'Programming Test',
-        server: 'PROGRAMMING_TEST'
+        server: 'ProgrammingTest'
     },
 }
 
-const RecruitmentPipelineSoftwareEngineer = [
-    {
-        type: RecruitmentStepType.Interview,
-        title: "First Technical Interview",
-        detail: "First interview should be with a Software Engineer. It should cover basic" +
-            " concepts like OOP, DS and Problem Solving."
-    },
-    {
-        type: RecruitmentStepType.Interview,
-        title: "Second Technical Interview",
-        detail: "First interview should be with a Software Engineer. It should cover advanced" +
-            " aspects like Algorithms, Design and Networks."
-    },
-    {
-        type: RecruitmentStepType.ProgrammingTest,
-        title: "HackerRank Test",
-        detail: "First interview should be with a Software Engineer. It should cover all" +
-            " the technical aspects like OOP, DB, DS, Algorithms and Networks."
-    },
-    {
-        type: RecruitmentStepType.Interview,
-        title: "HR Interview",
-        detail: "HR Interview should cover discussion about personality and salary package."
-    },
-]
+// const RecruitmentPipelineSoftwareEngineer = [
+//     {
+//         type: RecruitmentStepType.Interview,
+//         title: "First Technical Interview",
+//         detail: "First interview should be with a Software Engineer. It should cover basic" +
+//             " concepts like OOP, DS and Problem Solving."
+//     },
+//     {
+//         type: RecruitmentStepType.Interview,
+//         title: "Second Technical Interview",
+//         detail: "First interview should be with a Software Engineer. It should cover advanced" +
+//             " aspects like Algorithms, Design and Networks."
+//     },
+//     {
+//         type: RecruitmentStepType.ProgrammingTest,
+//         title: "HackerRank Test",
+//         detail: "First interview should be with a Software Engineer. It should cover all" +
+//             " the technical aspects like OOP, DB, DS, Algorithms and Networks."
+//     },
+//     {
+//         type: RecruitmentStepType.Interview,
+//         title: "HR Interview",
+//         detail: "HR Interview should cover discussion about personality and salary package."
+//     },
+// ]
 
-const RecruitmentPipelineCEO = [
-    {
-        type: RecruitmentStepType.Interview,
-        title: "Interview Evaluation",
-        detail: "Interview with the founder to discuss past experience and assess personality traits."
-    },
-    {
-        type: RecruitmentStepType.Interview,
-        title: "HR Interview",
-        detail: "HR Interview should cover discussion about personality and salary package."
-    },
-]
+// const RecruitmentPipelineCEO = [
+//     {
+//         type: RecruitmentStepType.Interview,
+//         title: "Interview Evaluation",
+//         detail: "Interview with the founder to discuss past experience and assess personality traits."
+//     },
+//     {
+//         type: RecruitmentStepType.Interview,
+//         title: "HR Interview",
+//         detail: "HR Interview should cover discussion about personality and salary package."
+//     },
+// ]
 
-const RecruitmentPipelinePositionMap = {
-    SOFTWARE_ENGINEER: RecruitmentPipelineSoftwareEngineer,
-    CEO: RecruitmentPipelineCEO
-}
+// const RecruitmentPipelinePositionMap = {
+//     SOFTWARE_ENGINEER: RecruitmentPipelineSoftwareEngineer,
+//     CEO: RecruitmentPipelineCEO
+// }
 
 function RecruitmentStepDialog(props) {
     return (
@@ -145,23 +147,67 @@ function RecruitmentStepDialog(props) {
     )
 }
 
+const RecruitmentStepFetchStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+
+const RolesFetchStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+
+const parseRecruitmentSteps = (recruitmentSteps) => {
+    let parsedRecruitmentSteps = []
+    for (let i = 0; i < recruitmentSteps.length; i++) {
+        parsedRecruitmentSteps.push({
+            id: recruitmentSteps[i].id,
+            title: recruitmentSteps[i].title,
+            type: recruitmentSteps[i].type,
+            detail: recruitmentSteps[i].description,
+            index: recruitmentSteps[i].index,
+        })
+    }
+    return parsedRecruitmentSteps
+}
 
 function RecruitmentProcess() {
     const appContext = useContext(ApplicationContext);
+
     const [recruitmentProcessState, setRecruitmentProcessState] = useState({
-        selectedjobPosition: jobPositions.All,
-        recruitmentProcess: undefined
+        recruitmentProcess: [],
+        listOfRoles:[],
+        selectedRoleId: undefined,
+        // recruitmentProcess: undefined,
+        getRecruitmentStepRequestStatus: RecruitmentStepFetchStatus.NotStarted,
+        recruitmentStepFetchError: '',
+        searchString: '',
+        getRolesListRequestStatus: RolesFetchStatus.NotStarted,
+        searchFetchError: '',
     })
-    const [createRecruitmentStepFormState, setCreateRecruitmentStepFormState] = useState({
+
+    useEffect(() => {
+        if (recruitmentProcessState.selectedRoleId) {
+            fetchRecruitmentSteps(recruitmentProcessState.selectedRoleId)
+        } else {
+            fetchRoles()
+        }
+    }, [recruitmentProcessState.selectedRoleId]);
+
+    const [createRecruitmentStepFromState, setCreateRecruitmentStepFromState] = useState({
         showCreationDialog: false,
         showModificationDialog: false,
         title: "",
         description: "",
         type: undefined,
-        errors: [],
+        errors: []
 
     })
-    const [modifyRecruitmentStepFormState, setModifyRecruitmentStepFormState] = useState({
+    const [modifyRecruitmentStepFromState, setModifyRecruitmentStepFromState] = useState({
         showModificationDialog: false,
         title: "",
         description: "",
@@ -169,6 +215,82 @@ function RecruitmentProcess() {
         errors: [],
         index: undefined
     })
+
+    const fetchRecruitmentSteps = () => {
+    
+        setRecruitmentProcessState({
+            ...recruitmentProcessState,
+            recruitmentProcess: [],
+            getRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.InProgress,
+            searchFetchError: ''
+        })
+        axios({
+            url: `${BASE_URL}/api/v1/roles/${recruitmentProcessState.selectedRoleId}/hiring-process/stages`,
+            method: 'get',
+            timeout: 10000,
+        }).then((resp) => {
+            if (resp.status === 200) {
+                setRecruitmentProcessState({
+                    ...recruitmentProcessState,
+                    recruitmentProcess: parseRecruitmentSteps(resp.data),
+                    getRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Success,
+                })
+            }
+            else {
+                setRecruitmentProcessState({
+                    ...recruitmentProcessState,
+                    recruitmentProcess: [],
+                    getRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+                    searchFetchError: 'There was an error fetching the list of recruitment steps. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setRecruitmentProcessState({
+                ...recruitmentProcessState,
+                recruitmentProcess: [],
+                getRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+                searchFetchError: 'There was an error fetching the list of recruitment steps. Please try again later'
+            })
+        })
+    }
+
+    const fetchRoles = () => {
+        setRecruitmentProcessState({
+            ...recruitmentProcessState,
+            listOfRoles: [],
+            getRolesListRequestStatus: RolesFetchStatus.InProgress,
+            rolesFetchError: ''
+        })
+
+        axios({
+            url: `${BASE_URL}/companies/177/roles`,
+            method: 'get',
+            timeout: 10000
+        }).then((resp) => {
+            if (resp.status === 200) {
+                setRecruitmentProcessState({
+                    ...recruitmentProcessState,
+                    listOfRoles: resp.data,
+                    getRolesListRequestStatus: RolesFetchStatus.Success,
+                })
+            }
+            else {
+                setRecruitmentProcessState({
+                    ...recruitmentProcessState,
+                    listOfRoles: [],
+                    getRolesListRequestStatus: RolesFetchStatus.Error,
+                    rolesFetchError: 'There was an error fetching the list of roles. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setRecruitmentProcessState({
+                ...recruitmentProcessState,
+                listOfRoles: [],
+                getRolesListRequestStatus: RolesFetchStatus.Error,
+                rolesFetchError: 'There was an error fetching the list of roles. Please try again later'
+            })
+        })
+    }
 
     const moveStepUp = (index) => {
         console.log("Moving step up")
@@ -195,21 +317,73 @@ function RecruitmentProcess() {
     }
 
     const modifyRecruitmentStep = () => {
+        console.log("Running")
+        axios({
+            // TEMPORARY FIX:
+            url: `${BASE_URL}/api/v1/roles/${recruitmentProcessState.selectedRoleId}/hiring-process/stages/${recruitmentProcessState.recruitmentProcess[modifyRecruitmentStepFromState.index].id}`,
+            method: 'patch',
+            timeout: 10000,
+            data: {
+                id: modifyRecruitmentStepFromState.id,
+                title: modifyRecruitmentStepFromState.title,
+                type: modifyRecruitmentStepFromState.type,
+                detail: modifyRecruitmentStepFromState.detail,
+                index: modifyRecruitmentStepFromState.index,
+            }
+        }).then((resp) => {
+            if (resp.status === 200) {
+                fetchRecruitmentSteps()
+            }
+            else {
+                setRecruitmentProcessState({
+                    ...recruitmentProcessState,
+                    recruitmentProcess: [],
+                    patchRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+                    searchFetchError: 'There was an error updating the list of recruitment steps. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setRecruitmentProcessState({
+                ...recruitmentProcessState,
+                recruitmentProcess: [],
+                patchRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+                searchFetchError: 'There was an error updating the list of recruitment steps. Please try again later'
+            })
+        })
+
+        setModifyRecruitmentStepFromState({
+            ...recruitmentProcessState,
+            recruitmentProcess: [
+                ...recruitmentProcessState.recruitmentProcess,
+                {
+                    id: modifyRecruitmentStepFromState.id,
+                    title: modifyRecruitmentStepFromState.title,
+                    type: modifyRecruitmentStepFromState.type,
+                    detail: modifyRecruitmentStepFromState.detail,
+                    index: modifyRecruitmentStepFromState.index,
+                }
+            ],
+        })
+        setModifyRecruitmentStepFromState({
+            ...modifyRecruitmentStepFromState,
+            show: false,
+        })
+
         let newSteps = []
         for (let i = 0; i < recruitmentProcessState.recruitmentProcess.length; i++) {
-            if (i === modifyRecruitmentStepFormState.index) {
+            if (i === modifyRecruitmentStepFromState.index) {
                 newSteps.push({
-                    type: RecruitmentStepType[modifyRecruitmentStepFormState.type],
-                    title: modifyRecruitmentStepFormState.title,
-                    detail: modifyRecruitmentStepFormState.description
+                    type: RecruitmentStepType[modifyRecruitmentStepFromState.type],
+                    title: modifyRecruitmentStepFromState.title,
+                    detail: modifyRecruitmentStepFromState.detail
                 })
             }
             else {
                 newSteps.push(recruitmentProcessState.recruitmentProcess[i])
             }
         }
-        setModifyRecruitmentStepFormState({
-            ...modifyRecruitmentStepFormState,
+        setModifyRecruitmentStepFromState({
+            ...modifyRecruitmentStepFromState,
             showModificationDialog: false
         })
         setRecruitmentProcessState({
@@ -220,25 +394,55 @@ function RecruitmentProcess() {
 
     const createRecruitmentStep = () => {
         let errors = []
-        if (!createRecruitmentStepFormState.title || createRecruitmentStepFormState.title.length === 0) {
+        if (!createRecruitmentStepFromState.title || createRecruitmentStepFromState.title.length === 0) {
             errors.push("Please provide a title for this stage")
         }
-        if (!createRecruitmentStepFormState.description || createRecruitmentStepFormState.description.length === 0) {
+        if (!createRecruitmentStepFromState.detail || createRecruitmentStepFromState.detail.length === 0) {
             errors.push("Please provide a description for this stage")
         }
-        if (!createRecruitmentStepFormState.type || createRecruitmentStepFormState.type.length === 0) {
+        if (!createRecruitmentStepFromState.type || createRecruitmentStepFromState.type.length === 0) {
             errors.push("Please select the type of this stage")
         }
         if (errors.length > 0) {
-            setCreateRecruitmentStepFormState({
-                ...createRecruitmentStepFormState,
+            setCreateRecruitmentStepFromState({
+                ...createRecruitmentStepFromState,
                 showCreationDialog: true,
                 errors: errors,
             })
         }
         else {
-            setCreateRecruitmentStepFormState({
-                ...createRecruitmentStepFormState,
+            axios({
+                url: `${BASE_URL}/api/v1/roles/${recruitmentProcessState.selectedRoleId}/hiring-process/stages`,
+                method: 'post',
+                timeout: 10000,
+                data: {
+                    title: createRecruitmentStepFromState.title,
+                    detail: createRecruitmentStepFromState.detail,
+                    type: createRecruitmentStepFromState.type,
+                }
+            }).then((resp) => {
+                if (resp.status === 200) {
+                    fetchRecruitmentSteps(recruitmentProcessState.selectedRoleId)
+                }
+                else {
+                    setRecruitmentProcessState({
+                        ...recruitmentProcessState,
+                        recruitmentProcess: [],
+                        postRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+                        searchFetchError: 'There was an error adding to the recruitment process. Please try again later'
+                    })
+                }
+            }).catch((error) => {
+                setRecruitmentProcessState({
+                    ...recruitmentProcessState,
+                    recruitmentProcess: [],
+                    postRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+                    searchFetchError: 'There was an error adding to the recruitment process. Please try again later'
+                })
+            })
+            
+            setCreateRecruitmentStepFromState({
+                ...createRecruitmentStepFromState,
                 showCreationDialog: false
             })
             setRecruitmentProcessState({
@@ -246,9 +450,9 @@ function RecruitmentProcess() {
                 recruitmentProcess: [
                     ...recruitmentProcessState.recruitmentProcess,
                     {
-                        type: RecruitmentStepType[createRecruitmentStepFormState.type],
-                        title: createRecruitmentStepFormState.title,
-                        detail: createRecruitmentStepFormState.description
+                        type: RecruitmentStepType[createRecruitmentStepFromState.type],
+                        title: createRecruitmentStepFromState.title,
+                        detail: createRecruitmentStepFromState.detail
                     }
                 ]
             })
@@ -269,14 +473,14 @@ function RecruitmentProcess() {
     return (
         <div>
             <RecruitmentStepDialog
-                show={createRecruitmentStepFormState.showCreationDialog}
+                show={createRecruitmentStepFromState.showCreationDialog}
                 title={"Add a new stage to the recruitment process"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setCreateRecruitmentStepFormState({
-                                ...createRecruitmentStepFormState,
+                            setCreateRecruitmentStepFromState({
+                                ...createRecruitmentStepFromState,
                                 showCreationDialog: false
                             })
                         },
@@ -288,38 +492,38 @@ function RecruitmentProcess() {
                         variant: "primary"
                     }
                 ]}
-                errors={createRecruitmentStepFormState.errors}
+                errors={createRecruitmentStepFromState.errors}
                 onTitleChange={(e) => {
-                    setCreateRecruitmentStepFormState({
-                        ...createRecruitmentStepFormState,
+                    setCreateRecruitmentStepFromState({
+                        ...createRecruitmentStepFromState,
                         title: e.target.value
                     })
                 }}
                 onDescriptionChange={(e) => {
-                    setCreateRecruitmentStepFormState({
-                        ...createRecruitmentStepFormState,
-                        description: e.target.value
+                    setCreateRecruitmentStepFromState({
+                        ...createRecruitmentStepFromState,
+                        detail: e.target.value
                     })
                 }}
                 onStageTypeChange={(e) => {
-                    setCreateRecruitmentStepFormState({
-                        ...createRecruitmentStepFormState,
+                    setCreateRecruitmentStepFromState({
+                        ...createRecruitmentStepFromState,
                         type: e.target.value
                     })
                 }}
-                selectedStageType={createRecruitmentStepFormState.type}
-                stepTitle={createRecruitmentStepFormState.title}
-                stepDescription={createRecruitmentStepFormState.description}
+                selectedStageType={createRecruitmentStepFromState.type}
+                stepTitle={createRecruitmentStepFromState.title}
+                stepDescription={createRecruitmentStepFromState.detail}
             />
             <RecruitmentStepDialog
-                show={modifyRecruitmentStepFormState.showModificationDialog}
+                show={modifyRecruitmentStepFromState.showModificationDialog}
                 title={"Add a new stage to the recruitment process"}
                 actions={[
                     {
                         title: "Close",
                         handler: () => {
-                            setModifyRecruitmentStepFormState({
-                                ...modifyRecruitmentStepFormState,
+                            setModifyRecruitmentStepFromState({
+                                ...modifyRecruitmentStepFromState,
                                 showModificationDialog: false
                             })
                         },
@@ -331,28 +535,28 @@ function RecruitmentProcess() {
                         variant: "primary"
                     }
                 ]}
-                errors={modifyRecruitmentStepFormState.errors}
+                errors={modifyRecruitmentStepFromState.errors}
                 onTitleChange={(e) => {
-                    setModifyRecruitmentStepFormState({
-                        ...modifyRecruitmentStepFormState,
+                    setModifyRecruitmentStepFromState({
+                        ...modifyRecruitmentStepFromState,
                         title: e.target.value
                     })
                 }}
                 onDescriptionChange={(e) => {
-                    setModifyRecruitmentStepFormState({
-                        ...modifyRecruitmentStepFormState,
-                        description: e.target.value
+                    setModifyRecruitmentStepFromState({
+                        ...modifyRecruitmentStepFromState,
+                        detail: e.target.value
                     })
                 }}
                 onStageTypeChange={(e) => {
-                    setModifyRecruitmentStepFormState({
-                        ...modifyRecruitmentStepFormState,
+                    setModifyRecruitmentStepFromState({
+                        ...modifyRecruitmentStepFromState,
                         type: e.target.value
                     })
                 }}
-                selectedStageType={modifyRecruitmentStepFormState.type}
-                stepTitle={modifyRecruitmentStepFormState.title}
-                stepDescription={modifyRecruitmentStepFormState.description}
+                selectedStageType={modifyRecruitmentStepFromState.type}
+                stepTitle={modifyRecruitmentStepFromState.title}
+                stepDescription={modifyRecruitmentStepFromState.detail}
             />
             <div className={"page-container"}>
                 <Breadcrumb>
@@ -360,28 +564,27 @@ function RecruitmentProcess() {
                     <Breadcrumb.Item active>Recruitment: Hiring Pipeline</Breadcrumb.Item>
                 </Breadcrumb>
                 <h1>Design Hiring Pipeline</h1>
-                <div className="position-selection-control">
-                    <div className={"position-selection-header"}>
-                        <h5>Select a position to configure its Recruitment Process:</h5>
+                <div className="role-selection-control">
+                    <div className={"role-selection-header"}>
+                        <h5>Select a role to configure its Recruitment Process:</h5>
                     </div>
-                    <div className={"position-selection-dropdown"}>
+                    <div className={"role-selection-dropdown"}>
                         <div className="input-group input-group-sm">
                             <Dropdown className={"input-group-text"}>
                                 <Dropdown.Toggle id="dropdown-basic">
-                                    <Filter /> Select Job Position
+                                    <Filter /> Select Job Role
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     {
-                                        jobPositions.map((jobPosition) => {
+                                        recruitmentProcessState.listOfRoles.map((role) => {
                                             return (
-                                                <Dropdown.Item key={jobPosition.ui} onClick={(e) => {
+                                                <Dropdown.Item key={role.id} onClick={(e) => {
                                                     setRecruitmentProcessState({
                                                         ...recruitmentProcessState,
-                                                        recruitmentProcess: RecruitmentPipelinePositionMap[jobPosition.server],
-                                                        selectedjobPosition: jobPosition
+                                                        selectedRoleId: role.id
                                                     })
-                                                }} active={recruitmentProcessState.selectedjobPosition === jobPosition}>
-                                                    {jobPosition.ui}
+                                                }} active={recruitmentProcessState.selectedRoleId === role.id}>
+                                                    {role.title}
                                                 </Dropdown.Item>
                                             )
                                         })
@@ -398,8 +601,8 @@ function RecruitmentProcess() {
                             <Button
                                 variant="primary"
                                 onClick={() => {
-                                    setCreateRecruitmentStepFormState({
-                                        ...createRecruitmentStepFormState,
+                                    setCreateRecruitmentStepFromState({
+                                        ...createRecruitmentStepFromState,
                                         showCreationDialog: true
                                     })
                                 }}
@@ -419,7 +622,7 @@ function RecruitmentProcess() {
                                             <div className={"step-detail-container col-9"}>
                                                 <div className={"step-detail"}>
                                                     <div className={'step-title h5'}>{step.title}</div>
-                                                    <div className={'step-type'}>{step.type.ui}</div>
+                                                    <div className={'step-type'}>{step.type.toString()}</div>
                                                     <div className={'step-description'}>{step.detail}</div>
                                                 </div>
                                             </div>
@@ -440,10 +643,10 @@ function RecruitmentProcess() {
                                                                             stepType = k
                                                                         }
                                                                     })
-                                                                    setModifyRecruitmentStepFormState({
-                                                                        ...modifyRecruitmentStepFormState,
+                                                                    setModifyRecruitmentStepFromState({
+                                                                        ...modifyRecruitmentStepFromState,
                                                                         title: step.title,
-                                                                        description: step.detail,
+                                                                        detail: step.detail,
                                                                         type: stepType,
                                                                         showModificationDialog: true,
                                                                         index: index

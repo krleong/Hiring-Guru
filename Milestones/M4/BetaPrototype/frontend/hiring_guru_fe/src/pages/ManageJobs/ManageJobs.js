@@ -62,63 +62,59 @@ function JobEditDialog(props) {
                         onChange={props.onTypeChange}
                     />
                 </div> */}
-                
-                <div className="mb-3">
+
+                {/* <div className="mb-3">
                     <label htmlFor="recruitmentStageNameInput" className="form-label">
                         Employment Type
-                    </label>
+                    </label> */}
 
 
-                    {/* TODO: Implement dropdown menu for employment type*/}
-                    {/* <div className={"position-selection-dropdown"}>
-                        <div className="input-group input-group-sm">
-                            <Dropdown className={"input-group-text"}>
-                                <Dropdown.Menu>
-                                    {
-                                        Object.keys(JobType).map((jobType) => {
-                                            const jobTypeValue = JobType[jobType]
-                                            return (
-                                                <Dropdown.Item key={jobTypeValue.ui} onClick={(e) => {
-                                                    setPageState({
-                                                        ...jobPageState,
-                                                        selectedJobType: jobTypeValue
-                                                    })
-                                                }} active={jobPageState.selectedJobType === jobTypeValue ? true : false}>
-                                                    {jobTypeValue.ui}
-                                                </Dropdown.Item>
-                                            )
-                                        })
-                                    }
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </div>
-                    </div> */}
-
-
-
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                            value={props.onTypeChange}>                            Select
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" value={"FULL_TIME"} onClick={props.onTypeChange}>Full-Time</a></li>
-                            <li><a class="dropdown-item" value={"PART_TIME"} onClick={props.onTypeChange}>Part-Time</a></li>
-                        </ul>
+                {/* TODO: Implement dropdown menu for employment type*/}
+                {/* <div className={"position-selection-dropdown"}>
+                    <div className="input-group input-group-sm">
+                        <Dropdown className={"input-group-text"}>
+                            <Dropdown.Menu>
+                                {
+                                    Object.keys(JobType).map((jobType) => {
+                                        const jobTypeValue = JobType[jobType]
+                                        return (
+                                            <Dropdown.Item key={jobTypeValue.ui} onClick={(e) => {
+                                                setPageState({
+                                                    ...jobPageState,
+                                                    selectedJobType: jobTypeValue
+                                                })
+                                            }} active={jobPageState.selectedJobType === jobTypeValue ? true : false}>
+                                                {jobTypeValue.ui}
+                                            </Dropdown.Item>
+                                        )
+                                    })
+                                }
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Description
-                    </label>
-                    <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                        rows="5" placeholder="Enter description"
-                        value={props.description}
-                        onChange={props.onDescriptionChange}
-                    >
-                    </textarea>
+                </div> */}
+                <div className="dropdown">
+                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                        value={props.onTypeChange}>                            Select
+                    </button>
+                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a className="dropdown-item" value={"FULL_TIME"} onClick={props.onTypeChange}>Full-Time</a></li>
+                        <li><a className="dropdown-item" value={"PART_TIME"} onClick={props.onTypeChange}>Part-Time</a></li>
+                    </ul>
                 </div>
             </div>
-        </Dialog>
+            <div className="mb-3">
+                <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                    Description
+                </label>
+                <textarea className="form-control" id="recruitmentStageDescriptionInput"
+                    rows="5" placeholder="Enter description"
+                    value={props.description}
+                    onChange={props.onDescriptionChange}
+                >
+                </textarea>
+            </div>
+        </Dialog >
     )
 }
 
