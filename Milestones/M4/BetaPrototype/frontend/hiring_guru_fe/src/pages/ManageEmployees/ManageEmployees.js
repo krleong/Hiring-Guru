@@ -416,7 +416,7 @@ export function ManageEmployees() {
             axios({
                 // TEMPORARY FIX:
                 // url: `${BASE_URL}/api/v1/companies/177/employees/` + employeePageState.listOfEmployees[editDialogState.index].id,
-                url: `${BASE_URL}/api/v1/companies/` + 177 + `/employees/` + employeePageState.listOfEmployees[editDialogState.index].id,
+                url: `${BASE_URL}/api/v1/companies/${177}/employees/${employeePageState.listOfEmployees[editDialogState.index].id}`,
                 method: 'patch',
                 timeout: 10000,
                 data: {
