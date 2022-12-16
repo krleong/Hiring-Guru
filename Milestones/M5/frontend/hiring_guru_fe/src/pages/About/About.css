@@ -1,0 +1,16 @@
+.about-us-container
+{
+    padding: 5em;
+    width: 60%;
+    margin: auto;
+}
+
+/* FOR MOBILE SCREENS */
+@media only screen and (max-width: 62em) {
+
+    .about-us-container
+    {
+        width: 100%;
+    }
+
+}

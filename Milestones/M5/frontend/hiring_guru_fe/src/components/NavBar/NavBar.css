@@ -1,0 +1,46 @@
+#login-btn {
+    font-size: 1em;
+}
+
+#signup-btn {
+    margin-left: 1em;
+    font-size: 1em;
+}
+
+.navbar-brand {
+    font-size: 1.75em;
+    font-weight: 600;
+}
+
+.nav-link {
+    font-size: 1em;
+    margin-left: 1em;
+}
+
+.button {
+    font-size: 5em;
+}
+
+.nav-item.dropdown {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+span PersonIcon {
+    font-size: 5em;
+}
+
+/* FOR LARGE (NON-MOBILE) SCREENS */
+@media only screen and (max-width: 62em) {
+    #login-btn {
+        width: 100%;
+        margin: auto;
+        margin-top: 0.5em;
+    }
+
+    #signup-btn {
+        width: 100%;
+        margin: auto;
+        margin-top: 0.5em;
+    }
+}

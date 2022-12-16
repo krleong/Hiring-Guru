@@ -1,0 +1,25 @@
+div.employees-container {
+    margin: auto;
+}
+
+div.container-all-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.container-vcenter-hright {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+div.container-vcenter-hright h1 {
+    float: left;
+    position: absolute;
+}
+
+.search-label {
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
