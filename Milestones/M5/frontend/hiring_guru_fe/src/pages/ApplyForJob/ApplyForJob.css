@@ -1,0 +1,10 @@
+.job-apply-container {
+    width: 50%;
+    margin:  5em auto 5em auto;
+}
+.col-md-4 {
+    width: 50%;
+}
+.submit-form-button {
+    float: right;
+}

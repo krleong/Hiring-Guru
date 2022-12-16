@@ -1,0 +1,14 @@
+.card {
+    margin: auto;
+    background-color: #f8f9fa;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+/* FOR MOBILE SCREENS */
+@media only screen and (max-width: 62em) {
+
+    .card {
+        margin-bottom: 2em;
+    }
+
+}

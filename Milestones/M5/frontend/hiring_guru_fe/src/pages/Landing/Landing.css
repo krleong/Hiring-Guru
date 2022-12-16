@@ -1,0 +1,17 @@
+.landing-page {
+    width: 80%;
+    margin: auto;
+}
+
+#review-header {
+    margin-top: 2em;
+    margin-bottom: -0.5em;
+}
+
+/* SMALL (MOBILE) SCREENS */
+@media only screen and (max-width: 65rem) {
+
+    .landing-page {
+        width: 90%;
+    }
+}
