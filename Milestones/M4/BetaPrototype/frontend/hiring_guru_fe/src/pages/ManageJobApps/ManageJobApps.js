@@ -1,7 +1,7 @@
 import './ManageJobApps.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Filter } from "react-bootstrap-icons";
@@ -9,37 +9,8 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { ApplicationContext } from "../../HiringGuru";
 import Button from "react-bootstrap/Button";
-
-const JobApps = [
-    {
-        title: "Farhan Haider",
-        job: "Software Engineer",
-        role: "Team Lead",
-        company: "Binary Brains",
-        timestamp: "11/10/2022 at 9:00 AM"
-    },
-    {
-        title: "Kenny Leong",
-        job: "Software Engineer",
-        role: "Frontend Engineer",
-        company: "Binary Brains",
-        timestamp: "11/10/2022 at 9:00 AM"
-    },
-    {
-        title: "Mamadou Bah",
-        job: "Software Engineer",
-        role: "Frontend Engineer",
-        company: "Binary Brains",
-        timestamp: "11/10/2022 at 9:00 AM"
-    },
-    {
-        title: "Khushi Khanna",
-        job: "Software Engineer",
-        role: "Backend Engineer",
-        company: "Binary Brains",
-        timestamp: "11/10/2022 at 9:00 AM"
-    }
-]
+import axios from "axios";
+import { BASE_URL } from "../../components/configuration";
 
 function JobAppsEditDialog(props) {
     return (
@@ -62,21 +33,32 @@ function JobAppsEditDialog(props) {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageNameInput" className="form-label">
-                        Candidate Name
+                        Applicant Name
                     </label>
                     <input className="form-control" id="recruitmentStageNameInput"
                         placeholder="First name Last name"
                         value={props.name}
-                        onChange={props.onNameChange}
+                        onChange={props.onApplicantNameChange}
                     />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Prospective Job Title
+                        Applicant Email
+                    </label>
+                    <input className="form-control" id="recruitmentStageDescriptionInput"
+                        placeholder="email@HiringGuru.com"
+                        value={props.email}
+                        onChange={props.onApplicantEmailChange}
+                    >
+                    </input>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
+                        Prospective Job
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
                         placeholder="Enter job title"
-                        value={props.job}
+                        value={props.resume}
                         onChange={props.onJobChange}
                     >
                     </input>
@@ -86,8 +68,8 @@ function JobAppsEditDialog(props) {
                         Prospective Role
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="Enter role"
-                        value={props.role}
+                        placeholder="Enter role title"
+                        value={props.profileLink}
                         onChange={props.onRoleChange}
                     >
                     </input>
@@ -98,12 +80,12 @@ function JobAppsEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
                         placeholder="Enter company name"
-                        value={props.company}
+                        value={props.coverLetter}
                         onChange={props.onCompanyChange}
                     >
                     </input>
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
                         Date and Time Submitted
                     </label>
@@ -113,66 +95,226 @@ function JobAppsEditDialog(props) {
                         onChange={props.onTimestampChange}
                     >
                     </input>
-                </div>
+                </div> */}
             </div>
         </Dialog>
     )
 }
+const JobAppPageStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+
+const JobsFetchStatus = {
+    NotStarted: "NotStarted",
+    InProgress: "InProgress",
+    Error: "Error",
+    Success: "Success",
+}
+
+const parseJobApps = (jobApps) => {
+    let parsedjobApps = []
+    for (let i = 0; i < jobApps.length; i++) {
+        parsedjobApps.push({
+            jobId: jobApps[i].id,
+            jobAppId: jobApps[i].id,
+            applicantName: jobApps[i].applicant_name,
+            applicantEmail: jobApps[i].applicant_email,
+            jobTitle: jobApps[i].job.title,
+            roleTitle: jobApps[i].job.role.title,
+            company: jobApps[i].job.company,
+            submittedAt: jobApps[i].submitted_at,
+        })
+    }
+    return parsedjobApps
+}
 
 
 export function ManageJobApps() {
+    const [jobAppPageState, setPageState] = useState({
+        listOfJobApps: [],
+        listOfJobs: [],
+        selectedJobId: undefined,
+        getJobsListRequestStatus: JobsFetchStatus.NotStarted,
+        jobsFetchError: '',
+        searchString: '',
+        getJobAppListRequestStatus: JobAppPageStatus.NotStarted,
+        searchFetchError: '',
+    })
+
     const { SearchBar } = Search;
-    const [roles, setJobApps] = useState(JobApps)
+
+    useEffect(() => {
+        if (jobAppPageState.selectedJobId) {
+            fetchJobApps(jobAppPageState.selectedJobId)
+        } else {
+            fetchJobs()
+        }
+    }, [jobAppPageState.selectedJobId]);
+
     const [editDialogState, setEditDialogState] = useState({
         show: false,
-        title: "",
-        job: "",
-        role: "",
+        jobAppId: "",
+        applicantName: "",
+        applicantEmail: "",
+        jobTitle: "",
+        roleTitle: "",
         company: "",
-        timestamp: "",
+        submittedAt: "",
         errors: [],
         index: undefined
     })
 
     const [createDialogState, setCreateDialogState] = useState({
         show: false,
-        title: "",
-        job: "",
-        role: "",
+        jobAppId: "",
+        applicantName: "",
+        applicantEmail: "",
+        jobTitle: "",
+        roleTitle: "",
         company: "",
-        timestamp: "",
+        submittedAt: "",
         errors: [],
         index: undefined
     })
 
     const appContext = useContext(ApplicationContext);
 
+    const fetchJobApps = (jobID) => {
+        setPageState({
+            ...jobAppPageState,
+            listOfJobApps: [],
+            getJobAppListRequestStatus: JobAppPageStatus.InProgress,
+            searchFetchError: ''
+        })
+        axios({
+            // url: `${BASE_URL}/jobs/jobApps`,
+            // TEMP FIX: GET ALL EMPLOYEES FOR coverLetter ID 177
+            url: `${BASE_URL}/jobs/${jobID}/jobapps`,
+            method: 'get',
+            timeout: 10000,
+        }).then((resp) => {
+            console.log(resp.data);
+            if (resp.status === 200) {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobApps: parseJobApps(resp.data),
+                    getJobAppListRequestStatus: JobAppPageStatus.Success,
+                })
+            }
+            else {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobApp: [],
+                    getJobAppListRequestStatus: JobAppPageStatus.Error,
+                    searchFetchError: 'There was an error fetching the list of job applications. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...jobAppPageState,
+                listOfJobApps: [],
+                getJobAppListRequestStatus: JobAppPageStatus.Error,
+                searchFetchError: 'There was an error fetching the list of job applications. Please try again later'
+            })
+        })
+    }
+
+    const fetchJobs = () => {
+        setPageState({
+            ...jobAppPageState,
+            listOfJobs: [],
+            getJobsListRequestStatus: JobsFetchStatus.InProgress,
+            jobsFetchError: ''
+        })
+
+        axios({
+            url: `${BASE_URL}/roles/jobs`,
+            method: 'get',
+            timeout: 10000,
+        }).then((resp) => {
+            if (resp.status === 200) {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobs: resp.data,
+                    getJobsListRequestStatus: JobsFetchStatus.Success,
+                })
+            }
+            else {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobs: [],
+                    getJobsListRequestStatus: JobsFetchStatus.Error,
+                    jobsFetchError: 'There was an error fetching the list of jobs. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...jobAppPageState,
+                listOfJobs: [],
+                getJobsListRequestStatus: JobsFetchStatus.Error,
+                jobsFetchError: 'There was an error fetching the list of jobs. Please try again later'
+            })
+        })
+    }
+
     const removeJobApp = (index) => {
+        axios({
+            url: `${BASE_URL}/jobs/` + jobAppPageState.listOfJobApps[index].roleId + '/jobapps/' + jobAppPageState.listOfJobApps[index].jobId,           
+            method: 'delete',
+            timeout: 10000,
+        }).then((resp) => {
+            if (resp.status === 200) {
+                fetchJobApps()
+            }
+            else {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobApps: [],
+                    deleteJobAppListRequestStatus: JobAppPageStatus.Error,
+                    searchFetchError: 'There was an error deleting the job application. Please try again later'
+                })
+            }
+        }).catch((error) => {
+            setPageState({
+                ...jobAppPageState,
+                listOfJobApp: [],
+                deleteJobAppListRequestStatus: JobAppPageStatus.Error,
+                searchFetchError: 'There was an error deleting the job applications. Please try again later'
+            })
+        })
         let newJobApps = []
-        for (let i = 0; i < roles.length; i++) {
-            i !== index && newJobApps.push(roles[i])
+        for (let i = 0; i < jobAppPageState.listOfJobApps.length; i++) {
+            i !== index && newJobApps.push(jobAppPageState.listOfJobApps[i])
         }
         appContext.closeDialog()
-        setJobApps(newJobApps)
+        setPageState({
+            ...jobAppPageState,
+            listOfJobApps: newJobApps
+        })
     }
 
     const createJobApp = () => {
         let errors = []
-        if (!createDialogState.title || createDialogState.title.length === 0) {
-            errors.push("Candidate name cannot be empty")
+        if (!createDialogState.applicantName || createDialogState.applicantName.length === 0) {
+            errors.push("Applicant name cannot be empty")
         }
-        if (!createDialogState.job || createDialogState.job.length === 0) {
+        if (!createDialogState.applicantEmail || createDialogState.applicantEmail.length === 0) {
+            errors.push("Applicant email cannot be empty")
+        }
+        if (!createDialogState.jobTitle || createDialogState.jobTitle.length === 0) {
             errors.push("Prospective job title cannot be empty")
         }
-        if (!createDialogState.role || createDialogState.role.length === 0) {
+        if (!createDialogState.roleTitle || createDialogState.roleTitle.length === 0) {
             errors.push("Prospective job role cannot be empty")
         }
         if (!createDialogState.company || createDialogState.company.length === 0) {
-            errors.push("Prospective company cannot be empty")
+            errors.push(" Company cannot be empty")
         }
-        if (!createDialogState.timestamp || createDialogState.timestamp.length === 0) {
-            errors.push("Submission timestamp cannot be empty")
-        }
+       
+
         if (errors.length > 0) {
             setCreateDialogState({
                 ...createDialogState,
@@ -181,16 +323,55 @@ export function ManageJobApps() {
             })
         }
         else {
-            setJobApps([
-                ...roles,
-                {
-                    title: createDialogState.title,
-                    company: createDialogState.company,
-                    job: createDialogState.job,
-                    role: createDialogState.role,
-                    timestamp: createDialogState.timestamp,
+            axios({
+                url: `${BASE_URL}/jobs/` + jobAppPageState.selectedJobId + '/jobapps',
+                method: 'post',
+                timeout: 10000,
+                data: {
+                    jobAppId: createDialogState.jobAppId,
+                    applicantName: createDialogState.applicantName,
+                    applicantEmail: createDialogState.applicantEmail,
+                    jobTitle: createDialogState.jobTitle,
+                    roleTitle: createDialogState.roleTitle,
+                    company:createDialogState.company,
+                    submittedAt: createDialogState.submittedAt,
+
                 }
-            ])
+            }).then((resp) => {
+                if (resp.status === 200) {
+                    fetchJobApps()
+                }
+                else {
+                    setPageState({
+                        ...jobAppPageState,
+                        listOfJobApps: [],
+                        postJobAppListRequestStatus: JobAppPageStatus.Error,
+                        searchFetchError: 'There was an error adding to the list of job applications. Please try again later'
+                    })
+                }
+            }).catch((error) => {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobApps: [],
+                    postJobAppsListRequestStatus: JobAppPageStatus.Error,
+                    searchFetchError: 'There was an error adding to the list of job applications. Please try again later'
+                })
+            })
+            setPageState({
+                ...jobAppPageState,
+                listOfjobApps: [
+                    ...jobAppPageState.listOfJobApps,
+                    {
+                        jobAppId: createDialogState.jobAppId,
+                        applicantName: createDialogState.applicantName,
+                        applicantEmail: createDialogState.applicantEmail,
+                        jobTitle: createDialogState.jobTitle,
+                        roleTitle: createDialogState.roleTitle,
+                        company:createDialogState.company,
+                        submittedAt: createDialogState.submittedAt,
+                    }
+                ],
+            })
             setCreateDialogState({
                 ...createDialogState,
                 show: false,
@@ -200,15 +381,19 @@ export function ManageJobApps() {
 
     const columns = [
         {
-            dataField: 'title',
+            dataField: 'applicantName',
             text: 'Name'
         },
         {
-            dataField: 'job',
+            dataField: 'applicantEmail',
+            text: 'Email'
+        },
+        {
+            dataField: 'jobTitle',
             text: 'Job Title'
         },
         {
-            dataField: 'role',
+            dataField: 'roleTitle',
             text: 'Role'
         },
         {
@@ -216,7 +401,7 @@ export function ManageJobApps() {
             text: 'Company'
         },
         {
-            dataField: 'timestamp',
+            dataField: 'submittedAt',
             text: 'Timestamp'
         },
         {
@@ -235,7 +420,7 @@ export function ManageJobApps() {
                                     title: row.title,
                                     job: row.job,
                                     role: row.role,
-                                    company: row.company,
+                                    coverLetter: row.coverLetter,
                                 })
                             }}>Contact</DropdownItem> */}
                             <DropdownItem onClick={() => {
@@ -243,11 +428,12 @@ export function ManageJobApps() {
                                     ...editDialogState,
                                     show: true,
                                     index: index,
-                                    title: row.title,
-                                    job: row.job,
-                                    role: row.role,
+                                    applicantName: row.applicantName,
+                                    applicantEmail: row.applicantEmail,
+                                    jobTitle: row.jobTitle,
+                                    roleTitle: row.roleTitle,
                                     company: row.company,
-                                    timestamp: row.timestamp,
+                                    submittedAt: row.submittedAt
                                 })
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
@@ -281,21 +467,24 @@ export function ManageJobApps() {
 
     const handleEditJobApp = () => {
         let errors = []
-        if (!editDialogState.title || editDialogState.title.length === 0) {
-            errors.push("Candidate name cannot be empty")
+        if (!editDialogState.applicantName || editDialogState.applicanttName.length === 0) {
+            errors.push("Applicant name cannot be empty")
         }
-        if (!editDialogState.job || editDialogState.job.length === 0) {
-            errors.push("Prospective job title cannot be empty")
+        if (!editDialogState.applicantEmail || editDialogState.applicantEmail.length === 0) {
+            errors.push("Applicant email cannot be empty")
         }
-        if (!editDialogState.role || editDialogState.role.length === 0) {
+        if (!editDialogState.jobTitle || editDialogState.jobTitle.length === 0) {
+            errors.push("Prospective job cannot be empty")
+        }
+        if (!editDialogState.roleTitle || editDialogState.roleTitle.length === 0) {
             errors.push("Prospective job role cannot be empty")
         }
         if (!editDialogState.company || editDialogState.company.length === 0) {
-            errors.push("Prospective company cannot be empty")
+            errors.push("Company cannot be empty")
         }
-        if (!editDialogState.timestamp || editDialogState.timestamp.length === 0) {
-            errors.push("Submission timestamp cannot be empty")
-        }
+        // if (!editDialogState.timestamp || editDialogState.timestamp.length === 0) {
+        //     errors.push("Submission timestamp cannot be empty")
+        // }
         if (errors.length > 0) {
             setEditDialogState({
                 ...editDialogState,
@@ -304,27 +493,88 @@ export function ManageJobApps() {
             })
         }
         else {
+            axios({
+                // TEMPORARY FIX:
+                // url: `${BASE_URL}/jobs/jobID/jobapps/jobappID` + 177 + `/jobapps/` + jobappPageState.listOfJobApps[editDialogState.index].id,
+                url: `${BASE_URL}/jobs/` + jobAppPageState.listOfJobApps[editDialogState.index].jobId + '/jobapps/' + jobAppPageState.listOfJobApps[editDialogState.index].jobappId,
+                method: 'patch',
+                timeout: 10000,
+                data: {
+                    jobAppId: editDialogState.jobAppId,
+                    applicantName: editDialogState.applicantName,
+                    applicantEmail: editDialogState.applicantEmail,
+                    jobTitle: editDialogState.jobTitle,
+                    roleTitle: editDialogState.roleTitle,
+                    company: editDialogState.company,
+                    submittedAt: editDialogState.submittedAt,
+                }
+            }).then((resp) => {
+                if (resp.status === 200) {
+                    fetchJobApps()
+                }
+                else {
+                    setPageState({
+                        ...jobAppPageState,
+                        listOfjobapps: [],
+                        patchJobAppListRequestStatus: JobAppPageStatus.Error,
+                        searchFetchError: 'There was an error updating the list of job applications. Please try again later'
+                    })
+                }
+            }).catch((error) => {
+                setPageState({
+                    ...jobAppPageState,
+                    listOfJobApps: [],
+                    patchJobAppsListRequestStatus: JobAppPageStatus.Error,
+                    searchFetchError: 'There was an error updating the list of job applications. Please try again later'
+                })
+            })
+
+            setPageState({
+                ...jobAppPageState,
+                listOfJobApps: [
+                    ...jobAppPageState.listOfJobApps,
+                    {
+                        jobAppId: editDialogState.jobAppId,
+                        applicantName: editDialogState.applicantName,
+                        applicantEmail: editDialogState.applicantEmail,
+                        jobTitle: editDialogState.jobTitle,
+                        roleTitle: editDialogState.roleTitle,
+                        company: editDialogState.company,
+                        submittedAt: editDialogState.submittedAt,
+                    }
+                ],
+            })
+            setEditDialogState({
+                ...editDialogState,
+                show: false,
+            })
             let newJobApps = []
-            for (let i = 0; i < roles.length; i++) {
+            for (let i = 0; i < jobAppPageState.listOfJobApps.length; i++) {
                 if (i === editDialogState.index) {
                     newJobApps.push({
-                        title: editDialogState.title,
-                        job: editDialogState.job,
-                        role: editDialogState.role,
+                        jobAppId: editDialogState.jobAppId,
+                         applicantName: editDialogState.applicantName,
+                        applicantEmail: editDialogState.applicantEmail,
+                        jobTitle: editDialogState.jobTitle,
+                        roleTitle: editDialogState.roleTitle,
                         company: editDialogState.company,
-                        timestamp: editDialogState.timestamp
+                        submittedAt: editDialogState.submittedAt,
                     })
                 }
                 else {
-                    newJobApps.push(roles[i])
+                    newJobApps.push(jobAppPageState.listOfJobApps[i])
                 }
             }
-            setJobApps(newJobApps)
+            setPageState({
+                ...jobAppPageState,
+                listOfJobApps: newJobApps
+            })
             setEditDialogState({
                 ...editDialogState,
                 show: false,
             })
         }
+
     }
 
     return (
@@ -350,22 +600,28 @@ export function ManageJobApps() {
                     }
                 ]}
                 errors={editDialogState.errors}
-                onNameChange={(e) => {
+                onApplicantNameChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        title: e.target.value
+                        applicantName: e.target.value
+                    })
+                }}
+                onApplicantEmailChange={(e) => {
+                    setEditDialogState({
+                        ...editDialogState,
+                        applicantEmail: e.target.value
                     })
                 }}
                 onJobChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        job: e.target.value
+                        jobTitle: e.target.value
                     })
                 }}
                 onRoleChange={(e) => {
                     setEditDialogState({
                         ...editDialogState,
-                        role: e.target.value
+                        roleTitle: e.target.value
                     })
                 }}
                 onCompanyChange={(e) => {
@@ -374,17 +630,16 @@ export function ManageJobApps() {
                         company: e.target.value
                     })
                 }}
-                onTimestampChange={(e) => {
-                    setEditDialogState({
-                        ...editDialogState,
-                        timestamp: e.target.value
-                    })
-                }}
-                name={editDialogState.title}
-                job={editDialogState.job}
-                role={editDialogState.role}
+
+
+                jobAppId={editDialogState.jobAppId}
+                applicantName={editDialogState.applicantName}
+                applicantEmail={editDialogState.applicantEmail}
+                jobTitle={editDialogState.jobTitle}
+                roleTitle={editDialogState.roleTitle}
                 company={editDialogState.company}
-                timestamp={editDialogState.timestamp}
+                submittedAt={editDialogState.submittedAt}
+            // timestamp={editDialogState.timestamp}
             />
             <JobAppsEditDialog
                 show={createDialogState.show}
@@ -407,22 +662,28 @@ export function ManageJobApps() {
                     }
                 ]}
                 errors={createDialogState.errors}
-                onNameChange={(e) => {
+                onApplicantNameChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        title: e.target.value
+                        applicantName: e.target.value
+                    })
+                }}
+                onApplicantEmailChange={(e) => {
+                    setCreateDialogState({
+                        ...createDialogState,
+                        applicantEmail: e.target.value
                     })
                 }}
                 onJobChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        job: e.target.value
+                        jobTitle: e.target.value
                     })
                 }}
                 onRoleChange={(e) => {
                     setCreateDialogState({
                         ...createDialogState,
-                        role: e.target.value
+                        roleTitle: e.target.value
                     })
                 }}
                 onCompanyChange={(e) => {
@@ -431,21 +692,18 @@ export function ManageJobApps() {
                         company: e.target.value
                     })
                 }}
-                onTimestampChange={(e) => {
-                    setCreateDialogState({
-                        ...createDialogState,
-                        timestamp: e.target.value
-                    })
-                }}
-                name={createDialogState.title}
-                role={createDialogState.role}
+                jobAppId={createDialogState.jobAppId}
+                applicantName={createDialogState.applicantName}
+                applicantEmail={createDialogState.applicantEmail}
+                jobTitle={createDialogState.jobTitle}
+                roleTitle={createDialogState.roleTitle}
                 company={createDialogState.company}
-                timestamp={createDialogState.timestamp}
+                submittedAt={createDialogState.submittedAt}
             />
             <div>
                 <ToolkitProvider
                     keyField="id"
-                    data={roles}
+                    data={jobAppPageState.listOfJobApps}
                     columns={columns}
                     search
                 >
@@ -457,26 +715,77 @@ export function ManageJobApps() {
                                     <Breadcrumb.Item active>Recruitment: Job Apps</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Manage Job Apps</h1>
+                                {
+                                    (jobAppPageState.getJobsListRequestStatus === JobsFetchStatus.InProgress) &&
+                                    <div className={'row justify-content-center'}>
+                                        <div className="spinner-border text-primary align-self-" role="status">
+                                            <span className="sr-only"></span>
+                                        </div>
+                                    </div>
+                                }
+                                {
+                                    jobAppPageState.jobsFetchError &&
+                                    <div className={'search-result-error'}>
+                                        {jobAppPageState.jobsFetchError}
+                                    </div>
+                                }
+                                {
+                                    (jobAppPageState.getJobsListRequestStatus === JobsFetchStatus.Success) &&
+                                    <div className="position-selection-control">
+                                        <div className={"position-selection-header"}>
+                                            <h5>Select a job to see the applications submitted for it:</h5>
+                                        </div>
+                                        <div className={"position-selection-dropdown"}>
+                                            <div className="input-group input-group-sm">
+                                                <Dropdown className={"input-group-text"}>
+                                                    <Dropdown.Toggle id="dropdown-basic">
+                                                        <Filter /> Select Job
+                                                    </Dropdown.Toggle>
+                                                    <Dropdown.Menu>
+                                                        {
+                                                            jobAppPageState.listOfJobs.map((job) => {
+                                                                return (
+                                                                    <Dropdown.Item key={job.id} onClick={(e) => {
+                                                                        setPageState({
+                                                                            ...jobAppPageState,
+                                                                            selectedJobId: job.id
+                                                                        })
+                                                                    }} active={jobAppPageState.selectedJobId === job.id}>
+                                                                        {job.title}
+                                                                    </Dropdown.Item>
+                                                                )
+                                                            })
+                                                        }
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                {
+                                    jobAppPageState.selectedJobId &&
+                                    <div>
+                                        <div className={"container-vcenter-hright"}>
 
-                                <div className={"container-vcenter-hright"}>
+                                            <SearchBar {...props.searchProps} />
 
-                                    <SearchBar {...props.searchProps} />
-
-                                    <Button variant="primary"
-                                        onClick={() => {
-                                            setCreateDialogState({
-                                                ...createDialogState,
-                                                show: true
-                                            })
-                                        }}
-                                    >Add Submission</Button>
-                                </div>
-                                {/* <hr /> */}
-                                <BootstrapTable
-                                    {...props.baseProps}
-                                    striped
-                                    condensed
-                                />
+                                            <Button variant="primary"
+                                                onClick={() => {
+                                                    setCreateDialogState({
+                                                        ...createDialogState,
+                                                        show: true
+                                                    })
+                                                }}
+                                            >Add Submission</Button>
+                                        </div>
+                                        {/* <hr /> */}
+                                        <BootstrapTable
+                                            {...props.baseProps}
+                                            striped
+                                            condensed
+                                        />
+                                    </div>
+                                }
                             </div>
                         )
                     }

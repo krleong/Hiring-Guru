@@ -14,7 +14,7 @@ main {
 }
 
 .p-3 {
-  width: 260px;
+  width: 240px;
   height: 100%;
   position: absolute;
   box-shadow: 0 9px 0px 0px white, 0 -9px 0px 0px white, -3px 0 5px 0 #555;
@@ -60,7 +60,7 @@ main {
 .btn-toggle:hover,
 .btn-toggle:focus {
   color: rgba(0, 0, 0, .85);
-  background-color: #d2f4ea;
+  background-color: #eaf2ff;
 }
 
 .btn-toggle::before {
@@ -89,7 +89,7 @@ main {
 
 .btn-toggle-nav a:hover,
 .btn-toggle-nav a:focus {
-  background-color: #d2f4ea;
+  background-color: #eaf2ff;
 }
 
 .scrollarea {
@@ -106,6 +106,11 @@ main {
 
 .dropdown-parent-link {
   text-decoration: none;
+}
+
+.sidenav-icon {
+margin-right: 10px;
+font-weight: 200;
 }
 
 /* FOR MOBILE SCREENS */

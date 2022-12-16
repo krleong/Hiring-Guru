@@ -57,9 +57,10 @@ div.container-vcenter-hright {
     justify-content: right;
 }
 
-div.position-selection-dropdown {
+div.role-selection-dropdown {
     margin-top: 25px;
 }
+
 div.recruitment-pipeline-controls {
     margin-right: 12px;
 }
@@ -75,8 +76,9 @@ div.recruitment-pipeline-step {
 }
 
 .step-number.btn {
-    min-width: 20px;
+    min-width: 40px;
 }
+
 
 div.connector-arrow-container {
     margin-top: 18px;

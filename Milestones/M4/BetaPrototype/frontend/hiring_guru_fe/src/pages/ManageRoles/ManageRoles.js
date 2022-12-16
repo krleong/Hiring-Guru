@@ -13,69 +13,8 @@ import axios from "axios";
 import { BASE_URL } from "../../components/configuration";
 
 
-function ReferralEditDialog(props) {
-    return (
-        <Dialog
-            show={props.show}
-            title={props.title}
-            actions={props.actions}
-        >
-            <div>
-                <div className={"referral-step-errors"}>
-                    {
-                        props.errors.map((error, index) => {
-                            return (
-                                <div key={`create-rect-step-error-${index}`} className="alert alert-danger" position="alert">
-                                    {error}
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="recruitmentStageTitleInput" className="form-label">
-                        Referee name
-                    </label>
-                    <input className="form-control" id="recruitmentStageTitleInput"
-                        placeholder="First name Last name"
-                        value={props.name}
-                        onChange={props.onNameChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Referee email
-                    </label>
-                    <input className="form-control" id="recruitmentStageTitleInput"
-                        placeholder="email@example.com"
-                        value={props.email}
-                        onChange={props.onEmailChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="recruitmentStageDescriptionInput" className="form-label">
-                        Why this candidate?
-                    </label>
-                    <textarea className="form-control" id="recruitmentStageDescriptionInput"
-                        rows="5" placeholder="Enter referral description"
-                        value={props.description}
-                        onChange={props.onDescriptionChange}
-                    >
-                    </textarea>
-                </div>
-            </div>
-        </Dialog>
-    )
-}
 
-const Referrals = [
-    {
-        name: "Kenny Leong",
-        email: "kleong2@mail.sfsu.edu",
-        title: "Software Engineer",
-        description: "Kenny is a half decent frontend engineer and team member. Would kind of recommend."
-    }
-]
+
 
 function RoleEditDialog(props) {
     return (
@@ -102,8 +41,8 @@ function RoleEditDialog(props) {
                     </label>
                     <input className="form-control" id="recruitmentStageTitleInput"
                         placeholder="Enter role"
-                        value={props.title}
-                        onChange={props.onTitleChange}
+                        value={props.roleTitle}
+                        onChange={props.onRoleTitleChange}
                     />
                 </div>
                 {/* <div className="mb-3">
@@ -154,13 +93,16 @@ const parseRoles = (roles) => {
     let parsedRoles = []
     for (let i = 0; i < roles.length; i++) {
         parsedRoles.push({
-            jobId: roles[i].id,
-            roleId: roles[i].role.id,
-            companyId: roles[i].role.company.id,
-            title: roles[i].role.title,
-            companyTitle: roles[i].role.company.title,
-            expectations: roles[i].role.expectations,
-            benefits: roles[i].role.benefits,
+            // jobId: roles[i].id,
+            roleId: roles[i].id,
+            companyId: roles[i].company.id,
+            // roleTitle: roles[i].role.title,
+            companyTitle: roles[i].company.title,
+            // expectations: roles[i].role.expectations,
+            roleTitle: roles[i].title,
+            expectations: roles[i].expectations,
+            // benefits: roles[i].role.benefits,
+            benefits: roles[i].benefits,
         })
     }
     return parsedRoles
@@ -183,11 +125,10 @@ export function ManageRoles() {
         fetchRoles()
     }, []);
 
-    const [referrals, setReferrals] = useState(Referrals)
 
     const [createRoleDialogState, setCreateRoleDialogState] = useState({
         show: false,
-        title: "",
+        roleTitle: "",
         // companyTitle: "",
         expectations: "",
         benefits: "",
@@ -197,7 +138,7 @@ export function ManageRoles() {
 
     const [editRoleDialogState, setEditRoleDialogState] = useState({
         show: false,
-        title: "",
+        roleTitle: "",
         // companyTitle: "",
         expectations: "",
         benefits: "",
@@ -205,25 +146,7 @@ export function ManageRoles() {
         index: undefined
     })
 
-    const [editReferralDialogState, setEditReferralDialogState] = useState({
-        show: false,
-        name: "",
-        email: "",
-        title: "",
-        description: "",
-        errors: [],
-        index: undefined
-    })
 
-    const [createReferralDialogState, setCreateReferralDialogState] = useState({
-        show: false,
-        name: "",
-        email: "",
-        title: "",
-        description: "",
-        errors: [],
-        index: undefined
-    })
 
     const fetchRoles = () => {
         setPageState({
@@ -234,12 +157,13 @@ export function ManageRoles() {
         })
 
         axios({
-            url: `${BASE_URL}/roles/jobs`,
+            // url: `${BASE_URL}/roles/jobs`,
+            // TEMP FIX: GET ALL ROLES FOR COMPANY ID 177
+            url: `${BASE_URL}/companies/` + 177 + `/roles`,
             method: 'get',
             timeout: 10000,
         }).then((resp) => {
             if (resp.status === 200) {
-                console.log(resp.data)
                 setPageState({
                     ...rolePageState,
                     listOfRoles: parseRoles(resp.data),
@@ -266,7 +190,9 @@ export function ManageRoles() {
 
     const removeRole = (index) => {
         axios({
-            url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[index].roleId + '/jobs/' + rolePageState.listOfRoles[index].jobId,
+            // TEMP FIX TO MAKE COMPANY ID 177
+            // url: `${BASE_URL}/roles/` + rolePageState.listOfRoles[index].roleId + '/jobs/' + rolePageState.listOfRoles[index].jobId,
+            url: `${BASE_URL}/companies/` +  177 + `/roles/` + rolePageState.listOfRoles[index].roleId,
             method: 'delete',
             timeout: 10000,
         }).then((resp) => {
@@ -292,7 +218,7 @@ export function ManageRoles() {
 
         let newRoles = []
         for (let i = 0; i < rolePageState.listOfRoles.length; i++) {
-            i !== index && newRoles.push(rolePageState.listOfRoles.roles[i])
+            i !== index && newRoles.push(rolePageState.listOfRoles[i])
         }
         appContext.closeDialog()
         setPageState({
@@ -303,7 +229,7 @@ export function ManageRoles() {
 
     const createRole = (index) => {
         let errors = []
-        if (!createRoleDialogState.title || createRoleDialogState.title.length === 0) {
+        if (!createRoleDialogState.roleTitle || createRoleDialogState.roleTitle.length === 0) {
             errors.push("Role title cannot be empty")
         }
         // if (!createRoleDialogState.companyTitle || createRoleDialogState.companyTitle.length === 0) {
@@ -331,7 +257,7 @@ export function ManageRoles() {
                 method: 'post',
                 timeout: 10000,
                 data: {
-                    title: createRoleDialogState.title,
+                    title: createRoleDialogState.roleTitle,
                     // companyTitle: createRoleDialogState.companyTitle,
                     expectations: createRoleDialogState.expectations,
                     benefits: createRoleDialogState.benefits,
@@ -362,7 +288,7 @@ export function ManageRoles() {
                 listOfRoles: [
                     ...rolePageState.listOfRoles,
                     {
-                        title: createRoleDialogState.title,
+                        roleTitle: createRoleDialogState.roleTitle,
                         // companyTitle: createRoleDialogState.companyTitle,
                         expectations: createRoleDialogState.expectations,
                         benefits: createRoleDialogState.benefits,
@@ -376,56 +302,11 @@ export function ManageRoles() {
         }
     }
 
-    const removeReferrals = (index) => {
-        let newReferrals = []
-        for (let i = 0; i < referrals.length; i++) {
-            i !== index && newReferrals.push(referrals[i])
-        }
-        appContext.closeDialog()
-        setReferrals(newReferrals)
-    }
 
-    const createReferral = () => {
-        let errors = []
-        if (!createReferralDialogState.name || createReferralDialogState.name.length === 0) {
-            errors.push("Referral name cannot be empty")
-        }
-        if (!createReferralDialogState.email || createReferralDialogState.email.length === 0) {
-            errors.push("Referral email cannot be empty")
-        }
-        if (!createReferralDialogState.title || createReferralDialogState.title.length === 0) {
-            errors.push("Referral job title cannot be empty")
-        }
-        if (!createReferralDialogState.description || createReferralDialogState.description.length === 0) {
-            errors.push("Referral description cannot be empty")
-        }
-        if (errors.length > 0) {
-            setCreateReferralDialogState({
-                ...createReferralDialogState,
-                show: true,
-                errors: errors,
-            })
-        }
-        else {
-            setReferrals([
-                ...referrals,
-                {
-                    name: createReferralDialogState.name,
-                    email: createReferralDialogState.email,
-                    title: createReferralDialogState.title,
-                    description: createReferralDialogState.description
-                }
-            ])
-            setCreateReferralDialogState({
-                ...createReferralDialogState,
-                show: false,
-            })
-        }
-    }
 
     const columns = [
         {
-            dataField: 'title',
+            dataField: 'roleTitle',
             text: 'Title'
         },
         {
@@ -453,19 +334,12 @@ export function ManageRoles() {
                                     ...editRoleDialogState,
                                     show: true,
                                     index: index,
-                                    title: row.title,
+                                    roleTitle: row.roleTitle,
                                     // companyTitle: row.companyTitle,
                                     expectations: row.expectations,
                                     benefits: row.benefits,
                                 })
                             }}>Edit</DropdownItem>
-                            <DropdownItem onClick={() => {
-                                setCreateReferralDialogState({
-                                    ...createReferralDialogState,
-                                    show: true,
-                                    title: row.title,
-                                })
-                            }}>Referrals</DropdownItem>
                             <DropdownItem onClick={() => {
                                 appContext.openDialog(
                                     "Are you sure?",
@@ -497,7 +371,7 @@ export function ManageRoles() {
 
     const handleEditJobRole = () => {
         let errors = []
-        if (!editRoleDialogState.title || editRoleDialogState.title.length === 0) {
+        if (!editRoleDialogState.roleTitle || editRoleDialogState.roleTitle.length === 0) {
             errors.push("Role title cannot be empty")
         }
         // if (!editRoleDialogState.companyTitle || editRoleDialogState.companyTitle.length === 0) {
@@ -522,7 +396,7 @@ export function ManageRoles() {
                 method: 'patch',
                 timeout: 10000,
                 data: {
-                    title: editRoleDialogState.title,
+                    roleTitle: editRoleDialogState.roleTitle,
                     // companyTitle: editRoleDialogState.companyTitle,
                     expectations: editRoleDialogState.expectations,
                     benefits: editRoleDialogState.benefits,
@@ -553,7 +427,7 @@ export function ManageRoles() {
                 listOfRoles: [
                     ...rolePageState.listOfRoles,
                     {
-                        title: editRoleDialogState.title,
+                        roleTitle: editRoleDialogState.roleTitle,
                         // companyTitle: editRoleDialogState.companyTitle,
                         expectations: editRoleDialogState.expectations,
                         benefits: editRoleDialogState.benefits,
@@ -569,7 +443,7 @@ export function ManageRoles() {
             for (let i = 0; i < rolePageState.listOfRoles.length; i++) {
                 if (i === editRoleDialogState.index) {
                     newRoles.push({
-                        title: editRoleDialogState.title,
+                        roleTitle: editRoleDialogState.roleTitle,
                         // companyTitle: editRoleDialogState.companyTitle,
                         expectations: editRoleDialogState.expectations,
                         benefits: editRoleDialogState.benefits,
@@ -590,49 +464,7 @@ export function ManageRoles() {
         }
     }
 
-    const handleEditJobReferral = () => {
-        let errors = []
-        if (!editReferralDialogState.name || editReferralDialogState.name.length === 0) {
-            errors.push("Referral name cannot be empty")
-        }
-        if (!editReferralDialogState.email || editReferralDialogState.email.length === 0) {
-            errors.push("Referral email cannot be empty")
-        }
-        if (!editReferralDialogState.title || editReferralDialogState.title.length === 0) {
-            errors.push("Referral job title cannot be empty")
-        }
-        if (!editReferralDialogState.description || editReferralDialogState.description.length === 0) {
-            errors.push("Referral description cannot be empty")
-        }
-        if (errors.length > 0) {
-            setEditReferralDialogState({
-                ...editReferralDialogState,
-                show: true,
-                errors: errors,
-            })
-        }
-        else {
-            let newReferrals = []
-            for (let i = 0; i < referrals.length; i++) {
-                if (i === editReferralDialogState.index) {
-                    newReferrals.push({
-                        name: editReferralDialogState.name,
-                        email: editReferralDialogState.email,
-                        title: editReferralDialogState.title,
-                        description: editReferralDialogState.description
-                    })
-                }
-                else {
-                    newReferrals.push(referrals[i])
-                }
-            }
-            setReferrals(newReferrals)
-            setEditReferralDialogState({
-                ...editReferralDialogState,
-                show: false,
-            })
-        }
-    }
+
 
     return (
         <div className={"page-container"}>
@@ -657,16 +489,16 @@ export function ManageRoles() {
                     }
                 ]}
                 errors={editRoleDialogState.errors}
-                onTitleChange={(e) => {
+                onRoleTitleChange={(e) => {
                     setEditRoleDialogState({
                         ...editRoleDialogState,
-                        title: e.target.value
+                        roleTitle: e.target.value
                     })
                 }}
                 // onCompanyTitleChange={(e) => {
                 //     setEditRoleDialogState({
                 //         ...editRoleDialogState,
-                //         companyTitle: e.target.value
+                //         companyroleTitle: e.target.value
                 //     })
                 // }}
                 onExpectationsChange={(e) => {
@@ -681,7 +513,7 @@ export function ManageRoles() {
                         benefits: e.target.value
                     })
                 }}
-                title={editRoleDialogState.title}
+                roleTitle={editRoleDialogState.roleTitle}
                 // companyTitle={editRoleDialogState.companyTitle}
                 expectations={editRoleDialogState.expectations}
                 benefits={editRoleDialogState.benefits}
@@ -707,16 +539,16 @@ export function ManageRoles() {
                     }
                 ]}
                 errors={createRoleDialogState.errors}
-                onTitleChange={(e) => {
+                onRoleTitleChange={(e) => {
                     setCreateRoleDialogState({
                         ...createRoleDialogState,
-                        title: e.target.value
+                        roleTitle: e.target.value
                     })
                 }}
                 // onCompanyTitleChange={(e) => {
                 //     setCreateRoleDialogState({
                 //         ...createRoleDialogState,
-                //         companyTitle: e.target.value
+                //         companyroleTitle: e.target.value
                 //     })
                 // }}
                 onExpectationsChange={(e) => {
@@ -731,60 +563,10 @@ export function ManageRoles() {
                         benefits: e.target.value
                     })
                 }}
-                title={createRoleDialogState.title}
+                roleTitle={createRoleDialogState.roleTitle}
                 // companyTitle={createRoleDialogState.companyTitle}
                 expectations={createRoleDialogState.expectations}
                 benefits={createRoleDialogState.benefits}
-            />
-            <ReferralEditDialog
-                show={createReferralDialogState.show}
-                title={"Add Referral"}
-                actions={[
-                    {
-                        title: "Close",
-                        handler: () => {
-                            setCreateReferralDialogState({
-                                ...createReferralDialogState,
-                                show: false
-                            })
-                        },
-                        variant: "secondary"
-                    },
-                    {
-                        title: "Add Referral",
-                        handler: createReferral,
-                        variant: "primary"
-                    }
-                ]}
-                errors={createReferralDialogState.errors}
-                onNameChange={(e) => {
-                    setCreateReferralDialogState({
-                        ...createReferralDialogState,
-                        name: e.target.value
-                    })
-                }}
-                onEmailChange={(e) => {
-                    setCreateReferralDialogState({
-                        ...createReferralDialogState,
-                        email: e.target.value
-                    })
-                }}
-                onTitleChange={(e) => {
-                    setCreateReferralDialogState({
-                        ...createReferralDialogState,
-                        title: e.target.value
-                    })
-                }}
-                onDescriptionChange={(e) => {
-                    setCreateReferralDialogState({
-                        ...createReferralDialogState,
-                        description: e.target.value
-                    })
-                }}
-                name={createReferralDialogState.name}
-                email={createReferralDialogState.email}
-                refTitle={"Add Referral: " + createReferralDialogState.title}
-                description={createReferralDialogState.description}
             />
             <div>
                 <ToolkitProvider
@@ -798,7 +580,7 @@ export function ManageRoles() {
                             <div className={"job-roles-container"}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item href="/dashboard/home">Dashboard</Breadcrumb.Item>
-                                    <Breadcrumb.Item active>Recruitment: Job Roles</Breadcrumb.Item>
+                                    <Breadcrumb.Item active>Open Positions: Job Roles</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <h1>Manage Job Roles</h1>
 
