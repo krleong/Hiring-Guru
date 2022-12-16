@@ -20,6 +20,10 @@ div.container-vcenter-hright h1 {
     position: absolute;
 }
 
+div.position-selection-dropdown {
+    margin-top: 25px;
+}
+
 .search-label {
     margin-bottom: 20px;
     margin-right: 20px;

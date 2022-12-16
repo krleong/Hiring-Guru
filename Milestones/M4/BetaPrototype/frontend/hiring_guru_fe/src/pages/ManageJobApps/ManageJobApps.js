@@ -46,7 +46,7 @@ function JobAppsEditDialog(props) {
                         Applicant Email
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="HirnigGuru@example.com"
+                        placeholder="email@HiringGuru.com"
                         value={props.email}
                         onChange={props.onApplicantEmailChange}
                     >
@@ -57,7 +57,7 @@ function JobAppsEditDialog(props) {
                         Prospective Job
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="Enter job"
+                        placeholder="Enter job title"
                         value={props.resume}
                         onChange={props.onJobChange}
                     >
@@ -68,7 +68,7 @@ function JobAppsEditDialog(props) {
                         Prospective Role
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="Enter role"
+                        placeholder="Enter role title"
                         value={props.profileLink}
                         onChange={props.onRoleChange}
                     >
@@ -79,7 +79,7 @@ function JobAppsEditDialog(props) {
                         Prospective Company
                     </label>
                     <input className="form-control" id="recruitmentStageDescriptionInput"
-                        placeholder="Enter coverLetter name"
+                        placeholder="Enter company name"
                         value={props.coverLetter}
                         onChange={props.onCompanyChange}
                     >

@@ -919,7 +919,7 @@ export function ManageJobs() {
                                             <div className="input-group input-group-sm">
                                                 <Dropdown className={"input-group-text"}>
                                                     <Dropdown.Toggle id="dropdown-basic">
-                                                        <Filter /> Select Role
+                                                        <Filter /> Select Job Role
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu>
                                                         {

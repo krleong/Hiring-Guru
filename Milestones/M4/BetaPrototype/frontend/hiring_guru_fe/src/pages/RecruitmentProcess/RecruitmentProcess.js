@@ -19,17 +19,6 @@ import { Dialog } from "../../components/Dialog/Dialog";
 import axios from "axios";
 import { BASE_URL } from "../../components/configuration";
 
-// const jobRoles = [
-//     {
-//         ui: 'Software Engineer',
-//         server: 'SOFTWARE_ENGINEER'
-//     },
-//     {
-//         ui: 'CEO',
-//         server: 'CEO'
-//     },
-// ]
-
 const RecruitmentStepType = {
     Interview: {
         ui: 'Interview',
@@ -40,50 +29,6 @@ const RecruitmentStepType = {
         server: 'ProgrammingTest'
     },
 }
-
-// const RecruitmentPipelineSoftwareEngineer = [
-//     {
-//         type: RecruitmentStepType.Interview,
-//         title: "First Technical Interview",
-//         description: "First interview should be with a Software Engineer. It should cover basic" +
-//             " concepts like OOP, DS and Problem Solving."
-//     },
-//     {
-//         type: RecruitmentStepType.Interview,
-//         title: "Second Technical Interview",
-//         description: "First interview should be with a Software Engineer. It should cover advanced" +
-//             " aspects like Algorithms, Design and Networks."
-//     },
-//     {
-//         type: RecruitmentStepType.ProgrammingTest,
-//         title: "HackerRank Test",
-//         description: "First interview should be with a Software Engineer. It should cover all" +
-//             " the technical aspects like OOP, DB, DS, Algorithms and Networks."
-//     },
-//     {
-//         type: RecruitmentStepType.Interview,
-//         title: "HR Interview",
-//         description: "HR Interview should cover discussion about personality and salary package."
-//     },
-// ]
-
-// const RecruitmentPipelineCEO = [
-//     {
-//         type: RecruitmentStepType.Interview,
-//         title: "Interview Evaluation",
-//         description: "Interview with the founder to discuss past experience and assess personality traits."
-//     },
-//     {
-//         type: RecruitmentStepType.Interview,
-//         title: "HR Interview",
-//         description: "HR Interview should cover discussion about personality and salary package."
-//     },
-// ]
-
-// const RecruitmentPipelinePositionMap = {
-//     SOFTWARE_ENGINEER: RecruitmentPipelineSoftwareEngineer,
-//     CEO: RecruitmentPipelineCEO
-// }
 
 function RecruitmentStepDialog(props) {
     return (
@@ -179,10 +124,9 @@ function RecruitmentProcess() {
     const appContext = useContext(ApplicationContext);
 
     const [recruitmentProcessPageState, setrecruitmentProcessPageState] = useState({
-        recruitmentProcess: [],
+        recruitmentProcess: undefined,
         listOfRoles:[],
         selectedRoleId: undefined,
-        // recruitmentProcess: undefined,
         getRecruitmentStepRequestStatus: RecruitmentStepFetchStatus.NotStarted,
         recruitmentStepFetchError: '',
         searchString: '',
@@ -229,6 +173,8 @@ function RecruitmentProcess() {
             method: 'get',
             timeout: 10000,
         }).then((resp) => {
+            console.log("FETCHING:")
+            console.log(resp.data)
             if (resp.status === 200) {
                 setrecruitmentProcessPageState({
                     ...recruitmentProcessPageState,
@@ -298,26 +244,91 @@ function RecruitmentProcess() {
         const saveState = process[index - 1]
         process[index - 1] = process[index]
         process[index] = saveState
+
+        // axios({
+        //     url: `${BASE_URL}/api/v1/roles/${recruitmentProcessPageState.selectedRoleId}/hiring-process/stages/${recruitmentProcessPageState.recruitmentProcess[index].id}`,
+        //     method: 'patch',
+        //     timeout: 10000,
+        //     data: {
+        //         index: modifyRecruitmentStepFromState.index,
+        //     }
+        // }).then((resp) => {
+        //     if (resp.status === 200) {
+        //         setModifyRecruitmentStepFromState({
+        //             ...modifyRecruitmentStepFromState,
+        //             showModificationDialog: false
+        //         })
+        //         fetchRecruitmentSteps()
+        //     }
+        //     else {
+        //         setrecruitmentProcessPageState({
+        //             ...recruitmentProcessPageState,
+        //             recruitmentProcess: [],
+        //             patchRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+        //             searchFetchError: 'There was an error updating the list of recruitment steps. Please try again later'
+        //         })
+        //     }
+        // }).catch((error) => {
+        //     setrecruitmentProcessPageState({
+        //         ...recruitmentProcessPageState,
+        //         recruitmentProcess: [],
+        //         patchRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+        //         searchFetchError: 'There was an error updating the list of recruitment steps. Please try again later'
+        //     })
+        // })
+
         setrecruitmentProcessPageState({
             ...recruitmentProcessPageState,
             recruitmentProcess: process
         })
     }
+
     const moveStepDown = (index) => {
         console.log("Moving step down")
         let process = recruitmentProcessPageState.recruitmentProcess
         const saveState = process[index + 1]
         process[index + 1] = process[index]
         process[index] = saveState
+
+        // axios({
+        //     url: `${BASE_URL}/api/v1/roles/${recruitmentProcessPageState.selectedRoleId}/hiring-process/stages/${recruitmentProcessPageState.recruitmentProcess[index].id}`,
+        //     method: 'patch',
+        //     timeout: 10000,
+        //     data: {
+        //         index: modifyRecruitmentStepFromState.index,
+        //     }
+        // }).then((resp) => {
+        //     if (resp.status === 200) {
+        //         setModifyRecruitmentStepFromState({
+        //             ...modifyRecruitmentStepFromState,
+        //             showModificationDialog: false
+        //         })
+        //         fetchRecruitmentSteps()
+        //     }
+        //     else {
+        //         setrecruitmentProcessPageState({
+        //             ...recruitmentProcessPageState,
+        //             recruitmentProcess: [],
+        //             patchRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+        //             searchFetchError: 'There was an error updating the list of recruitment steps. Please try again later'
+        //         })
+        //     }
+        // }).catch((error) => {
+        //     setrecruitmentProcessPageState({
+        //         ...recruitmentProcessPageState,
+        //         recruitmentProcess: [],
+        //         patchRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
+        //         searchFetchError: 'There was an error updating the list of recruitment steps. Please try again later'
+        //     })
+        // })
+
         setrecruitmentProcessPageState({
-            ...recruitmentProcessPageState,
             ...recruitmentProcessPageState,
             recruitmentProcess: process
         })
     }
 
     const modifyRecruitmentStep = () => {
-        console.log("Running")
         axios({
             url: `${BASE_URL}/api/v1/roles/${recruitmentProcessPageState.selectedRoleId}/hiring-process/stages/${recruitmentProcessPageState.recruitmentProcess[modifyRecruitmentStepFromState.index].id}`,
             method: 'patch',
@@ -330,6 +341,10 @@ function RecruitmentProcess() {
             }
         }).then((resp) => {
             if (resp.status === 200) {
+                setModifyRecruitmentStepFromState({
+                    ...modifyRecruitmentStepFromState,
+                    showModificationDialog: false
+                })
                 fetchRecruitmentSteps()
             }
             else {
@@ -347,45 +362,6 @@ function RecruitmentProcess() {
                 patchRecruitmentStepsListRequestStatus: RecruitmentStepFetchStatus.Error,
                 searchFetchError: 'There was an error updating the list of recruitment steps. Please try again later'
             })
-        })
-
-        setModifyRecruitmentStepFromState({
-            ...recruitmentProcessPageState,
-            recruitmentProcess: [
-                ...recruitmentProcessPageState.recruitmentProcess,
-                {
-                    title: modifyRecruitmentStepFromState.title,                
-                    description: modifyRecruitmentStepFromState.description,
-                    // type: modifyRecruitmentStepFromState.type,
-                    index: modifyRecruitmentStepFromState.index,
-                }
-            ],
-        })
-        setModifyRecruitmentStepFromState({
-            ...modifyRecruitmentStepFromState,
-            show: false,
-        })
-
-        let newSteps = []
-        for (let i = 0; i < recruitmentProcessPageState.recruitmentProcess.length; i++) {
-            if (i === modifyRecruitmentStepFromState.index) {
-                newSteps.push({
-                    type: RecruitmentStepType[modifyRecruitmentStepFromState.type],
-                    title: modifyRecruitmentStepFromState.title,
-                    description: modifyRecruitmentStepFromState.description
-                })
-            }
-            else {
-                newSteps.push(recruitmentProcessPageState.recruitmentProcess[i])
-            }
-        }
-        setModifyRecruitmentStepFromState({
-            ...modifyRecruitmentStepFromState,
-            showModificationDialog: false
-        })
-        setrecruitmentProcessPageState({
-            ...recruitmentProcessPageState,
-            recruitmentProcess: newSteps
         })
     }
 
@@ -492,6 +468,7 @@ function RecruitmentProcess() {
             recruitmentProcess: newSteps
         })
     }
+    console.log(recruitmentProcessPageState.recruitmentProcess)
     return (
         <div>
             <RecruitmentStepDialog
@@ -645,7 +622,7 @@ function RecruitmentProcess() {
                                                 <div className={"step-description"}>
                                                     <div className={'step-title h5'}>{step.title}</div>
                                                     {/* <div className={'step-type'}>{step.type.ui}</div> */}
-                                                    <div className={'step-type'}>{step.type.toString()}</div>
+                                                    <div className={'step-type'}>{step.type}</div>
                                                     <div className={'step-description'}>{step.description}</div>
                                                 </div>
                                             </div>
@@ -662,7 +639,7 @@ function RecruitmentProcess() {
                                                                 onClick={() => {
                                                                     let stepType
                                                                     Object.keys(RecruitmentStepType).map((k) => {
-                                                                        if (RecruitmentStepType[k].ui === step.type.ui) {
+                                                                        if (RecruitmentStepType[k].server === step.type) {
                                                                             stepType = k
                                                                         }
                                                                     })
